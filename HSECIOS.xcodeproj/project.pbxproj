@@ -74,6 +74,18 @@
 		C8B8FE902017D2C60014270A /* FiltroObservacionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B8FE8F2017D2C60014270A /* FiltroObservacionVC.swift */; };
 		C8B8FE94201A49520014270A /* MuroTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B8FE93201A49520014270A /* MuroTVC.swift */; };
 		C8B8FE96202276C30014270A /* FiltroInspeccionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B8FE95202276C30014270A /* FiltroInspeccionVC.swift */; };
+		C8C2CC18206953B600E385E4 /* PlanAccionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C2CC17206953B600E385E4 /* PlanAccionVC.swift */; };
+		C8C2CC1A2069547100E385E4 /* PlanAccionTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C2CC192069547100E385E4 /* PlanAccionTVC.swift */; };
+		C8C2CC1C206955D400E385E4 /* PlanAccionDetalleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C2CC1B206955D400E385E4 /* PlanAccionDetalleVC.swift */; };
+		C8C2CC1E206995B700E385E4 /* Noticia.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C2CC1D206995B700E385E4 /* Noticia.swift */; };
+		C8C2CC212069A37B00E385E4 /* NotDetalleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C2CC202069A37B00E385E4 /* NotDetalleVC.swift */; };
+		C8C2CC232069A3E200E385E4 /* NotDetallePVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C2CC222069A3E200E385E4 /* NotDetallePVC.swift */; };
+		C8C2CC252069A40D00E385E4 /* NotDetallePVCTab1.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C2CC242069A40D00E385E4 /* NotDetallePVCTab1.swift */; };
+		C8C2CC272069A44500E385E4 /* NotDetallePVCTab2.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C2CC262069A44500E385E4 /* NotDetallePVCTab2.swift */; };
+		C8C2CC292069A45D00E385E4 /* NotDetallePVCTab3.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C2CC282069A45D00E385E4 /* NotDetallePVCTab3.swift */; };
+		C8C2CC2C2069B45800E385E4 /* NoticiaWebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C2CC2B2069B45800E385E4 /* NoticiaWebVC.swift */; };
+		C8C2CC2E206ADC6F00E385E4 /* OpcAvanzadasVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C2CC2D206ADC6E00E385E4 /* OpcAvanzadasVC.swift */; };
+		C8C2CC30206AFE0300E385E4 /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C2CC2F206AFE0300E385E4 /* Alerts.swift */; };
 		C8D474361FE4385D000ADB4E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D474351FE4385D000ADB4E /* AppDelegate.swift */; };
 		C8D474381FE4385D000ADB4E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D474371FE4385D000ADB4E /* ViewController.swift */; };
 		C8D4743B1FE4385D000ADB4E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C8D474391FE4385D000ADB4E /* Main.storyboard */; };
@@ -179,6 +191,18 @@
 		C8B8FE8F2017D2C60014270A /* FiltroObservacionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltroObservacionVC.swift; sourceTree = "<group>"; };
 		C8B8FE93201A49520014270A /* MuroTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuroTVC.swift; sourceTree = "<group>"; };
 		C8B8FE95202276C30014270A /* FiltroInspeccionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltroInspeccionVC.swift; sourceTree = "<group>"; };
+		C8C2CC17206953B600E385E4 /* PlanAccionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanAccionVC.swift; sourceTree = "<group>"; };
+		C8C2CC192069547100E385E4 /* PlanAccionTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanAccionTVC.swift; sourceTree = "<group>"; };
+		C8C2CC1B206955D400E385E4 /* PlanAccionDetalleVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanAccionDetalleVC.swift; sourceTree = "<group>"; };
+		C8C2CC1D206995B700E385E4 /* Noticia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Noticia.swift; sourceTree = "<group>"; };
+		C8C2CC202069A37B00E385E4 /* NotDetalleVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotDetalleVC.swift; sourceTree = "<group>"; };
+		C8C2CC222069A3E200E385E4 /* NotDetallePVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotDetallePVC.swift; sourceTree = "<group>"; };
+		C8C2CC242069A40D00E385E4 /* NotDetallePVCTab1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotDetallePVCTab1.swift; sourceTree = "<group>"; };
+		C8C2CC262069A44500E385E4 /* NotDetallePVCTab2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotDetallePVCTab2.swift; sourceTree = "<group>"; };
+		C8C2CC282069A45D00E385E4 /* NotDetallePVCTab3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotDetallePVCTab3.swift; sourceTree = "<group>"; };
+		C8C2CC2B2069B45800E385E4 /* NoticiaWebVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticiaWebVC.swift; sourceTree = "<group>"; };
+		C8C2CC2D206ADC6E00E385E4 /* OpcAvanzadasVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpcAvanzadasVC.swift; sourceTree = "<group>"; };
+		C8C2CC2F206AFE0300E385E4 /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		C8D474321FE4385D000ADB4E /* HSECIOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HSECIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8D474351FE4385D000ADB4E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C8D474371FE4385D000ADB4E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -312,6 +336,7 @@
 				C8B8FE8D20163E820014270A /* HConfig.swift */,
 				C8976A1B202E52080035895E /* Helper.swift */,
 				C8976A1D202E549D0035895E /* Routes.swift */,
+				C8C2CC2F206AFE0300E385E4 /* Alerts.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -338,7 +363,8 @@
 				C89CFA631FEB03D600DD3EAD /* Tab3VC.swift */,
 				C89CFA651FEB03F300DD3EAD /* Tab4VC.swift */,
 				C89CFA671FEB092B00DD3EAD /* Handler.swift */,
-				C89CFA771FEC1D2C00DD3EAD /* Muro */,
+				C89CFA771FEC1D2C00DD3EAD /* Tab1 - Muro */,
+				C8C2CC31206B027100E385E4 /* Tab5 - Opc Avanzadas */,
 				C8FA6FDD200806F800D00219 /* ImageSliderPVC.swift */,
 				C8FA6FDF2008074400D00219 /* ImageSliderPVCItem.swift */,
 			);
@@ -358,17 +384,19 @@
 				C8976A1F203221080035895E /* Multimedia.swift */,
 				C87CA8B62032491A00D36A99 /* InspeccionGD.swift */,
 				C87CA8CA20407CBE00D36A99 /* InsObservacion.swift */,
+				C8C2CC1D206995B700E385E4 /* Noticia.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
-		C89CFA771FEC1D2C00DD3EAD /* Muro */ = {
+		C89CFA771FEC1D2C00DD3EAD /* Tab1 - Muro */ = {
 			isa = PBXGroup;
 			children = (
 				C89CFA711FEC1C2700DD3EAD /* MuroVC.swift */,
 				C8B8FE93201A49520014270A /* MuroTVC.swift */,
 				C87CA8B8203344B700D36A99 /* ObsDetalle */,
 				C87CA8B9203344C800D36A99 /* InsDetalle */,
+				C8C2CC2A2069A70F00E385E4 /* NotDetalle */,
 				C89CFA982006D09F00DD3EAD /* MuroNewObsVC.swift */,
 				C89CFA9A2006D21400DD3EAD /* MuroNewObsPVC.swift */,
 				C89CFA9C2006D24100DD3EAD /* MuroNewObsPVCTab1.swift */,
@@ -387,8 +415,40 @@
 				C87CA8CE20439C9800D36A99 /* ObsMultimediaVC.swift */,
 				C87CA8D020439CF600D36A99 /* MultimediaTVC.swift */,
 				C87CA8D220439D9900D36A99 /* DocumentosTVC.swift */,
+				C8C2CC1F2069A35900E385E4 /* PlanAccion */,
 			);
-			path = Muro;
+			path = "Tab1 - Muro";
+			sourceTree = "<group>";
+		};
+		C8C2CC1F2069A35900E385E4 /* PlanAccion */ = {
+			isa = PBXGroup;
+			children = (
+				C8C2CC17206953B600E385E4 /* PlanAccionVC.swift */,
+				C8C2CC192069547100E385E4 /* PlanAccionTVC.swift */,
+				C8C2CC1B206955D400E385E4 /* PlanAccionDetalleVC.swift */,
+			);
+			path = PlanAccion;
+			sourceTree = "<group>";
+		};
+		C8C2CC2A2069A70F00E385E4 /* NotDetalle */ = {
+			isa = PBXGroup;
+			children = (
+				C8C2CC202069A37B00E385E4 /* NotDetalleVC.swift */,
+				C8C2CC222069A3E200E385E4 /* NotDetallePVC.swift */,
+				C8C2CC242069A40D00E385E4 /* NotDetallePVCTab1.swift */,
+				C8C2CC262069A44500E385E4 /* NotDetallePVCTab2.swift */,
+				C8C2CC282069A45D00E385E4 /* NotDetallePVCTab3.swift */,
+				C8C2CC2B2069B45800E385E4 /* NoticiaWebVC.swift */,
+			);
+			path = NotDetalle;
+			sourceTree = "<group>";
+		};
+		C8C2CC31206B027100E385E4 /* Tab5 - Opc Avanzadas */ = {
+			isa = PBXGroup;
+			children = (
+				C8C2CC2D206ADC6E00E385E4 /* OpcAvanzadasVC.swift */,
+			);
+			path = "Tab5 - Opc Avanzadas";
 			sourceTree = "<group>";
 		};
 		C8D474291FE4385D000ADB4E = {
@@ -645,6 +705,7 @@
 			files = (
 				C89CFA851FF6A1B700DD3EAD /* ObsDetallePVCTab4.swift in Sources */,
 				C87CA8BF2033452400D36A99 /* InsDetallePVCTab3.swift in Sources */,
+				C8C2CC272069A44500E385E4 /* NotDetallePVCTab2.swift in Sources */,
 				C8B8FE902017D2C60014270A /* FiltroObservacionVC.swift in Sources */,
 				C89CFA4A1FE8102900DD3EAD /* Utils.swift in Sources */,
 				C89CFAA32006D29C00DD3EAD /* MuroNewObsPVCTab4.swift in Sources */,
@@ -655,32 +716,40 @@
 				C87CA8CF20439C9800D36A99 /* ObsMultimediaVC.swift in Sources */,
 				C87CA8BB2033450300D36A99 /* InsDetallePVC.swift in Sources */,
 				C8FA6FEC200EA1EA00D00219 /* MuroSearchVC.swift in Sources */,
+				C8C2CC212069A37B00E385E4 /* NotDetalleVC.swift in Sources */,
 				C87CA8C12033452C00D36A99 /* InsDetallePVCTab4.swift in Sources */,
 				C8FA6FEE200EA9E900D00219 /* MuroSearchFilterVC.swift in Sources */,
 				C87CA8B52032401600D36A99 /* InsDetallePVCTab1.swift in Sources */,
+				C8C2CC1A2069547100E385E4 /* PlanAccionTVC.swift in Sources */,
+				C8C2CC2C2069B45800E385E4 /* NoticiaWebVC.swift in Sources */,
 				C87CA8C52034C46900D36A99 /* PersonasVC.swift in Sources */,
 				C87CA8B120323C8C00D36A99 /* InfoDetalleTVC.swift in Sources */,
 				C89CFA791FF4071900DD3EAD /* UserInfo.swift in Sources */,
 				C89CFA8F2004076B00DD3EAD /* Globals.swift in Sources */,
 				C89CFA992006D09F00DD3EAD /* MuroNewObsVC.swift in Sources */,
 				C8FA6FF220114F6000D00219 /* Persona.swift in Sources */,
+				C8C2CC1E206995B700E385E4 /* Noticia.swift in Sources */,
 				C89CFA871FF6A1CD00DD3EAD /* ObsDetallePVCTab5.swift in Sources */,
 				C81FCF3520476CB900D23F9C /* InsObservacionPVCTab3.swift in Sources */,
 				C87CA8C32033511A00D36A99 /* ObsDetallePVCTab2.swift in Sources */,
 				C8FA6FDE200806F800D00219 /* ImageSliderPVC.swift in Sources */,
 				C89CFA601FEB038500DD3EAD /* Tab1VC.swift in Sources */,
+				C8C2CC18206953B600E385E4 /* PlanAccionVC.swift in Sources */,
 				C81FCF3320476C9100D23F9C /* InsObservacionPVCTab2.swift in Sources */,
 				C89CFA831FF6A1A300DD3EAD /* ObsDetallePVCTab3.swift in Sources */,
 				C89CFA521FE86DE000DD3EAD /* LoginVC.swift in Sources */,
 				C81FCF3120476C6200D23F9C /* InsObservacionPVCTab1.swift in Sources */,
+				C8C2CC1C206955D400E385E4 /* PlanAccionDetalleVC.swift in Sources */,
 				C89CFA6E1FEC0B8A00DD3EAD /* MuroElement.swift in Sources */,
 				C89CFA481FE4801200DD3EAD /* Dict.swift in Sources */,
 				C87CA8B72032491A00D36A99 /* InspeccionGD.swift in Sources */,
 				C8B8FE8E20163E820014270A /* HConfig.swift in Sources */,
 				C89CFA6A1FEC046500DD3EAD /* Tabs.swift in Sources */,
+				C8C2CC30206AFE0300E385E4 /* Alerts.swift in Sources */,
 				C89CFA561FEAAFE500DD3EAD /* Images.swift in Sources */,
 				C89CFA7D1FF69C8A00DD3EAD /* ObsDetallePVC.swift in Sources */,
 				C8FA6FEA20095C9D00D00219 /* ObsComentario.swift in Sources */,
+				C8C2CC252069A40D00E385E4 /* NotDetallePVCTab1.swift in Sources */,
 				C89CFAA12006D28500DD3EAD /* MuroNewObsPVCTab3.swift in Sources */,
 				C89CFA9F2006D26E00DD3EAD /* MuroNewObsPVCTab2.swift in Sources */,
 				C87CA8CD20438F2700D36A99 /* DatosGeneralesVC.swift in Sources */,
@@ -688,16 +757,19 @@
 				C89CFA5C1FEAFAFD00DD3EAD /* TempController.swift in Sources */,
 				C89CFA9B2006D21400DD3EAD /* MuroNewObsPVC.swift in Sources */,
 				C89CFA721FEC1C2700DD3EAD /* MuroVC.swift in Sources */,
+				C8C2CC232069A3E200E385E4 /* NotDetallePVC.swift in Sources */,
 				C87CA8C9203B936A00D36A99 /* ComentariosVC.swift in Sources */,
 				C8FA6FF02011422600D00219 /* FiltroPersonaVC.swift in Sources */,
 				C87CA8D320439D9900D36A99 /* DocumentosTVC.swift in Sources */,
 				C8D474381FE4385D000ADB4E /* ViewController.swift in Sources */,
 				C89CFA7F1FF69D2500DD3EAD /* HSlider.swift in Sources */,
+				C8C2CC2E206ADC6F00E385E4 /* OpcAvanzadasVC.swift in Sources */,
 				C89CFA5E1FEAFC8100DD3EAD /* Tabs1.swift in Sources */,
 				C8FA6FE02008074400D00219 /* ImageSliderPVCItem.swift in Sources */,
 				C89CFA541FE9B3F000DD3EAD /* Config.swift in Sources */,
 				C81FCF2E20476BE800D23F9C /* InsObservacionPVC.swift in Sources */,
 				C89CFA661FEB03F300DD3EAD /* Tab4VC.swift in Sources */,
+				C8C2CC292069A45D00E385E4 /* NotDetallePVCTab3.swift in Sources */,
 				C89CFA641FEB03D600DD3EAD /* Tab3VC.swift in Sources */,
 				C89CFA972006AE4400DD3EAD /* ObsMultimedia.swift in Sources */,
 				C89CFA4D1FE8132500DD3EAD /* HLogin.swift in Sources */,

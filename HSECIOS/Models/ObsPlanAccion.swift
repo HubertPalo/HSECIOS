@@ -15,4 +15,6 @@ class ObsPlanAccion {
     var CodTipoAccion = ""
     var FecComprometidaInicial = ""
     var FecComprometidaFinal = ""
+    var CodResponsables = ""
+    var Responsables = ""
 }

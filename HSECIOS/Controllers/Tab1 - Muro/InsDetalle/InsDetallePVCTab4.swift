@@ -6,6 +6,10 @@ class InsDetallePVCTab4: UIViewController {
     if let padre = self.parent?.parent as? InsDetalleVC {
         padre.selectTab(3)
     }
+        let hijo = self.childViewControllers[0] as! ComentariosVC
+        hijo.codigo = Utils.selectedObsCode
+        hijo.updateDataForCode(code: Utils.selectedObsCode)
+        
     }
     override func viewDidLoad() {
         super.viewDidLoad()

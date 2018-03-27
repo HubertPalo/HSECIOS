@@ -15,6 +15,10 @@ class Tabs {
     static var flagsInsObservacion: [Bool] = []
     static var indexInsObservacion: Int = 0
     
+    static var forNotDetalle: [UIViewController] = []
+    static var flagsNotDetalle: [Bool] = []
+    static var indexNotDetalle: Int = 0
+    
     static var forTest: [UIViewController] = []
     
     static var forNewObs: [UIViewController] = []
@@ -41,6 +45,11 @@ class Tabs {
             sb.instantiateViewController(withIdentifier: "tabInsObservacion2"),
             sb.instantiateViewController(withIdentifier: "tabInsObservacion3")
         ]
+        forNotDetalle = [
+            sb.instantiateViewController(withIdentifier: "tabNotDetalle1"),
+            sb.instantiateViewController(withIdentifier: "tabNotDetalle2"),
+            sb.instantiateViewController(withIdentifier: "tabNotDetalle3")
+        ]
         forNewObs = [
             sb.instantiateViewController(withIdentifier: "tabMuroNewObs1"),
             sb.instantiateViewController(withIdentifier: "tabMuroNewObs2"),
@@ -51,6 +60,7 @@ class Tabs {
         flagsObsDetalle = [Bool].init(repeating: true, count: forObsDetalle.count)
         flagsInsDetalle = [Bool].init(repeating: true, count: forInsDetalle.count)
         flagsInsObservacion = [Bool].init(repeating: true, count: forInsObservacion.count)
+        flagsNotDetalle = [Bool].init(repeating: true, count: forNotDetalle.count)
         flagsNewObs = [Bool].init(repeating: true, count: forNewObs.count)
     }
     
@@ -85,13 +95,13 @@ class Tabs {
     }
     
     static func indexFor(_ viewcontroller: UIViewController) -> Int {
-        if viewcontroller is ObsDetallePVCTab1 || viewcontroller is InsDetallePVCTab1 || viewcontroller is MuroNewObsPVCTab1 || viewcontroller is InsObservacionPVCTab1 {
+        if viewcontroller is ObsDetallePVCTab1 || viewcontroller is InsDetallePVCTab1 || viewcontroller is MuroNewObsPVCTab1 || viewcontroller is InsObservacionPVCTab1 || viewcontroller is NotDetallePVCTab1 {
             return 0
         }
-        if viewcontroller is ObsDetallePVCTab2 || viewcontroller is InsDetallePVCTab2 || viewcontroller is MuroNewObsPVCTab2 || viewcontroller is InsObservacionPVCTab2 {
+        if viewcontroller is ObsDetallePVCTab2 || viewcontroller is InsDetallePVCTab2 || viewcontroller is MuroNewObsPVCTab2 || viewcontroller is InsObservacionPVCTab2 || viewcontroller is NotDetallePVCTab2 {
             return 1
         }
-        if viewcontroller is ObsDetallePVCTab3 || viewcontroller is InsDetallePVCTab3 || viewcontroller is MuroNewObsPVCTab3 || viewcontroller is InsObservacionPVCTab3 {
+        if viewcontroller is ObsDetallePVCTab3 || viewcontroller is InsDetallePVCTab3 || viewcontroller is MuroNewObsPVCTab3 || viewcontroller is InsObservacionPVCTab3 || viewcontroller is NotDetallePVCTab3 {
             return 2
         }
         if viewcontroller is ObsDetallePVCTab4 || viewcontroller is InsDetallePVCTab4 || viewcontroller is MuroNewObsPVCTab4{
@@ -112,13 +122,19 @@ class Tabs {
             return flagsInsDetalle
         }
         
+        if viewcontroller is InsObservacionPVCTab1 || viewcontroller is InsObservacionPVCTab2 || viewcontroller is InsObservacionPVCTab3 {
+            return flagsInsObservacion
+        }
+        
+        if viewcontroller is NotDetallePVCTab1 || viewcontroller is NotDetallePVCTab2 || viewcontroller is NotDetallePVCTab3 {
+            return flagsNotDetalle
+        }
+        
         if viewcontroller is MuroNewObsPVCTab1 || viewcontroller is MuroNewObsPVCTab2 || viewcontroller is MuroNewObsPVCTab3 || viewcontroller is MuroNewObsPVCTab4 {
             return flagsNewObs
         }
         
-        if viewcontroller is InsObservacionPVCTab1 || viewcontroller is InsObservacionPVCTab2 || viewcontroller is InsObservacionPVCTab3 {
-            return flagsInsObservacion
-        }
+        
         
         return []
     }
@@ -132,12 +148,16 @@ class Tabs {
             return forInsDetalle
         }
         
-        if viewcontroller is MuroNewObsPVCTab1 || viewcontroller is MuroNewObsPVCTab2 || viewcontroller is MuroNewObsPVCTab3 || viewcontroller is MuroNewObsPVCTab4 {
-            return forNewObs
-        }
-        
         if viewcontroller is InsObservacionPVCTab1 || viewcontroller is InsObservacionPVCTab2 || viewcontroller is InsObservacionPVCTab3 {
             return forInsObservacion
+        }
+        
+        if viewcontroller is NotDetallePVCTab1 || viewcontroller is NotDetallePVCTab2 || viewcontroller is NotDetallePVCTab3 {
+            return forNotDetalle
+        }
+        
+        if viewcontroller is MuroNewObsPVCTab1 || viewcontroller is MuroNewObsPVCTab2 || viewcontroller is MuroNewObsPVCTab3 || viewcontroller is MuroNewObsPVCTab4 {
+            return forNewObs
         }
         
         return []

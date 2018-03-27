@@ -52,10 +52,15 @@ class ObsDetallePVCTab3: UIViewController, UITableViewDelegate, UITableViewDataS
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tabla1.delegate = self
-        tabla1.dataSource = self
-        tabla2.delegate = self
-        tabla2.dataSource = self
+        if tabla1 != nil {
+            tabla1.delegate = self
+            tabla1.dataSource = self
+        }
+        if tabla2 != nil {
+            tabla2.delegate = self
+            tabla2.dataSource = self
+        }
+        
     }
     
     //Tabla

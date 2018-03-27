@@ -42,6 +42,8 @@ class InsDetallePVCTab3: UIViewController, UITableViewDelegate, UITableViewDataS
         let unit = observaciones[indexPath.row]
         Utils.selectedInsObsCode = unit.Correlativo
         let padre = self.parent?.parent as! InsDetalleVC
+        padre.codigoInsObservacion = unit.CodInspeccion
+        padre.correlativoInsObservacion = unit.Correlativo
         padre.performSegue(withIdentifier: "toObs", sender: self)
         print("is InsDetalleVC : \(self.parent is InsDetalleVC)")
         print("is InsDetalleVC : \(self.parent?.parent is InsDetalleVC)")

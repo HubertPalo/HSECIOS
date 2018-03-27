@@ -117,7 +117,7 @@ class Globals {
     }
     
     static func needsUpdate(_ config: String) -> Bool {
-        //return true
+        return true
         var flag = false
         switch config {
         case "Ubicaciones":

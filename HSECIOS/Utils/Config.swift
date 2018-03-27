@@ -34,6 +34,8 @@ class Config {
         //Comentar estas lineas despues, solo es para usar pango
         //urlBase = "http://192.168.1.2/WHSEC_Servicedmz/api"
         //globals.set(urlBase, forKey: "configUrlBase")
+        urlBase = "https://app.antapaccay.com.pe/hsecweb/whsec_Service/api"
+        globals.set(urlBase, forKey: "configUrlBase")
     }
     
     static func save(_ key: String) {

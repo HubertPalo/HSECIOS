@@ -71,5 +71,15 @@ class Routes {
     }
     // Inspecciones
     
+    // Noticias
+    static func forNoticia(_ code: String) -> String {
+        return "\(Config.urlBase)/Noticia/Get/\(code)"
+    }
+    // Noticias
+    static func forSendFeeback() -> String {
+        return "\(Config.urlBase)/Usuario/SendFeedback"
+    }
+    // Varios
     
+    // Varios
 }

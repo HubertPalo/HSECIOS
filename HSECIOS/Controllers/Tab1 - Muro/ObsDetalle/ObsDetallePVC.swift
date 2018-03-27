@@ -15,7 +15,4 @@ class ObsDetallePVC: UIPageViewController, UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         return Tabs.getNextVCFor(viewController, forward: true)
     }
-    
-    
-    
 }

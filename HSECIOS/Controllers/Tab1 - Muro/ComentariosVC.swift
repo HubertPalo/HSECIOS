@@ -38,6 +38,14 @@ class ComentariosVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         return false
     }
     
+    func updateDataForCode(code: String){
+        codigo = code
+        Helper.getData(Routes.forComentarios(codigo), false, vcontroller: self, success: {(dict:NSDictionary) in
+            self.comentarios = Dict.toArrayObsComentario(dict)
+            self.tabla.reloadData()
+        })
+    }
+    
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0{
@@ -65,6 +73,16 @@ class ComentariosVC: UIViewController, UITableViewDataSource, UITableViewDelegat
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let celda = tableView.dequeueReusableCell(withIdentifier: "celda") as! ComentariosTVCell
+        let unit = comentarios[indexPath.row]
+        celda.autor.text = unit.Nombres
+        celda.fecha.text = Utils.str2date2str(unit.Fecha)
+        celda.comentario.text = unit.Comentario
+        let codigoImagen = "media/getAvatar/\(unit.Estado)/Carnet.jpg"
+        if let temp = Images.imagenes[codigoImagen] {
+            celda.avatar.image = temp
+        } else {
+            Images.get(codigoImagen, tableView, indexPath.row)
+        }
         return celda
     }
     // tabla
@@ -84,5 +102,4 @@ class ComentariosTVCell: UITableViewCell {
     @IBOutlet weak var autor: UILabel!
     @IBOutlet weak var fecha: UILabel!
     @IBOutlet weak var comentario: UILabel!
-    
 }

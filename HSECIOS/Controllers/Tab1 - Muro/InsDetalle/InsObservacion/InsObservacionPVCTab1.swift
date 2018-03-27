@@ -3,6 +3,10 @@ import UIKit
 class InsObservacionPVCTab1: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
+        
+        if let padre = self.parent?.parent as? InsObservacionVC {
+            padre.selectTab(0)
+        }
         Helper.getData(Routes.forInsObservacionGD(Utils.selectedInsObsCode), false, vcontroller: self, success: {(dict:NSDictionary) in
             let data = Dict.toInsObservacionGD(dict)
             let hijo = self.childViewControllers[0] as! InfoDetalleTVC

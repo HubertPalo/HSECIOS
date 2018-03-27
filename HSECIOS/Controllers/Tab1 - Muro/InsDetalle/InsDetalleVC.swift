@@ -8,6 +8,9 @@ class InsDetalleVC: UIViewController {
     
     @IBOutlet weak var tabsScroll: UIScrollView!
     
+    var codigoInsObservacion = ""
+    var correlativoInsObservacion = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.automaticallyAdjustsScrollViewInsets = false
@@ -54,5 +57,14 @@ class InsDetalleVC: UIViewController {
         oldSegmentIndex = newSegmentIndex
         focusScroll()
         slider.setViewControllers([Tabs.forInsDetalle[tabs.selectedSegmentIndex]], direction: direction, animated: true, completion: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toObs" {
+            let destination = segue.destination as! InsObservacionVC
+            destination.codigo = self.codigoInsObservacion
+            destination.correlativo = self.correlativoInsObservacion
+        }
+        
     }
 }

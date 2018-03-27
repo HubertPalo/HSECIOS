@@ -104,6 +104,8 @@ class Dict {
                 unit.CodTipoAccion = data[i]["CodTipoAccion"] as? String ?? ""
                 unit.FecComprometidaInicial = data[i]["FecComprometidaInicial"] as? String ?? ""
                 unit.FecComprometidaFinal = data[i]["FecComprometidaFinal"] as? String ?? ""
+                unit.CodResponsables = data[i]["CodResponsables"] as? String ?? ""
+                unit.Responsables = data[i]["Responsables"] as? String ?? ""
                 array.append(unit)
             }
         }
@@ -174,6 +176,17 @@ class Dict {
         unit.CodUbicacion = dictionary["CodUbicacion"] as? String ?? ""
         unit.EquipoInspeccion = dictionary["EquipoInspeccion"] as? String ?? ""
         unit.PersonasAtendidas = dictionary["PersonasAtendidas"] as? String ?? ""
+        return unit
+    }
+    
+    static func toNoticia(_ dictionary: NSDictionary) -> Noticia {
+        let unit = Noticia()
+        unit.CodNoticia = dictionary["CodNoticia"] as? String ?? ""
+        unit.Titulo = dictionary["Titulo"] as? String ?? ""
+        unit.Tipo = dictionary["Tipo"] as? String ?? ""
+        unit.Descripcion = dictionary["Descripcion"] as? String ?? ""
+        unit.Autor = dictionary["Autor"] as? String ?? ""
+        unit.Fecha = dictionary["Fecha"] as? String ?? ""
         return unit
     }
     
