@@ -1,4 +1,4 @@
-class Persona {
+class Persona: Codable {
     var CodPersona = ""
     var Email = ""
     var Nombres = ""

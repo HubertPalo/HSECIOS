@@ -1,7 +1,7 @@
 import UIKit
 import DropDown
 
-class MuroSearchFilterVC: UIViewController {
+/*class MuroSearchFilterVC: UIViewController {
     
     @IBOutlet weak var filterCodigo: UITextField!
     
@@ -28,18 +28,27 @@ class MuroSearchFilterVC: UIViewController {
     }
     
     @IBAction func clickEnFilterArea(_ sender: Any) {
-        Utils.setDropdown(dropdown, filterArea, [String].init(Globals.obsArea.values), afterClickFilterArea(_:_:))
-        dropdown.show()
+        Utils.showDropdown(sender as! UIButton, Utils.maestroDescripcion["AREA"] ?? [], {(index,item) in
+            
+        })
+        /*Utils.setDropdown(dropdown, filterArea, [String].init(Globals.obsArea.values), afterClickFilterArea(_:_:))
+        dropdown.show()*/
     }
     
     @IBAction func clickEnFilterTipo(_ sender: Any) {
-        Utils.setDropdown(dropdown, filterTipo, [String].init(Globals.obsTipo.values), afterClickFilterTipo(_:_:))
-        dropdown.show()
+        Utils.showDropdown(sender as! UIButton, Utils.maestroDescripcion["TPOB"] ?? [], {(index,item) in
+            
+        })
+        /*Utils.setDropdown(dropdown, filterTipo, [String].init(Globals.obsTipo.values), afterClickFilterTipo(_:_:))
+        dropdown.show()*/
     }
     
     @IBAction func clickEnFilterRiesgo(_ sender: Any) {
-        Utils.setDropdown(dropdown, filterRiesgo, [String].init(Globals.obsRiesgo.values), afterClickFilterRiesgo(_:_:))
-        dropdown.show()
+        Utils.showDropdown(sender as! UIButton, Utils.maestroStatic2["NIVELRIESGO"] ?? [], {(index,item) in
+            
+        })
+        /*Utils.setDropdown(dropdown, filterRiesgo, [String].init(Globals.obsRiesgo.values), afterClickFilterRiesgo(_:_:))
+        dropdown.show()*/
     }
     
     @IBAction func clickEnFilterFechaInicio(_ sender: Any) {
@@ -51,13 +60,19 @@ class MuroSearchFilterVC: UIViewController {
     }
     
     @IBAction func clickEnFilterGerencia(_ sender: Any) {
-        Utils.setDropdown(dropdown, filterGerencia, ["-"], afterClickFilterGerencia(_:_:))
-        dropdown.show()
+        Utils.showDropdown(sender as! UIButton, ["-"], {(index,item) in
+            
+        })
+        /*Utils.setDropdown(dropdown, filterGerencia, ["-"], afterClickFilterGerencia(_:_:))
+        dropdown.show()*/
     }
     
     @IBAction func clickEnFilterSuperintendencia(_ sender: Any) {
-        Utils.setDropdown(dropdown, filterSuperintendencia, ["Seguridad", "Salud Ocupacional", "Comunidades"], afterClickFilterSuperintendencia(_:_:)   )
-        dropdown.show()
+        Utils.showDropdown(sender as! UIButton, ["Seguridad", "Salud Ocupacional", "Comunidades"], {(index,item) in
+            
+        })
+        /*Utils.setDropdown(dropdown, filterSuperintendencia, ["Seguridad", "Salud Ocupacional", "Comunidades"], afterClickFilterSuperintendencia(_:_:)   )
+        dropdown.show()*/
     }
     func afterSelectFechaInicio(_ date: Date?) {
         if let fecha = date {
@@ -73,7 +88,7 @@ class MuroSearchFilterVC: UIViewController {
             filterFechaFin.setTitle(Utils.date2str(date!, "dd 'de' MMMM 'de' yyyy"), for: .normal)
         }
     }
-    func afterClickFilterArea(_ index: Int, _ item: String) {
+    /*func afterClickFilterArea(_ index: Int, _ item: String) {
         filterArea.setTitle(item, for: .normal)
     }
     func afterClickFilterTipo(_ index: Int, _ item: String) {
@@ -87,9 +102,9 @@ class MuroSearchFilterVC: UIViewController {
     }
     func afterClickFilterSuperintendencia(_ index: Int, _ item: String) {
         filterSuperintendencia.setTitle(item, for: .normal)
-    }
+    }*/
     
     func updateSelectedPersona() {
         
     }
-}
+}*/

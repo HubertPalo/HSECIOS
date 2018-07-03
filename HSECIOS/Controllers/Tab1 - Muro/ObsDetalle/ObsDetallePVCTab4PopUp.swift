@@ -7,7 +7,7 @@ class ObsDetallePVCTab4PopUp: UIViewController, UITableViewDelegate, UITableView
     let labels = ["Código de acción", "Nro doc. de referencia", "Área", "Nivel de riesgo", "Descripción", "Fecha de Solicitud", "Estado", "Solicitado por", "Responsable", "Acción relacionada", "Referencia", "Tipo de acción", "Fecha inicial", "Fecha final"]
     var values = ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"]
     
-    var planAccion: ObsPlanAccion = ObsPlanAccion()
+    var planAccion = PlanAccionDetalle()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,23 +33,21 @@ class ObsDetallePVCTab4PopUp: UIViewController, UITableViewDelegate, UITableView
     }
     
     func updateValues() {
-        //let planAccion = Utils.planAccion[Utils.selectedObsPlanAccion]
-        values = [
-            planAccion.CodAccion,
-            planAccion.NroDocReferencia,
-            Globals.obsArea[planAccion.CodAreaHSEC] ?? "",
-            Globals.obsRiesgo[planAccion.CodNivelRiesgo] ?? "",
-            planAccion.DesPlanAccion,
-            Utils.str2date2str(planAccion.FechaSolicitud),
-            Globals.obsEstado[planAccion.CodEstadoAccion] ?? "",
-            planAccion.CodSolicitadoPor,
-            planAccion.CodResponsable,
-            planAccion.CodActiRelacionada,
-            planAccion.CodReferencia,
-            planAccion.CodTipoAccion,
-            Utils.str2date2str(planAccion.FecComprometidaInicial),
-            Utils.str2date2str(planAccion.FecComprometidaFinal)
-        ]
+        values[0] = planAccion.CodAccion ?? ""
+        values[1] = planAccion.NroDocReferencia ?? ""
+        values[2] = Utils.searchMaestroDescripcion("AREA", planAccion.CodAreaHSEC ?? "")
+        values[3] = Utils.searchMaestroStatic("NIVELRIESGO", planAccion.CodNivelRiesgo ?? "")
+        values[4] = planAccion.DesPlanAccion ?? ""
+        values[5] = Utils.str2date2str(planAccion.FechaSolicitud ?? "")
+        values[6] = planAccion.CodEstadoAccion ?? ""
+        values[7] = planAccion.CodSolicitadoPor ?? ""
+        values[8] = planAccion.CodResponsables ?? ""
+        values[9] = planAccion.CodActiRelacionada ?? ""
+        values[10] = planAccion.CodReferencia ?? ""
+        values[11] = planAccion.CodTipoAccion ?? ""
+        values[12] = Utils.str2date2str(planAccion.FecComprometidaInicial ?? "")
+        values[13] = Utils.str2date2str(planAccion.FecComprometidaFinal ?? "")
+        
     }
     
     @IBAction func cerrarPopUp(_ sender: Any) {

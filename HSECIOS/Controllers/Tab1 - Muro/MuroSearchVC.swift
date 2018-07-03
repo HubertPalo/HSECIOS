@@ -1,7 +1,7 @@
 import UIKit
 import DropDown
 
-class MuroSearchVC: UIViewController {
+/*class MuroSearchVC: UIViewController {
     
     @IBOutlet weak var dropQueBuscar: UIButton!
     
@@ -16,6 +16,8 @@ class MuroSearchVC: UIViewController {
     var observaciones: [MuroElement] = []
     var parametros: [String:String] = [:]
     var nroitems = 10
+    
+    var elemento: MuroElement = MuroElement()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +44,27 @@ class MuroSearchVC: UIViewController {
     }
     
     @IBAction func clickEnFiltro(_ sender: Any) {
-        self.performSegue(withIdentifier: destino, sender: self)
+        //self.performSegue(withIdentifier: destino, sender: self)
+        switch queBuscar {
+        case "Observaciones":
+            VCHelper.openFiltroObservacion(self, {(data:[String:String]) in
+                /*let hijo = self.childViewControllers[0] as! MuroTVC
+                hijo.data = observaciones
+                hijo.tableView.reloadData()*/
+                print(data)
+            })
+        case "Inspecciones":
+            VCHelper.openFiltroInspeccion(self, {(data:[String:String]) in
+                /*let hijo = self.childViewControllers[0] as! MuroTVC
+                hijo.data = inspeccionwa
+                hijo.tableView.reloadData()*/
+                print(data)
+            })
+        default:
+            print("Default")
+        }
+        print("Click Filtro")
+        
     }
     
     @IBAction func clickEnBuscar(_ sender: Any) {
@@ -56,17 +78,17 @@ class MuroSearchVC: UIViewController {
         case "Observaciones":
             parametros["CodUbicacion"] = "\(nroitems)"
             parametros["Lugar"] = "1"
-            Helper.postData(Routes.forMuroSearchO(), parametros, true, vcontroller: self, success: successGettingData(_:))
+            Rest.postData(Routes.forMuroSearchO(), parametros, true, vcontroller: self, success: successGettingData(_:))
             break
         case "Inspecciones":
             parametros["Elemperpage"] = "\(nroitems)"
             parametros["Pagenumber"] = "1"
-            Helper.postData(Routes.forMuroSearchI(), parametros, true, vcontroller: self, success: successGettingData(_:))
+            Rest.postData(Routes.forMuroSearchI(), parametros, true, vcontroller: self, success: successGettingData(_:))
             break
         case "Noticias":
             parametros["Elemperpage"] = "\(nroitems)"
             parametros["Pagenumber"] = "1"
-            Helper.postData(Routes.forMuroSearchN(), parametros, true, vcontroller: self, success: successGettingData(_:))
+            Rest.postData(Routes.forMuroSearchN(), parametros, true, vcontroller: self, success: successGettingData(_:))
             break
         default:
             break
@@ -74,10 +96,18 @@ class MuroSearchVC: UIViewController {
     }
     
     func successGettingData(_ dict: NSDictionary){
-        let data = Dict.toArrayMuroElement(dict)
+        let data: [MuroElement] = Dict.toArrayMuroElement(dict)
         let hijo = self.childViewControllers[0] as! MuroTVC
         hijo.data = data
         hijo.tableView.reloadData()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toDetalleObs" {
+            let destination = segue.destination as! ObsDetalleVC
+            destination.observacion = self.elemento
+        }
+    }
+    
 }
+*/

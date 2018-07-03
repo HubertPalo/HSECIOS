@@ -1,6 +1,4 @@
-import UIKit
-
-class ObsPlanAccion {
+/*class ObsPlanAccion: Codable {
     var CodAccion = ""
     var NroDocReferencia = ""
     var CodAreaHSEC = ""
@@ -17,4 +15,4 @@ class ObsPlanAccion {
     var FecComprometidaFinal = ""
     var CodResponsables = ""
     var Responsables = ""
-}
+}*/

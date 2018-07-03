@@ -1,4 +1,4 @@
-class Noticia {
+class Noticia: Codable {
     var CodNoticia = ""
     var Titulo = ""
     var Tipo = ""

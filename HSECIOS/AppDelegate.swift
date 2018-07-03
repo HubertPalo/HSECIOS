@@ -15,10 +15,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
         Config.initConfig()
         Tabs.initTabs()
         Globals.loadGlobals()
+        VCHelper.initVCs()
+        Images.initImages()
+        
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.white], for: .normal)
+        UINavigationBar.appearance().tintColor = UIColor.lightGray
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.foregroundColor: Colores.blancoTabBarNoSelected], for: UIControlState.normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.foregroundColor: Colores.blancoTabBarSelected], for: .selected)
         return true
     }
 
@@ -43,7 +50,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
+    
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        return Utils.orientation
+    }
 
 }
 

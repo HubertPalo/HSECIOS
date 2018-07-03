@@ -1,6 +1,8 @@
 import UIKit
 
-class OpcAvanzadasVC: UIViewController, UITextFieldDelegate, UITextViewDelegate {
+class OpcAvanzadasVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UITabBarDelegate {
+    
+    @IBOutlet weak var tabBar: UITabBar!
     
     @IBOutlet weak var asunto: UITextField!
     
@@ -15,6 +17,8 @@ class OpcAvanzadasVC: UIViewController, UITextFieldDelegate, UITextViewDelegate 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Utils.setTitleAndImage(self, "Feedback", Images.minero)
+        self.tabBar.delegate = self
         asunto.delegate = self
         mensaje.delegate = self
         mensaje.layer.borderColor = UIColor.gray.cgColor
@@ -23,6 +27,11 @@ class OpcAvanzadasVC: UIViewController, UITextFieldDelegate, UITextViewDelegate 
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
+    }
+    
+    func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        let index = tabBar.items!.index(of: item)
+        Utils.menuVC.showTabIndexAt(index!)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -53,19 +62,26 @@ class OpcAvanzadasVC: UIViewController, UITextFieldDelegate, UITextViewDelegate 
             "Url" : asunto.text ?? "",
             "Descripcion" : mensaje.text
         ]
-        Helper.postData(Routes.forSendFeeback(), params, true, vcontroller: self, success: {(str: String) in
+        Rest.postDataGeneral(Routes.forSendFeeback(), params, true, success: {(resultValue:Any?,data:Data?) in
+            let str = resultValue as! String
             let num = Int(str) ?? 0
             if num <= 0 {
                 Alerts.presentAlert("", "Ocurrió un problema durante el envío, inténtelo de nuevo.", imagen: nil, viewController: self)
-                //Alerts.presentAlertWithAccept("", "Ocurrió un problema durante el envío, inténtelo de nuevo.", imagen: nil, viewController: self, acccept: { ()                })
                 print("Ocurrió un problema durante el envío, inténtelo de nuevo.")
             } else {
                 Alerts.presentAlert("", "Su mensaje ha sido enviado. Cod \(str)", imagen: nil, viewController: self)
-                /*Alerts.presentAlertWithAccept("", "Su mensaje ha sido enviado. Cod \(str)", imagen: nil, viewController: self, acccept: { ()
-                })*/
                 print("Su mensaje ha sido enviado. Cod \(str)")
             }
-        })
+        }, error: nil)
+        /*Rest.postData(Routes.forSendFeeback(), params, true, vcontroller: self, success: {(str: String) in
+            
+        })*/
+    }
+    
+    
+    @IBAction func clickMenu(_ sender: Any) {
+        //(self.navigationController!.tabBarController!.parent as!MenuVC).showMenu()
+        Utils.openMenu(/*self*/)
     }
     
 }

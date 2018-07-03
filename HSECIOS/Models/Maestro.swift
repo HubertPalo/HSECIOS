@@ -1,7 +1,5 @@
-import UIKit
-
-class Maestro {
+class Maestro: Codable {
     var CodTipo = ""
-    var CodSubTipo = ""
+    var Codigo = ""
     var Descripcion = ""
 }

@@ -2,17 +2,20 @@ import UIKit
 
 class InsDetallePVCTab4: UIViewController {
     
+    var inspeccion = MuroElement()
+    
     override func viewDidAppear(_ animated: Bool) {
-    if let padre = self.parent?.parent as? InsDetalleVC {
-        padre.selectTab(3)
-    }
+        if let padre = self.parent?.parent as? InsDetalleVC {
+            padre.selectTab(3)
+        }
         let hijo = self.childViewControllers[0] as! ComentariosVC
-        hijo.codigo = Utils.selectedObsCode
-        hijo.updateDataForCode(code: Utils.selectedObsCode)
-        
+        hijo.codigo = inspeccion.Codigo ?? ""
+        hijo.loadComentarios(inspeccion.Codigo ?? "")
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
 }
 

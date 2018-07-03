@@ -2,22 +2,11 @@ import UIKit
 
 class ComentariosVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     
-    var comentarios : [ObsComentario] = []
+    var comentarios : [Comentario] = []
     var codigo = ""
     
     @IBOutlet weak var tabla: UITableView!
     @IBOutlet weak var campoComentario: UITextField!
-    
-    override func viewWillAppear(_ animated: Bool) {
-        self.codigo = Utils.selectedObsCode
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        Helper.getData(Routes.forComentarios(codigo), false, vcontroller: self, success: {(dict:NSDictionary) in
-            self.comentarios = Dict.toArrayObsComentario(dict)
-            self.tabla.reloadData()
-        })
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +18,21 @@ class ComentariosVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
+    func loadComentarios(_ codigo: String) {
+        self.codigo = codigo
+        self.comentarios = []
+        self.tabla.reloadData()
+        Rest.getDataGeneral(Routes.forComentarios(codigo), false, success: {(resultValue:Any?,data:Data?) in
+            let arrayComentarios: ArrayGeneral<Comentario> = Dict.dataToArray(data!)
+            self.comentarios = arrayComentarios.Data//Dict.toArrayObsComentario(dict)
+            self.tabla.reloadData()
+        }, error: nil)
+        /*Rest.getData(Routes.forComentarios(codigo), false, vcontroller: self, success: {(dict:NSDictionary) in
+            self.comentarios = Dict.toArrayObsComentario(dict)
+            self.tabla.reloadData()
+        })*/
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
@@ -36,14 +40,6 @@ class ComentariosVC: UIViewController, UITableViewDataSource, UITableViewDelegat
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return false
-    }
-    
-    func updateDataForCode(code: String){
-        codigo = code
-        Helper.getData(Routes.forComentarios(codigo), false, vcontroller: self, success: {(dict:NSDictionary) in
-            self.comentarios = Dict.toArrayObsComentario(dict)
-            self.tabla.reloadData()
-        })
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -90,9 +86,14 @@ class ComentariosVC: UIViewController, UITableViewDataSource, UITableViewDelegat
     @IBAction func clickEnEnviar(_ sender: Any) {
         let parametros = ["CodComentario":codigo,"Comentario": campoComentario.text!]
                           
-        Helper.postData(Routes.forPostComentario(), parametros, true, vcontroller: self, success: {(str:String) in
-            
+        Rest.postDataGeneral(Routes.forPostComentario(), parametros, true, success: {(resultValue:Any?,data:Data?) in
+            Alerts.presentAlert("Comentario Enviado", "Enviado", imagen: nil, viewController: self)
+        }, error: {(error) in
+            Alerts.presentAlert("Error", error, duration: 2, imagen: nil, viewController: self)
         })
+        /*Rest.postData(Routes.forPostComentario(), parametros, true, vcontroller: self, success: {(str:String) in
+            
+        })*/
     }
     
 }

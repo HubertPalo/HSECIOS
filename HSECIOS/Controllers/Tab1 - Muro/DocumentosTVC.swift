@@ -32,7 +32,7 @@ class DocumentosTVC: UITableViewController, UIDocumentInteractionControllerDeleg
         let unit = documentos[indexPath.row]
         let destination: DownloadRequest.DownloadFileDestination = { _, _ in
             let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            let fileURL = documentsURL.appendingPathComponent(unit.Descripcion)
+            let fileURL = documentsURL.appendingPathComponent(unit.Descripcion ?? "")
             
             return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
         }

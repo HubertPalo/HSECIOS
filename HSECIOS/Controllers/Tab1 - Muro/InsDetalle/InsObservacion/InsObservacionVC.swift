@@ -8,9 +8,6 @@ class InsObservacionVC: UIViewController {
     
     @IBOutlet weak var tabsScroll: UIScrollView!
     
-    var codigo = ""
-    var correlativo = ""
-    var plan: ObsPlanAccion = ObsPlanAccion()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.automaticallyAdjustsScrollViewInsets = false
@@ -19,7 +16,7 @@ class InsObservacionVC: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        selectTab(Tabs.indexInsObservacion)
+        //selectTab(Tabs.indexInsObservacion)
     }
     
     func focusScroll() {
@@ -57,13 +54,5 @@ class InsObservacionVC: UIViewController {
         oldSegmentIndex = newSegmentIndex
         focusScroll()
         slider.setViewControllers([Tabs.forInsObservacion[tabs.selectedSegmentIndex]], direction: direction, animated: true, completion: nil)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toPlanDetalle" {
-            let destination = segue.destination as! PlanAccionDetalleVC
-            //destination.loadPlan(plan: self.plan)
-            destination.plan = self.plan
-        }
     }
 }

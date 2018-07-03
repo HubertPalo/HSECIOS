@@ -1,13 +1,11 @@
-import UIKit
-
-class InsObservacion {
+class InsObservacion: Codable {
     var Correlativo = ""
     var CodInspeccion = ""
     var CodNivelRiesgo = ""
     var Observacion = ""
 }
 
-class InsObservacionGD {
+class InsObservacionGD: Codable {
     var Correlativo = ""
     var CodInspeccion = ""
     var NroDetInspeccion = ""

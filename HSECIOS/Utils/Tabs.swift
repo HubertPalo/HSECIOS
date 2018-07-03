@@ -3,6 +3,8 @@ import UIKit
 class Tabs {
     static let sb = UIStoryboard.init(name: "Main", bundle: nil)
     
+    //static var menuVC
+    
     static var forObsDetalle: [UIViewController] = []
     static var flagsObsDetalle: [Bool] = []
     static var indexObsDetalle: Int = 0
@@ -15,53 +17,60 @@ class Tabs {
     static var flagsInsObservacion: [Bool] = []
     static var indexInsObservacion: Int = 0
     
-    static var forNotDetalle: [UIViewController] = []
-    static var flagsNotDetalle: [Bool] = []
-    static var indexNotDetalle: Int = 0
+    static var forAddObs: [UIViewController] = []
+    static var flagsAddObs: [Bool] = []
+    static var indexAddObs: Int = 0
     
-    static var forTest: [UIViewController] = []
+    static var forAddIns: [UIViewController] = []
+    static var flagsAddIns: [Bool] = []
+    static var indexAddIns: Int = 0
     
-    static var forNewObs: [UIViewController] = []
-    static var flagsNewObs: [Bool] = []
-    
-    
+    static var forAddInsObs: [UIViewController] = []
+    static var flagsAddInsObs: [Bool] = []
+    static var indexAddInsObs: Int = 0
     
     static func initTabs() {
         forObsDetalle = [
-            sb.instantiateViewController(withIdentifier: "tabObsDetalle1"),
-            sb.instantiateViewController(withIdentifier: "tabObsDetalle2"),
-            sb.instantiateViewController(withIdentifier: "tabObsDetalle3"),
-            sb.instantiateViewController(withIdentifier: "tabObsDetalle4"),
-            sb.instantiateViewController(withIdentifier: "tabObsDetalle5")
+            Utils.obsDetalleSB.instantiateViewController(withIdentifier: "tabObsDetalle1"),
+            Utils.obsDetalleSB.instantiateViewController(withIdentifier: "tabObsDetalle2"),
+            Utils.obsDetalleSB.instantiateViewController(withIdentifier: "tabObsDetalle3"),
+            Utils.obsDetalleSB.instantiateViewController(withIdentifier: "tabObsDetalle4"),
+            Utils.obsDetalleSB.instantiateViewController(withIdentifier: "tabObsDetalle5")
         ]
         forInsDetalle = [
-            sb.instantiateViewController(withIdentifier: "tabInsDetalle1"),
-            sb.instantiateViewController(withIdentifier: "tabInsDetalle2"),
-            sb.instantiateViewController(withIdentifier: "tabInsDetalle3"),
-            sb.instantiateViewController(withIdentifier: "tabInsDetalle4")
+            Utils.insDetalleSB.instantiateViewController(withIdentifier: "tabInsDetalle1"),
+            Utils.insDetalleSB.instantiateViewController(withIdentifier: "tabInsDetalle2"),
+            Utils.insDetalleSB.instantiateViewController(withIdentifier: "tabInsDetalle3"),
+            Utils.insDetalleSB.instantiateViewController(withIdentifier: "tabInsDetalle4")
         ]
         forInsObservacion = [
-            sb.instantiateViewController(withIdentifier: "tabInsObservacion1"),
-            sb.instantiateViewController(withIdentifier: "tabInsObservacion2"),
-            sb.instantiateViewController(withIdentifier: "tabInsObservacion3")
+            Utils.insObsDetalleSB.instantiateViewController(withIdentifier: "tabInsObservacion1"),
+            Utils.insObsDetalleSB.instantiateViewController(withIdentifier: "tabInsObservacion2"),
+            Utils.insObsDetalleSB.instantiateViewController(withIdentifier: "tabInsObservacion3")
         ]
-        forNotDetalle = [
-            sb.instantiateViewController(withIdentifier: "tabNotDetalle1"),
-            sb.instantiateViewController(withIdentifier: "tabNotDetalle2"),
-            sb.instantiateViewController(withIdentifier: "tabNotDetalle3")
+        forAddObs = [
+            Utils.addObservacionSB.instantiateViewController(withIdentifier: "tabAddObs1"),
+            Utils.addObservacionSB.instantiateViewController(withIdentifier: "tabAddObs2"),
+            Utils.addObservacionSB.instantiateViewController(withIdentifier: "tabAddObs3"),
+            Utils.addObservacionSB.instantiateViewController(withIdentifier: "tabAddObs4")
         ]
-        forNewObs = [
-            sb.instantiateViewController(withIdentifier: "tabMuroNewObs1"),
-            sb.instantiateViewController(withIdentifier: "tabMuroNewObs2"),
-            sb.instantiateViewController(withIdentifier: "tabMuroNewObs3"),
-            sb.instantiateViewController(withIdentifier: "tabMuroNewObs4")
+        forAddIns = [
+            Utils.addInspeccionSB.instantiateViewController(withIdentifier: "tabAddIns1"),
+            Utils.addInspeccionSB.instantiateViewController(withIdentifier: "tabAddIns2"),
+            Utils.addInspeccionSB.instantiateViewController(withIdentifier: "tabAddIns3")
+        ]
+        forAddInsObs = [
+            Utils.addInsObsSB.instantiateViewController(withIdentifier: "tabAddInsObs1"),
+            Utils.addInsObsSB.instantiateViewController(withIdentifier: "tabAddInsObs2"),
+            Utils.addInsObsSB.instantiateViewController(withIdentifier: "tabAddInsObs3")
         ]
         
         flagsObsDetalle = [Bool].init(repeating: true, count: forObsDetalle.count)
         flagsInsDetalle = [Bool].init(repeating: true, count: forInsDetalle.count)
         flagsInsObservacion = [Bool].init(repeating: true, count: forInsObservacion.count)
-        flagsNotDetalle = [Bool].init(repeating: true, count: forNotDetalle.count)
-        flagsNewObs = [Bool].init(repeating: true, count: forNewObs.count)
+        flagsAddObs = [Bool].init(repeating: true, count: forAddObs.count)
+        flagsAddIns = [Bool].init(repeating: true, count: forAddIns.count)
+        flagsAddInsObs = [Bool].init(repeating: true, count: forAddInsObs.count)
     }
     
     static func getNextVCFor(_ viewcontroller: UIViewController, forward: Bool) -> UIViewController? {
@@ -95,16 +104,16 @@ class Tabs {
     }
     
     static func indexFor(_ viewcontroller: UIViewController) -> Int {
-        if viewcontroller is ObsDetallePVCTab1 || viewcontroller is InsDetallePVCTab1 || viewcontroller is MuroNewObsPVCTab1 || viewcontroller is InsObservacionPVCTab1 || viewcontroller is NotDetallePVCTab1 {
+        if viewcontroller is ObsDetallePVCTab1 || viewcontroller is InsDetallePVCTab1 || viewcontroller is UpsertObsPVCTab1 || viewcontroller is InsObservacionPVCTab1 || viewcontroller is AddInspeccionPVCTab1 || viewcontroller is AddInsObservacionPVCTab1 {
             return 0
         }
-        if viewcontroller is ObsDetallePVCTab2 || viewcontroller is InsDetallePVCTab2 || viewcontroller is MuroNewObsPVCTab2 || viewcontroller is InsObservacionPVCTab2 || viewcontroller is NotDetallePVCTab2 {
+        if viewcontroller is ObsDetallePVCTab2 || viewcontroller is InsDetallePVCTab2 || viewcontroller is UpsertObsPVCTab2 || viewcontroller is InsObservacionPVCTab2 || viewcontroller is AddInspeccionPVCTab2 || viewcontroller is AddInsObservacionPVCTab2 {
             return 1
         }
-        if viewcontroller is ObsDetallePVCTab3 || viewcontroller is InsDetallePVCTab3 || viewcontroller is MuroNewObsPVCTab3 || viewcontroller is InsObservacionPVCTab3 || viewcontroller is NotDetallePVCTab3 {
+        if viewcontroller is ObsDetallePVCTab3 || viewcontroller is InsDetallePVCTab3 || viewcontroller is UpsertObsPVCTab3 || viewcontroller is InsObservacionPVCTab3 || viewcontroller is AddInspeccionPVCTab3 || viewcontroller is AddInsObservacionPVCTab3 {
             return 2
         }
-        if viewcontroller is ObsDetallePVCTab4 || viewcontroller is InsDetallePVCTab4 || viewcontroller is MuroNewObsPVCTab4{
+        if viewcontroller is ObsDetallePVCTab4 || viewcontroller is InsDetallePVCTab4 || viewcontroller is UpsertObsPVCTab4 {
             return 3
         }
         if viewcontroller is ObsDetallePVCTab5 {
@@ -126,15 +135,17 @@ class Tabs {
             return flagsInsObservacion
         }
         
-        if viewcontroller is NotDetallePVCTab1 || viewcontroller is NotDetallePVCTab2 || viewcontroller is NotDetallePVCTab3 {
-            return flagsNotDetalle
+        if viewcontroller is UpsertObsPVCTab1 || viewcontroller is UpsertObsPVCTab2 || viewcontroller is UpsertObsPVCTab3 || viewcontroller is UpsertObsPVCTab4 {
+            return flagsAddObs
         }
         
-        if viewcontroller is MuroNewObsPVCTab1 || viewcontroller is MuroNewObsPVCTab2 || viewcontroller is MuroNewObsPVCTab3 || viewcontroller is MuroNewObsPVCTab4 {
-            return flagsNewObs
+        if viewcontroller is AddInspeccionPVCTab1 || viewcontroller is AddInspeccionPVCTab2 || viewcontroller is AddInspeccionPVCTab3 {
+            return flagsAddIns
         }
         
-        
+        if viewcontroller is AddInsObservacionPVCTab1 || viewcontroller is AddInsObservacionPVCTab2 || viewcontroller is AddInsObservacionPVCTab3 {
+            return flagsAddInsObs
+        }
         
         return []
     }
@@ -152,12 +163,16 @@ class Tabs {
             return forInsObservacion
         }
         
-        if viewcontroller is NotDetallePVCTab1 || viewcontroller is NotDetallePVCTab2 || viewcontroller is NotDetallePVCTab3 {
-            return forNotDetalle
+        if viewcontroller is UpsertObsPVCTab1 || viewcontroller is UpsertObsPVCTab2 || viewcontroller is UpsertObsPVCTab3 || viewcontroller is UpsertObsPVCTab4 {
+            return forAddObs
         }
         
-        if viewcontroller is MuroNewObsPVCTab1 || viewcontroller is MuroNewObsPVCTab2 || viewcontroller is MuroNewObsPVCTab3 || viewcontroller is MuroNewObsPVCTab4 {
-            return forNewObs
+        if viewcontroller is AddInspeccionPVCTab1 || viewcontroller is AddInspeccionPVCTab2 || viewcontroller is AddInspeccionPVCTab3 {
+            return forAddIns
+        }
+        
+        if viewcontroller is AddInsObservacionPVCTab1 || viewcontroller is AddInsObservacionPVCTab2 || viewcontroller is AddInsObservacionPVCTab3 {
+            return forAddInsObs
         }
         
         return []

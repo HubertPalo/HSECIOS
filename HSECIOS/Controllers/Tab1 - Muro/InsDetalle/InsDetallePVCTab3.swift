@@ -4,22 +4,24 @@ class InsDetallePVCTab3: UIViewController, UITableViewDelegate, UITableViewDataS
     
     @IBOutlet weak var tabla: UITableView!
     var observaciones: [InsObservacion] = []
+    var inspeccion = MuroElement()
     
     override func viewDidAppear(_ animated: Bool) {
         if let padre = self.parent?.parent as? InsDetalleVC {
             padre.selectTab(2)
         }
-        Helper.getData(Routes.forInsObservaciones(Utils.selectedObsCode), true, vcontroller: self, success: {(dict:NSDictionary) in
+        Rest.getDataGeneral(Routes.forInsObservaciones(inspeccion.Codigo ?? ""), true, success: {(resultValue:Any?,data:Data?) in
+            let arrayObservaciones: ArrayGeneral<InsObservacion> = Dict.dataToArray(data!)
+            self.observaciones = arrayObservaciones.Data
+            self.tabla.reloadData()
+        }, error: nil)
+        /*Rest.getData(Routes.forInsObservaciones(inspeccion.Codigo), true, vcontroller: self, success: {(dict:NSDictionary) in
             self.observaciones = Dict.toArrayInsObservacion(dict)
             self.tabla.reloadData()
-        })
+        })*/
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        let observacion = InsObservacion()
-        observacion.Observacion = "asdasdsd"
-        observacion.CodNivelRiesgo = "AL"
-        observaciones = [observacion]
         tabla.delegate = self
         tabla.dataSource = self
     }
@@ -40,14 +42,15 @@ class InsDetallePVCTab3: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let unit = observaciones[indexPath.row]
-        Utils.selectedInsObsCode = unit.Correlativo
+        VCHelper.openInsObsDetalle(self, unit)
+        /*Utils.selectedInsObsCode = unit.Correlativo
         let padre = self.parent?.parent as! InsDetalleVC
         padre.codigoInsObservacion = unit.CodInspeccion
         padre.correlativoInsObservacion = unit.Correlativo
         padre.performSegue(withIdentifier: "toObs", sender: self)
         print("is InsDetalleVC : \(self.parent is InsDetalleVC)")
         print("is InsDetalleVC : \(self.parent?.parent is InsDetalleVC)")
-        print("is InsDetalleVC : \(self.parent?.parent?.parent is InsDetalleVC)")
+        print("is InsDetalleVC : \(self.parent?.parent?.parent is InsDetalleVC)")*/
     }
     // tableview
     

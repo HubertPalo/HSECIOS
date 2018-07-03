@@ -8,12 +8,12 @@ class ObsDetalleVC: UIViewController {
     
     var oldSegmentIndex = 0
     
+    var observacion: MuroElement = MuroElement()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.automaticallyAdjustsScrollViewInsets = false
-        //tabs.apportionsSegmentWidthsByContent = true
-        
-        //Tabs.flagsObsDetalle[1] = true
+        Utils.setTitleAndImage(self, "Observación", Images.observacion)
         Tabs.updateTabs(tabs, flags: Tabs.flagsObsDetalle)
         selectTab(Tabs.indexObsDetalle)
     }
@@ -36,15 +36,17 @@ class ObsDetalleVC: UIViewController {
     
     func selectTab(_ index: Int) {
         tabs.selectedSegmentIndex = index
-        let slider = self.childViewControllers[0] as! ObsDetallePVC
-        var direction = UIPageViewControllerNavigationDirection.forward
-        let newSegmentIndex = tabs.selectedSegmentIndex
-        if newSegmentIndex < oldSegmentIndex {
-            direction = UIPageViewControllerNavigationDirection.reverse
+        if self.childViewControllers.count > 0 {
+            let slider = self.childViewControllers[0] as! ObsDetallePVC
+            var direction = UIPageViewControllerNavigationDirection.forward
+            let newSegmentIndex = tabs.selectedSegmentIndex
+            if newSegmentIndex < oldSegmentIndex {
+                direction = UIPageViewControllerNavigationDirection.reverse
+            }
+            oldSegmentIndex = newSegmentIndex
+            focusScroll()
+            slider.setViewControllers([Tabs.forObsDetalle[tabs.selectedSegmentIndex]], direction: direction, animated: true, completion: nil)
         }
-        oldSegmentIndex = newSegmentIndex
-        focusScroll()
-        slider.setViewControllers([Tabs.forObsDetalle[tabs.selectedSegmentIndex]], direction: direction, animated: true, completion: nil)
     }
     
     @IBAction func clickEnSegment(_ sender: Any) {

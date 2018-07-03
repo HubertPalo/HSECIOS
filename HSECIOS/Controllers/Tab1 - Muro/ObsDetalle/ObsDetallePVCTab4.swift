@@ -4,19 +4,24 @@ class ObsDetallePVCTab4: UIViewController, UITableViewDelegate, UITableViewDataS
     
     @IBOutlet weak var tabla: UITableView!
     
-    var planes: [ObsPlanAccion] = []
+    var planes: [PlanAccionDetalle] = []
+    
+    var observacion = MuroElement()
     
     override func viewDidAppear(_ animated: Bool) {
         if let padre = self.parent?.parent as? ObsDetalleVC {
             padre.selectTab(3)
         }
-        Helper.getData(Routes.forObsPlanAccion(Utils.selectedObsCode), true, vcontroller: self, success: {(dict: NSDictionary) in
-            self.planes = Dict.toArrayObsPlanAccion(dict)
-            // Utils.planAccion = self.planes
-            //self.planes = planes
+        Rest.getDataGeneral(Routes.forObsPlanAccion(self.observacion.Codigo ?? ""), true, success: {(resultValue:Any?,data:Data?) in
+            let arrayPlanes: ArrayGeneral<PlanAccionDetalle> = Dict.dataToArray(data!)
+            // self.planes = Dict.toArrayObsPlanAccion(dict)
+            self.planes = arrayPlanes.Data
             self.tabla.reloadData()
-        })
-        //HMuro.getObservacionesPlanAccion(Utils.selectedObsCode, vcontroller: self, success: successGettingData(_:), error: errorGettingData(_:))
+        }, error: nil)
+        /*Rest.getData(Routes.forObsPlanAccion(self.observacion.Codigo), true, vcontroller: self, success: {(dict: NSDictionary) in
+            self.planes = Dict.toArrayObsPlanAccion(dict)
+            self.tabla.reloadData()
+        })*/
     }
     
     override func viewDidLoad() {
@@ -36,9 +41,9 @@ class ObsDetallePVCTab4: UIViewController, UITableViewDelegate, UITableViewDataS
         
         let unit = planes[indexPath.row]
         celda.tarea.text = unit.DesPlanAccion
-        celda.responsable.text = unit.CodResponsable
-        celda.area.text = Globals.obsArea[unit.CodAreaHSEC]
-        celda.estado.text = Globals.obsEstado[unit.CodEstadoAccion]
+        celda.responsable.text = unit.CodResponsables
+        celda.area.text = Utils.searchMaestroDescripcion("AREA", unit.CodAreaHSEC ?? "")//Globals.obsArea[unit.CodAreaHSEC]
+        celda.estado.text = Utils.searchMaestroDescripcion("ESOB", unit.CodEstadoAccion ?? "")//Globals.obsEstado[unit.CodEstadoAccion]
         return celda
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -49,7 +54,7 @@ class ObsDetallePVCTab4: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     //Tabla
     
-    func successGettingData(_ planAccion: [ObsPlanAccion]) {
+    /*func successGettingData(_ planAccion: [ObsPlanAccion]) {
         Utils.planAccion = planAccion
         planes = planAccion
         tabla.reloadData()
@@ -57,7 +62,7 @@ class ObsDetallePVCTab4: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func errorGettingData(_ error: String) {
         print(error)
-    }
+    }*/
 }
 
 class MuroDetallePVCTab3TVCell: UITableViewCell {

@@ -1,6 +1,4 @@
-import UIKit
-
-class InspeccionGD {
+class InspeccionGD: Codable {
     var CodInspeccion = ""
     var CodTipo = ""
     var CodContrata = ""
