@@ -20,6 +20,16 @@ DEPENDENCIES:
   - ImagePicker (~> 3.0)
   - MBProgressHUD (~> 1.1)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - DatePickerDialog
+    - DKImagePickerController
+    - DropDown
+    - Gallery
+    - ImagePicker
+    - MBProgressHUD
+
 SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
   DatePickerDialog: 5e1c24d9fe6506cd45dbc573eed7b0a251b1c09d
@@ -31,4 +41,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 040d7070e456c1dec2498b9514f2fb77e9fff29c
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.5.3

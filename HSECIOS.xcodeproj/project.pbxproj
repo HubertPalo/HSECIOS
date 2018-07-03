@@ -777,7 +777,6 @@
 				C8D4742F1FE4385D000ADB4E /* Frameworks */,
 				C8D474301FE4385D000ADB4E /* Resources */,
 				4CF7379F75375DC7B5C23AC8 /* [CP] Embed Pods Frameworks */,
-				21809F05F01C1CEDB27F5485 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -913,21 +912,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		21809F05F01C1CEDB27F5485 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HSECIOS/Pods-HSECIOS-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		4CF7379F75375DC7B5C23AC8 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
