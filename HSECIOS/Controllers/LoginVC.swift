@@ -32,6 +32,7 @@ class LoginVC : UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.activityIndicator.transform = self.activityIndicator.transform.scaledBy(x: 2.0, y: 2.0)
         self.activityIndicator.isHidden = true
         Utils.progressIndicator = self.activityIndicator
         username.delegate = self

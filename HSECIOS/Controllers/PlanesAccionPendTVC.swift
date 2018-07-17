@@ -21,10 +21,10 @@ class PlanesAccionPendTVC: UITableViewController {
         // var nuevaData: [PlanAccionPendiente] = []
         var codigos: [String] = []
         for i in 0..<self.planes.count {
-            codigos.append(self.planes[i].CodAccion)
+            codigos.append(self.planes[i].CodAccion ?? "")
         }
         for i in 0..<array.count {
-            if !codigos.contains(array[i].CodAccion) {
+            if !codigos.contains(array[i].CodAccion ?? "") {
                 self.planes.append(array[i])
             }
         }
@@ -38,13 +38,13 @@ class PlanesAccionPendTVC: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let celda = tableView.dequeueReusableCell(withIdentifier: "celda") as! PlanesAccionPendientesTVCell
         let unit = self.planes[indexPath.row]
-        Images.loadAvatarFromDNI(unit.CodSolicitadoPor, celda.avatar, true, tableView, indexPath)
+        Images.loadAvatarFromDNI(unit.CodSolicitadoPor ?? "", celda.avatar, true, tableView, indexPath)
         Images.loadIcon("NIVELRIESGO.\(unit.CodNivelRiesgo)", celda.icono)
-        celda.editableView.isHidden = unit.Editable != "1" && unit.Editable != "3"
+        celda.editableView.isHidden = unit.Editable != nil && unit.Editable != 1 && unit.Editable != 3
         celda.autor.text = unit.SolicitadoPor
-        celda.fecha.text = Utils.str2date2str(unit.FechaSolicitud)
-        celda.tipo.text = Utils.searchMaestroStatic("TABLAS", unit.CodTabla)
-        celda.estado.text = Utils.searchMaestroStatic("ESTADOPLAN", unit.CodEstadoAccion)
+        celda.fecha.text = Utils.str2date2str(unit.FechaSolicitud ?? "")
+        celda.tipo.text = Utils.searchMaestroStatic("TABLAS", unit.CodTabla ?? "")
+        celda.estado.text = Utils.searchMaestroStatic("ESTADOPLAN", unit.CodEstadoAccion ?? "")
         celda.contenido.text = unit.DesPlanAccion
         celda.limiteView.isHidden = indexPath.row == self.planes.count - 1
         return celda

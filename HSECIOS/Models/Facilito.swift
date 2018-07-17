@@ -28,30 +28,30 @@ class FacilitoElement: Codable {
 }
 
 class FacilitoDetalle: Codable {
-    var CodObsFacilito = ""
-    var Tipo = ""
-    var CodPosicionGer = ""
-    var CodPosicionSup = ""
-    var UbicacionExacta = ""
-    var Observacion = ""
-    var RespAuxiliar = ""
-    var RespAuxiliarDesc = ""
-    var Accion = ""
-    var FecCreacion = ""
-    var FechaFin = ""
-    var Persona = ""
-    var Estado = ""
+    var CodObsFacilito: String?
+    var Tipo: String?
+    var CodPosicionGer: String?
+    var CodPosicionSup: String?
+    var UbicacionExacta: String?
+    var Observacion: String?
+    var Accion: String?
+    var RespAuxiliar: String?
+    var RespAuxiliarDesc: String? // Verificar
+    var FecCreacion: String?
+    var FechaFin: String?
+    var Persona: String?
+    var Estado: String?
 }
 
 class HistorialAtencionElement: Codable {
-    var Correlativo = ""
-    var CodObsFacilito = ""
-    var FechaFin = ""
-    var Comentario = ""
-    var Estado = ""
-    var Fecha = ""
-    var Persona = ""
-    var UrlObs = ""
+    var Correlativo: Int?
+    var CodObsFacilito: String?
+    var FechaFin: String?
+    var Comentario: String?
+    var Estado: String?
+    var Fecha: String?
+    var Persona: String?
+    var UrlObs: String?
     
     func printDescription(){
         let mirrored_object = Mirror(reflecting: self)

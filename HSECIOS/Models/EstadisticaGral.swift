@@ -1,6 +1,6 @@
 class EstadisticaGral: Codable {
-    var Codigo = ""
-    var Descripcion = ""
-    var Ejecutados = ""
-    var Estimados = ""
+    var Codigo: String?
+    var Descripcion: String?
+    var Ejecutados: Int?
+    var Estimados: Int?
 }

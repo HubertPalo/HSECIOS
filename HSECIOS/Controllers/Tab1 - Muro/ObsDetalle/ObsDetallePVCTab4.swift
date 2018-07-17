@@ -47,22 +47,12 @@ class ObsDetallePVCTab4: UIViewController, UITableViewDelegate, UITableViewDataS
         return celda
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let popup = Tabs.sb.instantiateViewController(withIdentifier: "tabMuroDetalle4PopUp") as! ObsDetallePVCTab4PopUp
+        let popup = Utils.obsDetalleSB.instantiateViewController(withIdentifier: "tabMuroDetalle4PopUp") as! ObsDetallePVCTab4PopUp
         popup.modalPresentationStyle = .overCurrentContext
         popup.planAccion = planes[indexPath.row]
         self.present(popup, animated: true, completion: nil)
     }
     //Tabla
-    
-    /*func successGettingData(_ planAccion: [ObsPlanAccion]) {
-        Utils.planAccion = planAccion
-        planes = planAccion
-        tabla.reloadData()
-    }
-    
-    func errorGettingData(_ error: String) {
-        print(error)
-    }*/
 }
 
 class MuroDetallePVCTab3TVCell: UITableViewCell {

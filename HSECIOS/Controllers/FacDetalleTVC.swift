@@ -28,16 +28,16 @@ class FacDetalleTVC: UITableViewController {
         self.facilito = facilito
         Rest.getDataGeneral(Routes.forFacilitoDetalle(facilito.CodObsFacilito ?? ""), false, success: {(resultValue:Any?,data:Data?) in
             self.detalles = Dict.dataToUnit(data!)!
-            self.sec0TextoDer[0] = self.detalles.CodObsFacilito
-            self.sec0TextoDer[1] = self.detalles.Persona
-            self.sec0TextoDer[2] = Utils.searchMaestroStatic("TIPOFACILITO", self.detalles.Tipo)
-            self.sec0TextoDer[3] = Utils.searchMaestroStatic("ESTADOFACILITO", self.detalles.Estado)
-            self.sec0TextoDer[4] = Utils.searchMaestroDescripcion("GERE", self.detalles.CodPosicionGer)
-            self.sec0TextoDer[5] = Utils.searchMaestroDescripcion("SUPE.\(self.detalles.CodPosicionGer)", self.detalles.CodPosicionSup)
-            self.sec0TextoDer[6] = self.detalles.UbicacionExacta
-            self.sec0TextoDer[7] = self.detalles.Observacion
-            self.sec0TextoDer[8] = self.detalles.Accion
-            self.sec0TextoDer[9] = Utils.str2date2str(self.detalles.FecCreacion)
+            self.sec0TextoDer[0] = self.detalles.CodObsFacilito ?? ""
+            self.sec0TextoDer[1] = self.detalles.Persona ?? ""
+            self.sec0TextoDer[2] = Utils.searchMaestroStatic("TIPOFACILITO", self.detalles.Tipo ?? "")
+            self.sec0TextoDer[3] = Utils.searchMaestroStatic("ESTADOFACILITO", self.detalles.Estado ?? "")
+            self.sec0TextoDer[4] = Utils.searchMaestroDescripcion("GERE", self.detalles.CodPosicionGer ?? "")
+            self.sec0TextoDer[5] = Utils.searchMaestroDescripcion("SUPE.\(self.detalles.CodPosicionGer ?? "")", self.detalles.CodPosicionSup ?? "")
+            self.sec0TextoDer[6] = self.detalles.UbicacionExacta ?? ""
+            self.sec0TextoDer[7] = self.detalles.Observacion ?? ""
+            self.sec0TextoDer[8] = self.detalles.Accion ?? ""
+            self.sec0TextoDer[9] = Utils.str2date2str(self.detalles.FecCreacion ?? "")
             self.tableView.reloadSections([0], with: .automatic)
         }, error: nil)
         /*Rest.getData(Routes.forFacilitoDetalle(facilito.CodObsFacilito ?? ""), false, vcontroller: self, success: {(dict:NSDictionary) in
@@ -139,10 +139,10 @@ class FacDetalleTVC: UITableViewController {
             let celda = tableView.dequeueReusableCell(withIdentifier: "celda4") as! FacDetalleTVCell4
             let unit = self.historialAtencion.Data[indexPath.row]
             celda.persona.text = unit.Persona
-            celda.fecha.text = Utils.str2date2str(unit.Fecha)
-            celda.estado.text = Utils.searchMaestroStatic("ESTADOFACILITO", unit.Estado)
+            celda.fecha.text = Utils.str2date2str(unit.Fecha ?? "")
+            celda.estado.text = Utils.searchMaestroStatic("ESTADOFACILITO", unit.Estado ?? "")
             celda.comentario.text = unit.Comentario
-            Images.loadAvatarFromDNI(unit.UrlObs, celda.avatar, true, tableView, indexPath)
+            Images.loadAvatarFromDNI(unit.UrlObs ?? "", celda.avatar, true, tableView, indexPath)
             //Images.loadAvatarFromDNI(unit.UrlObs, celda.avatar, true)
             return celda
         default:

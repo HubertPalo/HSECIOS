@@ -1,5 +1,43 @@
 import UIKit
 
+extension UIViewController {
+    
+    func presentAlert(_ title: String?, _ message: String?, _ style: UIAlertControllerStyle, _ time: Double?, _ image: UIImage?, _ actionTitles: [String], _ actionStyles: [UIAlertActionStyle], actionHandlers: [((UIAlertAction) -> Void)?] ) {
+        
+        let alert = UIAlertController.init(title: title, message: message, preferredStyle: style)
+        
+        if let imagen = image {
+            alert.title = "\n\(alert.title ?? "")"
+            let imageView = UIImageView.init(image: imagen)
+            imageView.frame = CGRect.init(x: 0, y: 0, width: 25, height: 25)
+            alert.view.addSubview(imageView)
+            imageView.center = CGPoint.init(x: 25, y: 25)
+        }
+        
+        for i in 0..<actionTitles.count {
+            alert.addAction(UIAlertAction(title: actionTitles[i], style: actionStyles[i], handler: actionHandlers[i]))
+        }
+        
+        self.present(alert, animated: true, completion: nil)
+        
+        if let duration = time {
+            let when = DispatchTime.now() + duration
+            DispatchQueue.main.asyncAfter(deadline: when){
+                alert.dismiss(animated: true, completion: nil)
+            }
+        }
+        
+    }
+    
+    func presentSheetMenu(_ titulo: String?, _ mensaje: String?, _ titulos: [String], _ estilos: [UIAlertActionStyle], _ handlers: [((_ alertAction:UIAlertAction) -> Void)?]) {
+        let alertaVC = UIAlertController.init(title: titulo, message: nil, preferredStyle: .actionSheet)
+        for i in 0..<titulos.count {
+            alertaVC.addAction(UIAlertAction.init(title: titulos[i], style: estilos[i], handler: handlers[i]))
+        }
+        self.present(alertaVC, animated: true, completion: nil)
+    }
+}
+
 class Alerts {
     
     static func presentAlert(_ title: String, _ message: String, duration: Int, imagen: UIImage?, viewController: UIViewController){
@@ -18,12 +56,6 @@ class Alerts {
         let when = DispatchTime.now() + Double(duration)
         DispatchQueue.main.asyncAfter(deadline: when){
             alert.dismiss(animated: true, completion: nil)
-            /*if title == "Error 401" {
-             while viewController?.navigationController?.viewControllers[viewController!.navigationController!.viewControllers.count - 1] as? ReservaLoginVC == nil{
-             viewController?.navigationController?.popViewController(animated: true)
-             }
-             viewController?.dismiss(animated: true, completion: nil)
-             }*/
         }
     }
     
@@ -46,6 +78,7 @@ class Alerts {
         alert.addAction(UIAlertAction(title: "Aceptar", style: UIAlertActionStyle.default, handler: {(alert: UIAlertAction!) in
             acccept()
         }))
+        //alert.addAction(UIAlertAction.init(title: <#T##String?#>, style: <#T##UIAlertActionStyle#>, handler: <#T##((UIAlertAction) -> Void)?##((UIAlertAction) -> Void)?##(UIAlertAction) -> Void#>))
         
         if imagen != nil {
             alert.title = "\n\(alert.title!)"

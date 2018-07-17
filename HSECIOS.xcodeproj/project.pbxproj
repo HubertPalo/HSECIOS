@@ -103,11 +103,9 @@
 		C89CFA871FF6A1CD00DD3EAD /* ObsDetallePVCTab5.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89CFA861FF6A1CD00DD3EAD /* ObsDetallePVCTab5.swift */; };
 		C89CFA8F2004076B00DD3EAD /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89CFA8E2004076A00DD3EAD /* Globals.swift */; };
 		C89CFA9120040E1D00DD3EAD /* Observacion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89CFA9020040E1D00DD3EAD /* Observacion.swift */; };
-		C89CFA992006D09F00DD3EAD /* UpsertObservacionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89CFA982006D09F00DD3EAD /* UpsertObservacionVC.swift */; };
+		C89CFA992006D09F00DD3EAD /* UpsertObsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89CFA982006D09F00DD3EAD /* UpsertObsVC.swift */; };
 		C89CFA9B2006D21400DD3EAD /* UpsertObsPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89CFA9A2006D21400DD3EAD /* UpsertObsPVC.swift */; };
-		C89CFA9D2006D24100DD3EAD /* UpsertObsPVCTab12.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89CFA9C2006D24100DD3EAD /* UpsertObsPVCTab12.swift */; };
 		C89CFA9F2006D26E00DD3EAD /* UpsertObsPVCTab2.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89CFA9E2006D26E00DD3EAD /* UpsertObsPVCTab2.swift */; };
-		C89CFAA12006D28500DD3EAD /* AddObsPVCTab32.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89CFAA02006D28500DD3EAD /* AddObsPVCTab32.swift */; };
 		C89CFAA32006D29C00DD3EAD /* UpsertObsPVCTab4.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89CFAA22006D29C00DD3EAD /* UpsertObsPVCTab4.swift */; };
 		C8B0BAC6207FC20500789F33 /* GaleriaVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B0BAC5207FC20500789F33 /* GaleriaVC.swift */; };
 		C8B8FE8C20163D530014270A /* Maestro.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B8FE8B20163D530014270A /* Maestro.swift */; };
@@ -133,7 +131,6 @@
 		C8C2CC35206C33F900E385E4 /* TwoColumnTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C2CC34206C33F900E385E4 /* TwoColumnTVC.swift */; };
 		C8C2CC37206C527100E385E4 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C2CC36206C527100E385E4 /* UserData.swift */; };
 		C8C6BF6620A343E1003BB982 /* FotoVideoDocumento.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C6BF6520A343E1003BB982 /* FotoVideoDocumento.swift */; };
-		C8C6BF6820A34FB6003BB982 /* AddObsPlanAccionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C6BF6720A34FB6003BB982 /* AddObsPlanAccionVC.swift */; };
 		C8C6BF6A20A350B3003BB982 /* UpsertObsPlanTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C6BF6920A350B3003BB982 /* UpsertObsPlanTVC.swift */; };
 		C8C6BF6C20A358A6003BB982 /* CeldasGeneral.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C6BF6B20A358A6003BB982 /* CeldasGeneral.swift */; };
 		C8C6BF6E20A49910003BB982 /* VCHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C6BF6D20A49910003BB982 /* VCHelper.swift */; };
@@ -153,7 +150,6 @@
 		C8EF6E8D20A5FCAE00D5903D /* Utils.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C8EF6E8C20A5FCAE00D5903D /* Utils.storyboard */; };
 		C8FA6FDE200806F800D00219 /* ImageSliderPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FA6FDD200806F800D00219 /* ImageSliderPVC.swift */; };
 		C8FA6FE02008074400D00219 /* ImageSliderPVCItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FA6FDF2008074400D00219 /* ImageSliderPVCItem.swift */; };
-		C8FA6FE22008207100D00219 /* ObsPlanAccion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FA6FE12008207100D00219 /* ObsPlanAccion.swift */; };
 		C8FA6FE82009140600D00219 /* ObsDetallePVCTab4PopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FA6FE72009140600D00219 /* ObsDetallePVCTab4PopUp.swift */; };
 		C8FA6FEA20095C9D00D00219 /* Comentario.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FA6FE920095C9D00D00219 /* Comentario.swift */; };
 		C8FA6FEC200EA1EA00D00219 /* MuroSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FA6FEB200EA1E900D00219 /* MuroSearchVC.swift */; };
@@ -279,11 +275,9 @@
 		C89CFA861FF6A1CD00DD3EAD /* ObsDetallePVCTab5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObsDetallePVCTab5.swift; sourceTree = "<group>"; };
 		C89CFA8E2004076A00DD3EAD /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		C89CFA9020040E1D00DD3EAD /* Observacion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observacion.swift; sourceTree = "<group>"; };
-		C89CFA982006D09F00DD3EAD /* UpsertObservacionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpsertObservacionVC.swift; sourceTree = "<group>"; };
+		C89CFA982006D09F00DD3EAD /* UpsertObsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpsertObsVC.swift; sourceTree = "<group>"; };
 		C89CFA9A2006D21400DD3EAD /* UpsertObsPVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpsertObsPVC.swift; sourceTree = "<group>"; };
-		C89CFA9C2006D24100DD3EAD /* UpsertObsPVCTab12.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpsertObsPVCTab12.swift; sourceTree = "<group>"; };
 		C89CFA9E2006D26E00DD3EAD /* UpsertObsPVCTab2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpsertObsPVCTab2.swift; sourceTree = "<group>"; };
-		C89CFAA02006D28500DD3EAD /* AddObsPVCTab32.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddObsPVCTab32.swift; sourceTree = "<group>"; };
 		C89CFAA22006D29C00DD3EAD /* UpsertObsPVCTab4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpsertObsPVCTab4.swift; sourceTree = "<group>"; };
 		C8B0BAC5207FC20500789F33 /* GaleriaVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaleriaVC.swift; sourceTree = "<group>"; };
 		C8B8FE8B20163D530014270A /* Maestro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Maestro.swift; sourceTree = "<group>"; };
@@ -310,7 +304,6 @@
 		C8C2CC36206C527100E385E4 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		C8C6BF6420A23D79003BB982 /* HSECIOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HSECIOS.entitlements; sourceTree = "<group>"; };
 		C8C6BF6520A343E1003BB982 /* FotoVideoDocumento.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FotoVideoDocumento.swift; sourceTree = "<group>"; };
-		C8C6BF6720A34FB6003BB982 /* AddObsPlanAccionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddObsPlanAccionVC.swift; sourceTree = "<group>"; };
 		C8C6BF6920A350B3003BB982 /* UpsertObsPlanTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpsertObsPlanTVC.swift; sourceTree = "<group>"; };
 		C8C6BF6B20A358A6003BB982 /* CeldasGeneral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CeldasGeneral.swift; sourceTree = "<group>"; };
 		C8C6BF6D20A49910003BB982 /* VCHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCHelper.swift; sourceTree = "<group>"; };
@@ -336,7 +329,6 @@
 		C8EF6E8C20A5FCAE00D5903D /* Utils.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Utils.storyboard; sourceTree = "<group>"; };
 		C8FA6FDD200806F800D00219 /* ImageSliderPVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSliderPVC.swift; sourceTree = "<group>"; };
 		C8FA6FDF2008074400D00219 /* ImageSliderPVCItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSliderPVCItem.swift; sourceTree = "<group>"; };
-		C8FA6FE12008207100D00219 /* ObsPlanAccion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObsPlanAccion.swift; sourceTree = "<group>"; };
 		C8FA6FE72009140600D00219 /* ObsDetallePVCTab4PopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObsDetallePVCTab4PopUp.swift; sourceTree = "<group>"; };
 		C8FA6FE920095C9D00D00219 /* Comentario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comentario.swift; sourceTree = "<group>"; };
 		C8FA6FEB200EA1E900D00219 /* MuroSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuroSearchVC.swift; sourceTree = "<group>"; };
@@ -608,7 +600,6 @@
 				C8FBCE7020D07048008493DF /* ArrayGeneral.swift */,
 				C89CFA6D1FEC0B8A00DD3EAD /* MuroElement.swift */,
 				C89CFA9020040E1D00DD3EAD /* Observacion.swift */,
-				C8FA6FE12008207100D00219 /* ObsPlanAccion.swift */,
 				C8FA6FE920095C9D00D00219 /* Comentario.swift */,
 				C8FA6FF120114F6000D00219 /* Persona.swift */,
 				C8B8FE8B20163D530014270A /* Maestro.swift */,
@@ -656,15 +647,12 @@
 		C8BC72ED209CF3D600D16285 /* AddObservacion */ = {
 			isa = PBXGroup;
 			children = (
-				C89CFA982006D09F00DD3EAD /* UpsertObservacionVC.swift */,
+				C89CFA982006D09F00DD3EAD /* UpsertObsVC.swift */,
 				C89CFA9A2006D21400DD3EAD /* UpsertObsPVC.swift */,
-				C89CFA9C2006D24100DD3EAD /* UpsertObsPVCTab12.swift */,
 				C86D020A20DD50A600B95D33 /* UpsertObsPVCTab1.swift */,
 				C89CFA9E2006D26E00DD3EAD /* UpsertObsPVCTab2.swift */,
-				C89CFAA02006D28500DD3EAD /* AddObsPVCTab32.swift */,
 				C88CBF0C20D9656A004A8780 /* UpsertObsPVCTab3.swift */,
 				C89CFAA22006D29C00DD3EAD /* UpsertObsPVCTab4.swift */,
-				C8C6BF6720A34FB6003BB982 /* AddObsPlanAccionVC.swift */,
 				C8C6BF6920A350B3003BB982 /* UpsertObsPlanTVC.swift */,
 			);
 			path = AddObservacion;
@@ -976,7 +964,6 @@
 				C8C0114E20729FAA00F0FA25 /* CapacitacionesCVC.swift in Sources */,
 				C8C0114C2072972100F0FA25 /* CapacitacionesTVC.swift in Sources */,
 				C89CFAA32006D29C00DD3EAD /* UpsertObsPVCTab4.swift in Sources */,
-				C89CFA9D2006D24100DD3EAD /* UpsertObsPVCTab12.swift in Sources */,
 				C866373120AB92E900306052 /* FiltroContrataTVC.swift in Sources */,
 				C8293A7F208FD117007822C6 /* EstadDetalleTVC.swift in Sources */,
 				C8C95AC22086551800D2D5D9 /* EstadisticaGral.swift in Sources */,
@@ -1009,7 +996,7 @@
 				C87CA8B120323C8C00D36A99 /* InfoDetalleTVC.swift in Sources */,
 				C866372820A9DCA900306052 /* AddInspeccionPVCTab2.swift in Sources */,
 				C89CFA8F2004076B00DD3EAD /* Globals.swift in Sources */,
-				C89CFA992006D09F00DD3EAD /* UpsertObservacionVC.swift in Sources */,
+				C89CFA992006D09F00DD3EAD /* UpsertObsVC.swift in Sources */,
 				C8FA6FF220114F6000D00219 /* Persona.swift in Sources */,
 				C8C2CC1E206995B700E385E4 /* Noticia.swift in Sources */,
 				C866371E20A6494F00306052 /* ObservacionesVC.swift in Sources */,
@@ -1047,7 +1034,6 @@
 				C89CFA561FEAAFE500DD3EAD /* Images.swift in Sources */,
 				C89CFA7D1FF69C8A00DD3EAD /* ObsDetallePVC.swift in Sources */,
 				C8FA6FEA20095C9D00D00219 /* Comentario.swift in Sources */,
-				C89CFAA12006D28500DD3EAD /* AddObsPVCTab32.swift in Sources */,
 				C8C6BF6C20A358A6003BB982 /* CeldasGeneral.swift in Sources */,
 				C8C6BF6E20A49910003BB982 /* VCHelper.swift in Sources */,
 				C8C6BF6620A343E1003BB982 /* FotoVideoDocumento.swift in Sources */,
@@ -1064,7 +1050,6 @@
 				C8C9F9FA20ACE3A100BDAB96 /* FiltroPersonasVC.swift in Sources */,
 				C8FA6FF02011422600D00219 /* FiltroPersonaVC.swift in Sources */,
 				C8C01152207EC9C600F0FA25 /* FichaFiltroVC.swift in Sources */,
-				C8C6BF6820A34FB6003BB982 /* AddObsPlanAccionVC.swift in Sources */,
 				C8293A79208F813B007822C6 /* PlanAccionDetalle.swift in Sources */,
 				C87CA8D320439D9900D36A99 /* DocumentosTVC.swift in Sources */,
 				C874A3D720C89E320030ACA6 /* PlanesAccionPendTVC.swift in Sources */,
@@ -1099,7 +1084,6 @@
 				C8BC72EC209BBEBF00D16285 /* ImageSliderVC.swift in Sources */,
 				C8B8FE96202276C30014270A /* FiltroInspeccionVC.swift in Sources */,
 				C87768B120AE4B700069C133 /* AddInsObservacionPVCTab1.swift in Sources */,
-				C8FA6FE22008207100D00219 /* ObsPlanAccion.swift in Sources */,
 				C89CFA7B1FF5A04A00DD3EAD /* ObsDetalleVC.swift in Sources */,
 				C8B8FE94201A49520014270A /* MuroTVC.swift in Sources */,
 				C894FC7B20922EA80022DCE4 /* RegistroVC.swift in Sources */,

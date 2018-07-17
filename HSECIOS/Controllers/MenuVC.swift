@@ -47,15 +47,11 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.progressIndicator.transform = self.progressIndicator.transform.scaledBy(x: 2.0, y: 2.0)
         self.progressIndicator.isHidden = true
         Utils.progressIndicator = self.progressIndicator
-        /*progressHUD = MBProgressHUD.showAdded(to: self.navigationController!.view, animated: false)
-        progressHUD?.bezelView.backgroundColor = UIColor.clear
-        progressHUD?.mode = .determinate
-        progressHUD?.label.text = nil
-        progressHUD?.hide(animated: false)*/
         Utils.menuVC = self
-        self.usuario.text = " \(Utils.userData.Nombres)"
+        self.usuario.text = " \(Utils.userData.Nombres ?? "")"
         
         self.menuDistanceToLeft.constant = maxWidth * -1
         

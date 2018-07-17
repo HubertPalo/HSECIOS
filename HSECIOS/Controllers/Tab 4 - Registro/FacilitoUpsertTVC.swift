@@ -45,11 +45,11 @@ class FacilitoUpsertTVC: UITableViewController, UITextFieldDelegate {
                 self.dataRest["RespAuxiliar"] = detalle.RespAuxiliar
                 self.dataRest["Estado"] = detalle.Estado
                 
-                self.dataShow["Tipo"] = Utils.searchMaestroStatic("TIPOFACILITO", detalle.Tipo)
-                self.dataShow["CodPosicionGer"] = Utils.searchMaestroDescripcion("GERE", detalle.CodPosicionGer)
-                self.dataShow["CodPosicionSup"] = Utils.searchMaestroDescripcion("SUPE.\(detalle.CodPosicionGer)", detalle.CodPosicionSup)
+                self.dataShow["Tipo"] = Utils.searchMaestroStatic("TIPOFACILITO", detalle.Tipo ?? "")
+                self.dataShow["CodPosicionGer"] = Utils.searchMaestroDescripcion("GERE", detalle.CodPosicionGer ?? "")
+                self.dataShow["CodPosicionSup"] = Utils.searchMaestroDescripcion("SUPE.\(detalle.CodPosicionGer ?? "")", detalle.CodPosicionSup ?? "")
                 self.dataShow["RespAuxiliar"] = detalle.RespAuxiliarDesc
-                self.dataShow["Estado"] = Utils.searchMaestroStatic("ESTADOFACILITO", detalle.Estado)
+                self.dataShow["Estado"] = Utils.searchMaestroStatic("ESTADOFACILITO", detalle.Estado ?? "")
             }
             self.tableView.reloadData()
             print(self.dataShow)
@@ -323,10 +323,10 @@ class FacilitoUpsertTVC: UITableViewController, UITextFieldDelegate {
         let pickerController = DKImagePickerController()
         pickerController.didSelectAssets = { (assets: [DKAsset]) in
             if assets.count > 0 {
-                Utils.loadAssets(assets: assets, originales: self.multimedia, chandler: {(nuevaMultimedia:[FotoVideo]) in
+                /*Utils.loadAssets(assets: assets, originales: self.multimedia, chandler: {(nuevaMultimedia:[FotoVideo]) in
                     self.multimedia = nuevaMultimedia
                     self.tableView.reloadSections([1], with: .automatic)
-                })
+                })*/
             }
         }
         self.present(pickerController, animated: true) {}

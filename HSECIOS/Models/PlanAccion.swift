@@ -1,18 +1,22 @@
-/*class ObsPlanAccion: Codable {
+class PlanAccionDetalle {
     var CodAccion = ""
     var NroDocReferencia = ""
-    var CodAreaHSEC = ""
-    var CodNivelRiesgo = ""
-    var DesPlanAccion = ""
-    var FechaSolicitud = ""
-    var CodEstadoAccion = ""
+    var CodTipoObs = ""
     var CodSolicitadoPor = ""
-    var CodResponsable = ""
+    var SolicitadoPor = ""
     var CodActiRelacionada = ""
+    var CodEstadoAccion = ""
+    var CodNivelRiesgo = ""
+    var CodAreaHSEC = ""
     var CodReferencia = ""
     var CodTipoAccion = ""
     var FecComprometidaInicial = ""
     var FecComprometidaFinal = ""
+    var DesPlanAccion = ""
     var CodResponsables = ""
     var Responsables = ""
-}*/
+    var CodTabla = ""
+    var NroAccionOrigen = "" // 1
+    var FechaSolicitud = ""
+    var Estado = ""
+}

@@ -1,16 +1,17 @@
 class InspeccionGD: Codable {
-    var CodInspeccion = ""
-    var CodTipo = ""
-    var CodContrata = ""
-    var FechaP = ""
-    var Fecha = ""
-    var Gerencia = ""
-    var SuperInt = ""
-    var CodUbicacion = ""
-    var CodSubUbicacion = ""
-    var EquipoInspeccion = ""
-    var PersonasAtendidas = ""
-    var Elemperpage = ""
-    var Pagenumber = ""
-    var Estado = ""
+    var CodInspeccion: String?
+    var CodTipo: String?
+    var CodContrata: String?
+    var FechaP: String?
+    var Fecha: String?
+    var Gerencia: String?
+    var SuperInt: String?
+    var CodUbicacion: String?
+    var CodSubUbicacion: String?
+    var Elemperpage: Int?
+    var Pagenumber: Int?
+    
+    var EquipoInspeccion: String?
+    var PersonasAtendidas: String?
+    var Estado: String?
 }

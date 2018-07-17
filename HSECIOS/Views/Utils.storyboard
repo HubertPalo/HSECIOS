@@ -243,13 +243,13 @@
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3sn-gI-DW0">
                                                             <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
                                                             <connections>
-                                                                <action selector="clickImagenIzq:" destination="HZx-ef-prz" eventType="touchUpInside" id="34I-vb-bWF"/>
+                                                                <action selector="clickImagen:" destination="HZx-ef-prz" eventType="touchUpInside" id="34I-vb-bWF"/>
                                                             </connections>
                                                         </button>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tjn-Cg-nWz">
                                                             <rect key="frame" x="140" y="0.0" width="40" height="40"/>
                                                             <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="x" translatesAutoresizingMaskIntoConstraints="NO" id="cPM-Ja-QEd">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tacho" translatesAutoresizingMaskIntoConstraints="NO" id="cPM-Ja-QEd">
                                                                     <rect key="frame" x="7.5" y="7.5" width="25" height="25"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="25" id="B46-fE-QOL"/>
@@ -259,7 +259,7 @@
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SNm-7T-7I2">
                                                                     <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                                                     <connections>
-                                                                        <action selector="clickImagenIzqX:" destination="HZx-ef-prz" eventType="touchUpInside" id="6Md-qB-j4i"/>
+                                                                        <action selector="clickImagenX:" destination="HZx-ef-prz" eventType="touchUpInside" id="6Md-qB-j4i"/>
                                                                     </connections>
                                                                 </button>
                                                             </subviews>
@@ -313,7 +313,7 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gFG-5r-Jst">
                                                             <rect key="frame" x="140" y="0.0" width="40" height="40"/>
                                                             <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="x" translatesAutoresizingMaskIntoConstraints="NO" id="Hha-A5-qgX">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tacho" translatesAutoresizingMaskIntoConstraints="NO" id="Hha-A5-qgX">
                                                                     <rect key="frame" x="7.5" y="7.5" width="25" height="25"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="25" id="5Rt-5O-Nnf"/>
@@ -323,7 +323,7 @@
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OZ5-hL-l5A">
                                                                     <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                                                     <connections>
-                                                                        <action selector="clickImagenDerX:" destination="HZx-ef-prz" eventType="touchUpInside" id="gZW-KH-w1T"/>
+                                                                        <action selector="clickImagenX:" destination="HZx-ef-prz" eventType="touchUpInside" id="2jZ-03-JDt"/>
                                                                     </connections>
                                                                 </button>
                                                             </subviews>
@@ -374,6 +374,8 @@
                                 <connections>
                                     <outlet property="boton1" destination="3sn-gI-DW0" id="G0R-Wy-Vhn"/>
                                     <outlet property="boton2" destination="GWj-Ec-gmh" id="Mrq-zD-kc6"/>
+                                    <outlet property="botonX1" destination="SNm-7T-7I2" id="IcJ-Ua-oZl"/>
+                                    <outlet property="botonX2" destination="OZ5-hL-l5A" id="Js4-IH-af1"/>
                                     <outlet property="imagen1" destination="wQG-Fs-byi" id="iqS-Xd-Oza"/>
                                     <outlet property="imagen2" destination="G3g-us-QJq" id="gON-W7-Dio"/>
                                     <outlet property="play1" destination="9FB-UI-QzJ" id="Nk0-PB-JCy"/>
@@ -384,7 +386,7 @@
                                     <outlet property="viewX2" destination="gFG-5r-Jst" id="laZ-QJ-K42"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="celda3" id="Hby-2s-yi7" customClass="GaleriaFVDTVCell3" customModule="HSECIOS" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="celda3" id="Hby-2s-yi7" customClass="CeldaDocumento" customModule="HSECIOS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="116" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Hby-2s-yi7" id="8v5-nn-5zr">
@@ -432,7 +434,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0DU-PH-JBa">
                                                     <rect key="frame" x="315" y="0.0" width="50" height="50"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="x" translatesAutoresizingMaskIntoConstraints="NO" id="2wo-M0-9kx">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tacho" translatesAutoresizingMaskIntoConstraints="NO" id="2wo-M0-9kx">
                                                             <rect key="frame" x="10" y="10" width="30" height="30"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="30" id="0pp-Bt-SEB"/>
@@ -441,6 +443,9 @@
                                                         </imageView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LuD-lJ-PCE">
                                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                            <connections>
+                                                                <action selector="clickEliminarDocumento:" destination="HZx-ef-prz" eventType="touchUpInside" id="Lv7-iw-dfw"/>
+                                                            </connections>
                                                         </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -468,10 +473,11 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="icono" destination="tao-Ml-Mms" id="m3j-6F-buu"/>
-                                    <outlet property="nombre" destination="jbp-QE-DQR" id="7Yq-9G-Naa"/>
-                                    <outlet property="tamanho" destination="Pc0-m5-Hg8" id="oYg-B7-z0i"/>
-                                    <outlet property="viewX" destination="0DU-PH-JBa" id="4WG-ia-VZD"/>
+                                    <outlet property="botonDescargar" destination="LuD-lJ-PCE" id="uD8-Lt-txf"/>
+                                    <outlet property="icono" destination="tao-Ml-Mms" id="zwT-0K-XTU"/>
+                                    <outlet property="nombre" destination="jbp-QE-DQR" id="FUz-Pn-Nkk"/>
+                                    <outlet property="tamanho" destination="Pc0-m5-Hg8" id="iEq-8Y-wyv"/>
+                                    <outlet property="viewX" destination="0DU-PH-JBa" id="xaJ-45-b5m"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -1199,25 +1205,25 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LEV-he-VBg">
-                                                            <rect key="frame" x="0.0" y="0.0" width="0.0" height="38.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="38.5"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="eHC-pO-gaj">
-                                                                    <rect key="frame" x="0.0" y="5" width="0.0" height="28.5"/>
+                                                                    <rect key="frame" x="5" y="5" width="365" height="28.5"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nombre Completo" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GpC-NL-AiV">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="0.0" height="7.5"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="365" height="7.5"/>
                                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DNI" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FaD-sC-lGH">
-                                                                            <rect key="frame" x="0.0" y="10.5" width="0.0" height="7.5"/>
+                                                                            <rect key="frame" x="0.0" y="10.5" width="365" height="7.5"/>
                                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CARGO" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jJV-p5-urc">
-                                                                            <rect key="frame" x="0.0" y="21" width="0.0" height="7.5"/>
+                                                                            <rect key="frame" x="0.0" y="21" width="365" height="7.5"/>
                                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
@@ -3368,13 +3374,13 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yfr-K1-JbQ">
-                                                            <rect key="frame" x="0.0" y="2" width="0.0" height="76.5"/>
+                                                            <rect key="frame" x="4" y="2" width="367" height="76.5"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="gES-mH-6cc">
-                                                                    <rect key="frame" x="0.0" y="5" width="0.0" height="66.5"/>
+                                                                    <rect key="frame" x="5" y="5" width="357" height="66.5"/>
                                                                     <subviews>
                                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="2Zh-xv-82f">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="0.0" height="50"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="357" height="50"/>
                                                                             <subviews>
                                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6ch-sw-z6Y">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -3396,16 +3402,16 @@
                                                                                     </constraints>
                                                                                 </view>
                                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="yoL-Ib-dxQ">
-                                                                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="50"/>
+                                                                                    <rect key="frame" x="55" y="0.0" width="302" height="50"/>
                                                                                     <subviews>
                                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zsM-mA-Ycq">
-                                                                                            <rect key="frame" x="0.0" y="0.0" width="0.0" height="33.5"/>
+                                                                                            <rect key="frame" x="0.0" y="0.0" width="302" height="33.5"/>
                                                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="15"/>
                                                                                             <nil key="textColor"/>
                                                                                             <nil key="highlightedColor"/>
                                                                                         </label>
                                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TX4-MD-g3t">
-                                                                                            <rect key="frame" x="0.0" y="33.5" width="0.0" height="16.5"/>
+                                                                                            <rect key="frame" x="0.0" y="33.5" width="302" height="16.5"/>
                                                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                                                                             <nil key="textColor"/>
                                                                                             <nil key="highlightedColor"/>
@@ -3415,7 +3421,7 @@
                                                                             </subviews>
                                                                         </stackView>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EKA-0H-A50">
-                                                                            <rect key="frame" x="0.0" y="50" width="0.0" height="16.5"/>
+                                                                            <rect key="frame" x="0.0" y="50" width="357" height="16.5"/>
                                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
@@ -3556,6 +3562,7 @@
     <resources>
         <image name="add" width="100" height="100"/>
         <image name="play" width="96" height="96"/>
+        <image name="tacho" width="100" height="100"/>
         <image name="user" width="512" height="512"/>
         <image name="whiteDoneCheck" width="36" height="36"/>
         <image name="x" width="512" height="512"/>

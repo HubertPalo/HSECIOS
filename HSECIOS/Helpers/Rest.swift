@@ -3,6 +3,16 @@ import Alamofire
 
 class Rest {
     
+    static var requestFlags = Set<Int>()
+    
+    static func generateId() -> Int {
+        var newId = arc4random_uniform(2000)
+        while requestFlags.contains(Int(newId)) {
+            newId = arc4random_uniform(2000)
+        }
+        return Int(newId)
+    }
+    
     static func getDataGeneral(_ route: String, _ shouldBlock: Bool, success: @escaping (_  resultValue: Any?, _ data: Data?) -> Void, error: ((_ error: String) -> Void)? ) {
         print(route)
         if shouldBlock {
@@ -60,13 +70,71 @@ class Rest {
         }
     }
     
-    static func uploadMultimediaFor(_ nroDocReferencia: String, _ codTabla: String, _ grupoPertenece: String, _ files: [FotoVideo]) {
-        
+    /*static func postDataGeneralNoHeader(_ route: String, _ parameters: [String:String], _ shouldBlock: Bool, success: @escaping (_ resultValue: Any?, _ data: Data?) -> Void, error: ((_ error: String) -> Void)?) {
+        print(route)
+        print(parameters)
+        if shouldBlock {
+            Utils.bloquearPantalla()
+        }
+        Alamofire.request(route, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON { response in
+            if let status = response.response?.statusCode {
+                switch status {
+                case 200:
+                    if shouldBlock {
+                        Utils.desbloquearPantalla()
+                    }
+                    success(response.result.value, response.data)
+                default:
+                    if shouldBlock {
+                        Utils.desbloquearPantalla()
+                    }
+                    error?("\(status)")
+                }
+            } else {
+                if shouldBlock {
+                    Utils.desbloquearPantalla()
+                }
+                error?("Error")
+            }
+        }
+    }*/
+    
+    static func getDataGeneral(_ route: String, _ shouldBlock: Bool, success: @escaping (_  resultValue: Any?, _ data: Data?) -> Void, progress: ((_ progress: Double) -> Void)? , error: ((_ error: String) -> Void)? ) {
+        print(route)
+        if shouldBlock {
+            Utils.bloquearPantalla()
+        }
+        Alamofire.request(route, headers: Utils.getHeader()).downloadProgress(closure: {(progreso:Progress) in
+            progress?(progreso.fractionCompleted)
+        }).responseJSON { response in
+            if let status = response.response?.statusCode {
+                switch status {
+                case 200:
+                    if shouldBlock {
+                        Utils.desbloquearPantalla()
+                    }
+                    success(response.result.value, response.data)
+                default:
+                    if shouldBlock {
+                        Utils.desbloquearPantalla()
+                    }
+                    error?("\(status)")
+                }
+            } else {
+                if shouldBlock {
+                    Utils.desbloquearPantalla()
+                }
+                error?("Error")
+            }
+        }
+    }
+    
+    /*static func uploadMultimediaFor(_ nroDocReferencia: String, _ codTabla: String, _ grupoPertenece: String, _ files: [FotoVideo]) {
         var imagenes: [UIImage] = []
         var imagenesNombres: [String] = []
         
         for i in 0..<files.count {
-            imagenesNombres.append(files[i].nombre)
+            imagenesNombres.append(files[i].Descripcion ?? "")
             if files[i].imagenFull != nil {
                 imagenes.append(files[i].imagenFull!)
             } else if files[i].imagen != nil {
@@ -85,11 +153,12 @@ class Rest {
         }, error: {(error) in
             print(error)
         })*/
-    }
+    }*/
     
-    static func postMultipartFormData(_ route: String, params: [[String]], _ images: [UIImage], _ shouldBlock: Bool, success: @escaping (_ resultValue: Any?, _ data: Data?)-> Void, error: ((_ error:String) -> Void)?) {
+    static func postMultipartFormData(_ route: String, params: [[String]], _ multipartData: [Data], _ filename: [String], _ mimeType: [String], _ shouldBlock: Bool, _ id: Int, success: @escaping (_ resultValue: Any?, _ data: Data?)-> Void, progress: ((_ progress: Double) -> Void)?, error: ((_ error: String) -> Void)?) {
         print(route)
         print(params)
+        self.requestFlags.insert(id)
         // Ejemplo params: [["data1", "valorData1"], ["data2", "valorData2"]]
         if shouldBlock {
             Utils.bloquearPantalla()
@@ -98,14 +167,32 @@ class Rest {
             for i in 0..<params.count {
                 multipartFormData.append(params[i][1].data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName: params[i][0])
             }
-            for i in 0..<images.count {
-                let dataImagen = Images.imageToDataCompressed(images[i])
-                multipartFormData.append(dataImagen, withName: "name-\(i)", fileName: "filename-\(i).jpg", mimeType: "image/jpg")
+            for i in 0..<multipartData.count {
+                // let dataImagen = Images.imageToDataCompressed(images[i])
+                let dataImagen = multipartData[i]
+                print("Tamaño archivo: \(dataImagen.count)")
+                multipartFormData.append(dataImagen, withName: "name-\(i)", fileName: filename[i], mimeType: mimeType[i])
+                
+                /*if multimediaIsVideo[i] {
+                    multipartFormData.append(dataImagen, withName: "name-\(i)", fileName: "filename-\(i).mp4", mimeType: "video/mp4")
+                } else {
+                    multipartFormData.append(dataImagen, withName: "name-\(i)", fileName: "filename-\(i).jpg", mimeType: "image/jpg")
+                }*/
+                
             }
+            
         }, usingThreshold: UInt64(), to: route, method: HTTPMethod.post, headers: Utils.getHeader(), encodingCompletion: { (encodingResult) in
             switch encodingResult {
             case .success(request: let uploadRequest, streamingFromDisk: _, streamFileURL: _) :
+                uploadRequest.uploadProgress(closure: {(progreso) in
+                    if !self.requestFlags.contains(id) {
+                        uploadRequest.cancel()
+                    }
+                    print(progreso.fractionCompleted)
+                    progress?(progreso.fractionCompleted)
+                })
                 uploadRequest.responseJSON(completionHandler: {(response) in
+                    self.requestFlags.remove(id)
                     if let status = response.response?.statusCode {
                         switch status {
                         case 200:
@@ -127,6 +214,7 @@ class Rest {
                     }
                 })
             case .failure(let uploadError) :
+                self.requestFlags.remove(id)
                 if shouldBlock {
                     Utils.desbloquearPantalla()
                 }

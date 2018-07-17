@@ -15,6 +15,13 @@ class Celda3Texto: UITableViewCell {
     @IBOutlet weak var texto3: UILabel!
 }
 
+class Celda3Texto1Boton: UITableViewCell {
+    @IBOutlet weak var texto1: UILabel!
+    @IBOutlet weak var texto2: UILabel!
+    @IBOutlet weak var texto3: UILabel!
+    @IBOutlet weak var boton: UIButton!
+}
+
 class Celda2Texto1View: UITableViewCell {
     @IBOutlet weak var texto1: UILabel!
     @IBOutlet weak var texto2: UILabel!
@@ -70,8 +77,15 @@ class CeldaGaleria: UITableViewCell  {
     @IBOutlet weak var play2: UIImageView!
     @IBOutlet weak var boton1: UIButton!
     @IBOutlet weak var boton2: UIButton!
+    @IBOutlet weak var botonX1: UIButton!
+    @IBOutlet weak var botonX2: UIButton!
     @IBOutlet weak var viewX1: UIView!
     @IBOutlet weak var viewX2: UIView!
+    
+    override func prepareForReuse() {
+        self.imagen1.image = Images.blank
+        self.imagen2.image = Images.blank
+    }
 }
 
 class CeldaDocumento: UITableViewCell {

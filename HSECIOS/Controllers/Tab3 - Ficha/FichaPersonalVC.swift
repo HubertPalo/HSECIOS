@@ -68,7 +68,7 @@ class FichaPersonalVC: UIViewController {
     
     @IBAction func clickFiltro(_ sender: Any) {
         VCHelper.openFiltroPersona(self, {(persona:Persona) in
-            self.loadDataFromDNI(codigo: persona.NroDocumento)
+            self.loadDataFromDNI(codigo: persona.NroDocumento ?? "")
         })
     }
     

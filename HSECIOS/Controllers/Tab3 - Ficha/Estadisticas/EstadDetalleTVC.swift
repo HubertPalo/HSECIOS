@@ -90,13 +90,13 @@ class EstadDetalleTVC: UITableViewController {
             celda.contenido.text = unit.DesPlanAccion*/
             let celda = tableView.dequeueReusableCell(withIdentifier: "celdaPlan") as! PlanesAccionPendientesTVCell
             let unit = self.planesAccion[indexPath.row]
-            Images.loadAvatarFromDNI(unit.CodSolicitadoPor, celda.avatar, true, tableView, indexPath)
+            Images.loadAvatarFromDNI(unit.CodSolicitadoPor ?? "", celda.avatar, true, tableView, indexPath)
             Images.loadIcon("NIVELRIESGO.\(unit.CodNivelRiesgo)", celda.icono)
-            celda.editableView.isHidden = unit.Editable != "1" && unit.Editable != "3"
+            celda.editableView.isHidden = unit.Editable != nil && unit.Editable != 1 && unit.Editable != 3
             celda.autor.text = unit.SolicitadoPor
-            celda.fecha.text = Utils.str2date2str(unit.FechaSolicitud)
-            celda.tipo.text = Utils.searchMaestroStatic("TABLAS", unit.CodTabla)
-            celda.estado.text = Utils.searchMaestroStatic("ESTADOPLAN", unit.CodEstadoAccion)
+            celda.fecha.text = Utils.str2date2str(unit.FechaSolicitud ?? "")
+            celda.tipo.text = Utils.searchMaestroStatic("TABLAS", unit.CodTabla ?? "")
+            celda.estado.text = Utils.searchMaestroStatic("ESTADOPLAN", unit.CodEstadoAccion ?? "")
             celda.contenido.text = unit.DesPlanAccion
             celda.limiteView.isHidden = indexPath.row == self.planesAccion.count - 1
             return celda

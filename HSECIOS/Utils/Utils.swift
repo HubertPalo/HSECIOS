@@ -47,6 +47,8 @@ class Utils {
     static var progressIndicator: UIActivityIndicatorView!
     static var progressFlag = 0
     
+    static var shouldStopAlamofireRequests = [Int]()
+    
     static func separateMultimedia(_ data: [Multimedia]) -> (fotovideos: [FotoVideo], documentos: [DocumentoGeneral]) {
         var fotovideos: [FotoVideo] = []
         var documentos: [DocumentoGeneral] = []
@@ -112,14 +114,18 @@ class Utils {
     }
     
     static func bloquearPantalla() {
+        print("ProgessFlag : \(self.progressFlag)")
         if progressFlag == 0 {
             progressIndicator.isHidden = false
             progressIndicator.startAnimating()
+            // var viewc =
+            /*while !(viewc is UIViewController) {
+                viewc = viewc?.superview
+            }*/
+            progressIndicator.superview?.bringSubview(toFront: progressIndicator)
             UIApplication.shared.beginIgnoringInteractionEvents()
         }
         progressFlag = progressFlag + 1
-        // self.menuVC.bloquear()
-        // UIApplication.shared.beginIgnoringInteractionEvents()
     }
     
     static func showFichaFor(_ dni: String){
@@ -165,12 +171,12 @@ class Utils {
         return celda
     }
     
-    static func loadAssets(assets: [DKAsset], originales: [FotoVideo], chandler: ((_:[FotoVideo]) -> Void)?) {
+    /*static func loadAssets(assets: [DKAsset], originales: [FotoVideo], chandler: ((_:[FotoVideo]) -> Void)?) {
         var nombres: [String] = []
         var nuevos = [FotoVideo].init(originales)
         var finished = [Bool].init(repeating: false, count: assets.count)
         for i in 0..<originales.count {
-            nombres.append(originales[i].nombre)
+            nombres.append(originales[i].Descripcion)
         }
         for i in 0..<assets.count {
             assets[i].fetchImageWithSize(CGSize.init(width: 200, height: 200), completeBlock: {(image, info) in
@@ -192,6 +198,42 @@ class Utils {
                     chandler?(nuevos)
                 }
             })
+        }
+    }*/
+    
+    static func loadAssets(assets: [DKAsset], originales: [FotoVideo], chandler: ((_:[FotoVideo]) -> Void)?) {
+        var nombres: [String] = []
+        var nuevos = originales// [FotoVideo].init(originales)
+        var finishedImage = [Bool].init(repeating: false, count: assets.count)
+        //var finishedData = [Bool].init(repeating: false, count: assets.count)
+        for i in 0..<originales.count {
+            nombres.append(originales[i].Descripcion ?? "")
+        }
+        for i in 0..<assets.count {
+            let unit = FotoVideo()
+            assets[i].fetchImageWithSize(CGSize.init(width: 200, height: 200), completeBlock: {(image, info) in
+                unit.asset = assets[i]
+                unit.esVideo = assets[i].isVideo
+                unit.imagen = image ?? Images.blank
+                unit.Descripcion = PHAssetResource.assetResources(for: assets[i].originalAsset!).first?.originalFilename ?? ""
+                if !nombres.contains(unit.Descripcion ?? "") {
+                    nuevos.append(unit)
+                    nombres.append(unit.Descripcion ?? "")
+                }
+                finishedImage[i] = true
+                var finishedFlagImage = true
+                for i in 0..<finishedImage.count {
+                    finishedFlagImage = finishedFlagImage && finishedImage[i]
+                }
+                /*var finishedFlagData = true
+                for i in 0..<finishedData.count {
+                    finishedFlagData = finishedFlagData && finishedImage[i]
+                }*/
+                if finishedFlagImage/* && finishedFlagData*/ {
+                    chandler?(nuevos)
+                }
+            })
+            
         }
     }
     
@@ -243,14 +285,10 @@ class Utils {
     }
     
     static func setTitleAndImage(_ viewcontroller: UIViewController,_ title: String, _ imagen: UIImage?) {
-        // print(viewcontroller.navigationItem.titleView?.frame)
+        
         let newStack = UIStackView()
         newStack.spacing = 2
-        let width = 100
-        let height = 25
         
-        // let newTitleView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: width, height: height))
-        // let newTitleImage = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: height, height: height))
         let newTitleView = UIView()
         let newTitleImage = UIImageView.init(image: imagen)
         newTitleImage.widthAnchor.constraint(equalToConstant: CGFloat(25)).isActive = true
@@ -498,6 +536,7 @@ class Utils {
     }*/
     
     static func desbloquearPantalla() {
+        print("ProgessFlag : \(self.progressFlag)")
         progressFlag = progressFlag - 1
         if progressFlag == 0 {
             progressIndicator.stopAnimating()
@@ -524,6 +563,10 @@ class Utils {
     
     static func str2date(_ date:String) -> Date? {
         let dateFormatterInput = DateFormatter()
+        dateFormatterInput.dateFormat = "yyyy-MM-dd"
+        if let temp = dateFormatterInput.date(from: date) {
+            return temp
+        }
         dateFormatterInput.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         if let temp = dateFormatterInput.date(from: date) {
             return temp
@@ -591,5 +634,25 @@ class Utils {
         return arc4random_uniform(2) == 0
     }
     
+    static func randomInt(_ limite: Int) -> Int {
+        return Int(arc4random_uniform(UInt32(limite)))
+    }
     
+    static func randomInt() -> Int {
+        return Int(arc4random_uniform(UInt32(100000000)))
+    }
+    
+    static func adaptSegmentedControl(_ segmentedControl: UISegmentedControl) -> UISegmentedControl {
+        segmentedControl.backgroundColor = UIColor.white
+        //segmentedControl.tintColor = UIColor.blue
+        segmentedControl.setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.lightGray, NSAttributedStringKey.font: UIFont.init(name: "HelveticaNeue", size: 14)], for: .normal)
+        segmentedControl.setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.black, NSAttributedStringKey.font: UIFont.init(name: "HelveticaNeue", size: 14)], for: .selected)
+        let underView = UIView()
+        segmentedControl.addSubview(underView)
+        underView.bottomAnchor.anchorWithOffset(to: segmentedControl.bottomAnchor).constraint(equalToConstant: 0).isActive = true
+        underView.leftAnchor.anchorWithOffset(to: segmentedControl.leftAnchor).constraint(equalToConstant: 0).isActive = true
+        underView.rightAnchor.anchorWithOffset(to: segmentedControl.rightAnchor).constraint(equalToConstant: 0).isActive = true
+        underView.heightAnchor.constraint(equalToConstant: 5).isActive = true
+        return segmentedControl
+    }
 }

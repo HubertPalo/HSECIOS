@@ -2,8 +2,6 @@ import UIKit
 
 class UpsertObsPVC: UIPageViewController, UIPageViewControllerDataSource {
     
-    var tab1Tipo = "TO01"
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.dataSource = self

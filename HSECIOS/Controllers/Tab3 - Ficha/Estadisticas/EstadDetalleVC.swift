@@ -66,10 +66,10 @@ class EstadDetalleVC: UIViewController {
     
     func buscar() {
         let hijo = self.childViewControllers[0] as! EstadDetalleTVC
-        hijo.categoria = estadistica.Codigo
-        let cantidad = Int(estadistica.Ejecutados) ?? 0
+        hijo.categoria = estadistica.Codigo ?? ""
+        let cantidad = estadistica.Ejecutados ?? 0
         let pagina = 1
-        switch estadistica.Codigo {
+        switch estadistica.Codigo ?? "" {
         case "-1":
             self.data = [:]
             self.data ["Observacion"] = "\(pagina)"
@@ -170,7 +170,7 @@ class EstadDetalleVC: UIViewController {
                 self.containerData.isHidden = inspecciones.count <= 0
             })*/
         case "03":
-            Rest.getDataGeneral(Routes.forEstadisticaDetalle(self.codPersona, self.anho, self.mes, self.estadistica.Codigo), true, success: {(resultValue:Any?,data:Data?) in
+            Rest.getDataGeneral(Routes.forEstadisticaDetalle(self.codPersona, self.anho, self.mes, self.estadistica.Codigo ?? ""), true, success: {(resultValue:Any?,data:Data?) in
                 let incidentes: ArrayGeneral<EstadisticaDetalle> = Dict.dataToArray(data!)
                 hijo.incidentes = incidentes.Data
                 hijo.tableView.reloadData()
@@ -185,7 +185,7 @@ class EstadDetalleVC: UIViewController {
                 self.containerData.isHidden = incidentes.count <= 0
             })*/
         case "04":
-            Rest.getDataGeneral(Routes.forEstadisticaDetalle(self.codPersona, self.anho, self.mes, self.estadistica.Codigo), true, success: {(resultValue:Any?,data:Data?) in
+            Rest.getDataGeneral(Routes.forEstadisticaDetalle(self.codPersona, self.anho, self.mes, self.estadistica.Codigo ?? ""), true, success: {(resultValue:Any?,data:Data?) in
                 let iperc: ArrayGeneral<EstadisticaDetalle> = Dict.dataToArray(data!)
                 hijo.iperc = iperc.Data
                 hijo.tableView.reloadData()
@@ -200,7 +200,7 @@ class EstadDetalleVC: UIViewController {
                 self.containerData.isHidden = iperc.count <= 0
             })*/
         case "05":
-            Rest.getDataGeneral(Routes.forEstadisticaDetalle(self.codPersona, self.anho, self.mes, self.estadistica.Codigo), true, success: {(resultValue:Any?,data:Data?) in
+            Rest.getDataGeneral(Routes.forEstadisticaDetalle(self.codPersona, self.anho, self.mes, self.estadistica.Codigo ?? ""), true, success: {(resultValue:Any?,data:Data?) in
                 let auditorias: ArrayGeneral<EstadisticaDetalle> = Dict.dataToArray(data!)
                 hijo.auditorias = auditorias.Data
                 hijo.tableView.reloadData()
@@ -215,7 +215,7 @@ class EstadDetalleVC: UIViewController {
                 self.containerData.isHidden = auditorias.count <= 0
             })*/
         case "06":
-            Rest.getDataGeneral(Routes.forEstadisticaDetalle(self.codPersona, self.anho, self.mes, self.estadistica.Codigo), true, success: {(resultValue:Any?,data:Data?) in
+            Rest.getDataGeneral(Routes.forEstadisticaDetalle(self.codPersona, self.anho, self.mes, self.estadistica.Codigo ?? ""), true, success: {(resultValue:Any?,data:Data?) in
                 let simulacros: ArrayGeneral<EstadisticaDetalle> = Dict.dataToArray(data!)
                 hijo.simulacros = simulacros.Data
                 hijo.tableView.reloadData()
@@ -230,7 +230,7 @@ class EstadDetalleVC: UIViewController {
                 self.containerData.isHidden = simulacros.count <= 0
             })*/
         case "07":
-            Rest.getDataGeneral(Routes.forEstadisticaDetalle(self.codPersona, self.anho, self.mes, self.estadistica.Codigo), true, success: {(resultValue:Any?,data:Data?) in
+            Rest.getDataGeneral(Routes.forEstadisticaDetalle(self.codPersona, self.anho, self.mes, self.estadistica.Codigo ?? ""), true, success: {(resultValue:Any?,data:Data?) in
                 let reuniones: ArrayGeneral<EstadisticaDetalle> = Dict.dataToArray(data!)
                 hijo.reuniones = reuniones.Data
                 hijo.tableView.reloadData()
@@ -245,7 +245,7 @@ class EstadDetalleVC: UIViewController {
                 self.containerData.isHidden = reuniones.count <= 0
             })*/
         case "08":
-            Rest.getDataGeneral(Routes.forEstadisticaDetalle(self.codPersona, self.anho, self.mes, self.estadistica.Codigo), true, success: {(resultValue:Any?,data:Data?) in
+            Rest.getDataGeneral(Routes.forEstadisticaDetalle(self.codPersona, self.anho, self.mes, self.estadistica.Codigo ?? ""), true, success: {(resultValue:Any?,data:Data?) in
                 let comites: ArrayGeneral<EstadisticaDetalle> = Dict.dataToArray(data!)
                 hijo.comites = comites.Data
                 hijo.tableView.reloadData()
@@ -284,7 +284,7 @@ class EstadDetalleVC: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toDetFull" {
             let destination = segue.destination as! EstadDetFullTVC
-            destination.tituloAnterior = estadistica.Descripcion
+            destination.tituloAnterior = estadistica.Descripcion ?? ""
             destination.celdaComunValues = [["Nº Doc. de Referencia", self.detFullToSend.NroDocReferencia], ["Autor", self.detFullToSend.Responsable], ["Fecha de creación", self.detFullToSend.Fecha], ["Descripción", self.detFullToSend.Descripcion]]
             var adicionales: [[String]] = []
             let splits = self.detFullToSend.DatosAdicionales.components(separatedBy: ";")

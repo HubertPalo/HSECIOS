@@ -246,7 +246,7 @@ class PlanAccionMejoraTVC: UITableViewController, UITextFieldDelegate {
         case 0:
             var nombres: [String] = []
             for i in 0..<self.responsables.count {
-                nombres.append(self.responsables[i].Nombres)
+                nombres.append(self.responsables[i].Nombres ?? "")
             }
             Utils.showDropdown(boton, nombres, {(index,item) in
                 self.data["CodPersona"] = self.responsables[index].CodPersona

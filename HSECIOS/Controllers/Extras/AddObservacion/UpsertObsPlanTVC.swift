@@ -2,7 +2,7 @@ import UIKit
 
 class UpsertObsPlanTVC: UITableViewController, UITextViewDelegate {
     
-    var modo = "ADD"
+    var modo = 1
     var codigo = ""
     
     var obsPlan = PlanAccionDetalle()
@@ -10,20 +10,36 @@ class UpsertObsPlanTVC: UITableViewController, UITextViewDelegate {
     var responsables: [Persona] = []
     var fechaInicial = Date()
     var fechaFinal = Date()
-    var tarea = ""
+    
+    var alClickTopDer : ((_ plan: PlanAccionDetalle) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    func loadModo(_ modo: String, _ plan: PlanAccionDetalle, _ muroElement: MuroElement) {
+    func loadModo(_ modo: Int, _ plan: PlanAccionDetalle, _ muroElement: MuroElement, _ alClickTopDer: ((_ plan: PlanAccionDetalle) -> Void)?) {
         self.modo = modo
         self.obsPlan = plan
         self.codigo = muroElement.Codigo ?? ""
+        let codSplits = (plan.CodResponsables ?? "").components(separatedBy: ";")
+        self.responsables = []
+        if codSplits.count > 0 && codSplits[0] != "" {
+            let nomSplits = (plan.Responsables ?? "").components(separatedBy: ";")
+            for i in 0..<codSplits.count {
+                let persona = Persona()
+                persona.CodPersona = codSplits[i]
+                let nombreCargo = nomSplits[i].components(separatedBy: ":")
+                persona.Cargo = nombreCargo[1]
+                persona.Nombres = nombreCargo[0]
+                self.responsables.append(persona)
+            }
+        }
+        self.alClickTopDer = alClickTopDer
+        self.tableView.reloadData()
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        self.tarea = textView.text
+        self.obsPlan.DesPlanAccion = textView.text
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -33,7 +49,7 @@ class UpsertObsPlanTVC: UITableViewController, UITextViewDelegate {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return self.modo == "ADD" ? 1 : 5
+            return self.modo == 1 ? 1 : 5
         case 1:
             return 5
         case 2:
@@ -125,30 +141,38 @@ class UpsertObsPlanTVC: UITableViewController, UITextViewDelegate {
             case 0:
                 let celda = tableView.dequeueReusableCell(withIdentifier: "celda3") as! Celda2Texto
                 celda.texto1.attributedText = Utils.addInitialRedAsterisk("Solicitado Por:", "HelveticaNeue-Bold", 13)
-                celda.texto2.text = Utils.str2date2str(self.obsPlan.CodSolicitadoPor ?? "")
+                celda.texto2.text = self.obsPlan.SolicitadoPor ?? ""
                 return celda
             case 1:
                 let celda = tableView.dequeueReusableCell(withIdentifier: "celda4") as! Celda1Texto1Boton
                 celda.texto.attributedText = Utils.addInitialRedAsterisk("Actividad Relacionada:", "HelveticaNeue-Bold", 13)
-                celda.boton.setTitle(self.obsPlan.CodActiRelacionada, for: .normal)
+                var dato = Utils.searchMaestroDescripcion("ACTR", self.obsPlan.CodActiRelacionada ?? "")
+                dato = dato == "" ? "- SELECCIONE -" : dato
+                celda.boton.setTitle(dato, for: .normal)
                 celda.boton.tag = indexPath.row
                 return celda
             case 2:
                 let celda = tableView.dequeueReusableCell(withIdentifier: "celda4") as! Celda1Texto1Boton
                 celda.texto.attributedText = Utils.addInitialRedAsterisk("Nivel Riesgo:", "HelveticaNeue-Bold", 13)
-                celda.boton.setTitle(self.obsPlan.CodNivelRiesgo, for: .normal)
+                var dato = Utils.searchMaestroStatic("NIVELRIESGO", self.obsPlan.CodNivelRiesgo ?? "")
+                dato = dato == "" ? "- SELECCIONE -" : dato
+                celda.boton.setTitle(dato, for: .normal)
                 celda.boton.tag = indexPath.row
                 return celda
             case 3:
                 let celda = tableView.dequeueReusableCell(withIdentifier: "celda4") as! Celda1Texto1Boton
                 celda.texto.attributedText = Utils.addInitialRedAsterisk("Área HSEC:", "HelveticaNeue-Bold", 13)
-                celda.boton.setTitle(self.obsPlan.CodAreaHSEC, for: .normal)
+                var dato = Utils.searchMaestroDescripcion("AREA", self.obsPlan.CodAreaHSEC ?? "")
+                dato = dato == "" ? "- SELECCIONE -" : dato
+                celda.boton.setTitle(dato, for: .normal)
                 celda.boton.tag = indexPath.row
                 return celda
             case 4:
                 let celda = tableView.dequeueReusableCell(withIdentifier: "celda4") as! Celda1Texto1Boton
                 celda.texto.attributedText = Utils.addInitialRedAsterisk("Tipo Acción:", "HelveticaNeue-Bold", 13)
-                celda.boton.setTitle(self.obsPlan.CodTipoAccion, for: .normal)
+                var dato = Utils.searchMaestroDescripcion("TPAC", self.obsPlan.CodTipoAccion ?? "")
+                dato = dato == "" ? "- SELECCIONE -" : dato
+                celda.boton.setTitle(dato, for: .normal)
                 celda.boton.tag = indexPath.row
                 return celda
             default:
@@ -161,7 +185,7 @@ class UpsertObsPlanTVC: UITableViewController, UITextViewDelegate {
             return celda
         case 3:
             let celda = tableView.dequeueReusableCell(withIdentifier: "celda6") as! Celda1Texto1TextView
-            celda.textView.text = self.tarea
+            celda.textView.text = self.obsPlan.DesPlanAccion
             celda.textView.delegate = self
             return celda
         case 4:
@@ -181,7 +205,8 @@ class UpsertObsPlanTVC: UITableViewController, UITextViewDelegate {
     
     @IBAction func clickSolicitadoPor(_ sender: Any) {
         VCHelper.openFiltroPersona(self, {(persona:Persona) in
-            self.obsPlan.CodSolicitadoPor = persona.Nombres
+            self.obsPlan.SolicitadoPor = persona.Nombres
+            self.obsPlan.CodSolicitadoPor = persona.CodPersona
             self.tableView.reloadRows(at: [IndexPath.init(row: 0, section: 1)], with: .none)
         })
     }
@@ -247,4 +272,54 @@ class UpsertObsPlanTVC: UITableViewController, UITextViewDelegate {
         self.tableView.reloadSections([4], with: .none)
     }
     
+    @IBAction func clickTopDer(_ sender: Any) {
+        self.view.endEditing(true)
+        self.obsPlan.FecComprometidaInicial = Utils.date2str(self.fechaInicial, "YYYY-MM-dd")
+        self.obsPlan.FecComprometidaFinal = Utils.date2str(self.fechaFinal, "YYYY-MM-dd")
+        self.obsPlan.CodResponsables = ""
+        self.obsPlan.Responsables = ""
+        var codResponsables = [String]()
+        var responsables = [String]()
+        for i in 0..<self.responsables.count {
+            let persona = self.responsables[i]
+            codResponsables.append(persona.CodPersona ?? "")
+            responsables.append("\(persona.Nombres):\(persona.Cargo)")
+        }
+        self.obsPlan.CodResponsables = codResponsables.joined(separator: ";")
+        self.obsPlan.Responsables = responsables.joined(separator: ";")
+        
+        var nombreVariable = ""
+        if self.obsPlan.CodActiRelacionada == nil || self.obsPlan.CodActiRelacionada == "" {
+            nombreVariable = "Actividad Relacionada"
+        }
+        if self.obsPlan.CodNivelRiesgo == nil || self.obsPlan.CodNivelRiesgo == "" {
+            nombreVariable = "Nivel Riesgo"
+        }
+        if self.obsPlan.CodAreaHSEC == nil || self.obsPlan.CodAreaHSEC == "" {
+            nombreVariable = "Area HSEC"
+        }
+        if self.obsPlan.CodTipoAccion == nil || self.obsPlan.CodTipoAccion == "" {
+            nombreVariable = "Tipo de acción"
+        }
+        if self.obsPlan.FecComprometidaInicial == nil || self.obsPlan.FecComprometidaInicial == "" {
+            nombreVariable = "Fecha Inicial"
+        }
+        if self.obsPlan.FecComprometidaFinal == nil || self.obsPlan.FecComprometidaFinal == "" {
+            nombreVariable = "Fecha Final"
+        }
+        if self.obsPlan.DesPlanAccion == nil || self.obsPlan.DesPlanAccion == "" {
+            nombreVariable = "Tarea"
+        }
+        if self.responsables.count == 0 {
+            nombreVariable = "Responsables"
+        }
+        
+        if nombreVariable == "" {
+            self.navigationController?.popViewController(animated: true)
+            self.alClickTopDer?(self.obsPlan)
+        } else {
+            Alerts.presentAlert("Campo faltante", "El campo \(nombreVariable) no puede estar vacío", duration: 2, imagen: nil, viewController: self)
+        }
+        
+    }
 }

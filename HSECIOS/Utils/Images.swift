@@ -69,6 +69,26 @@ class Images {
         return self.imagenes[code] ?? Images.blank
     }
     
+    static func downloadCorrelativo(_ correlativo: String) {
+        let route = "\(Config.urlBase)/media/getImagePreview/\(correlativo)/Imagen.jpg"
+        print(route)
+        if !flags.contains("P-\(correlativo)") {
+            flags.insert("P-\(correlativo)")
+            Utils.bloquearPantalla()
+            Alamofire.request(route).responseJSON { response in
+                if let imagenData = response.data {
+                    if let imagen = UIImage(data: imagenData) {
+                        self.imagenes["P-\(correlativo)"] = imagen
+                    } else {
+                        self.imagenes["P-\(correlativo)"] = Images.blank
+                        flags.remove(correlativo)
+                    }
+                }
+                Utils.desbloquearPantalla()
+            }
+        }
+    }
+    
     static func downloadAllImagesIn(_ elementos: [Any], _ completionHandler: @escaping () -> Void) {
         Utils.bloquearPantalla()
         var imagesToDownload: [String] = []
@@ -202,7 +222,16 @@ class Images {
     }
     
     static func imageToDataCompressed(_ imagen: UIImage) -> Data{
-        let data = UIImageJPEGRepresentation(imagen, 1)!
+        var newimagen = imagen
+        /*if imagen.cgImage == nil {
+            let ciImage = imagen.ciImage
+            let cgImage = CIContext().createCGImage(ciImage!, from: (ciImage?.extent)!)
+            newimagen = UIImage.init(cgImage: cgImage!)
+        }*//* else if imagen.ciImage == nil {
+            let ciImage = CIImage.init(image: imagen)!
+            newimagen = UIImage.init(ciImage: ciImage)
+        }*/
+        let data = UIImageJPEGRepresentation(newimagen, 1)!
         let umbral = 200 * 1000
         if data.count > umbral {
             let ratio: CGFloat = CGFloat(umbral) / CGFloat(data.count)

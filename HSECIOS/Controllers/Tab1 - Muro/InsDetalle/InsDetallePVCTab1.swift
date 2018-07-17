@@ -13,10 +13,10 @@ class InsDetallePVCTab1: UIViewController {
         }
         Rest.getDataGeneral(Routes.forInspecciones(inspeccion.Codigo ?? ""), false, success: {(resultValue:Any?,data:Data?) in
             let generalData: InspeccionGD = Dict.dataToUnit(data!)!
-            var ubicacion = generalData.CodUbicacion
-            var sububicacion = generalData.CodSubUbicacion
+            var ubicacion = generalData.CodUbicacion ?? ""
+            var sububicacion = generalData.CodSubUbicacion ?? ""
             ubicacion = Utils.searchMaestroDescripcion("UBIC",ubicacion)
-            let splits = generalData.CodSubUbicacion.split(separator: ".")
+            let splits = (generalData.CodSubUbicacion ?? "").split(separator: ".")
             // if splits.count == 1 {
             //ubicacion = Utils.searchMaestroDescripcion("UBIC", String(splits[0]))/* Globals.gUbicaciones[generalData.CodUbicacion] ?? "-"*/
             //   sububicacion = "-"
@@ -28,16 +28,16 @@ class InsDetallePVCTab1: UIViewController {
             let hijo = self.childViewControllers[0] as! InfoDetalleTVC
             hijo.dataLeft = self.dataLeft
             hijo.dataRight = [
-                generalData.CodInspeccion,
-                Utils.searchMaestroDescripcion("GERE", generalData.Gerencia),
-                Utils.searchMaestroDescripcion("SUPE.\(generalData.Gerencia)", generalData.SuperInt),
-                generalData.CodContrata,
-                Utils.str2date2str(generalData.FechaP),
-                Utils.str2date2str(generalData.Fecha),
-                Utils.str2hour2str(generalData.Fecha),
+                generalData.CodInspeccion ?? "",
+                Utils.searchMaestroDescripcion("GERE", generalData.Gerencia ?? ""),
+                Utils.searchMaestroDescripcion("SUPE.\(generalData.Gerencia ?? "")", generalData.SuperInt ?? ""),
+                generalData.CodContrata ?? "",
+                Utils.str2date2str(generalData.FechaP ?? ""),
+                Utils.str2date2str(generalData.Fecha ?? ""),
+                Utils.str2hour2str(generalData.Fecha ?? ""),
                 ubicacion,
                 sububicacion,
-                Utils.searchMaestroDescripcion("TPIN", generalData.CodTipo)
+                Utils.searchMaestroDescripcion("TPIN", generalData.CodTipo ?? "")
             ]
             hijo.tableView.reloadData()
         }, error: nil)

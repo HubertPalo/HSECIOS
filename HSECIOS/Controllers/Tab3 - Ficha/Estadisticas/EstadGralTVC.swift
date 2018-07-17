@@ -16,8 +16,8 @@ class EstadGralTVC: UITableViewController {
         let celda = tableView.dequeueReusableCell(withIdentifier: "celda") as! EstadGralTVCell
         let unit = estadisticas[indexPath.row]
         celda.titulo.text = unit.Descripcion
-        celda.estimados.text = "(\(unit.Estimados)) Estimados"
-        celda.ejecutados.text = "(\(unit.Ejecutados)) Ejecutados"
+        celda.estimados.text = "(\(unit.Estimados ?? 0)) Estimados"
+        celda.ejecutados.text = "(\(unit.Ejecutados ?? 0)) Ejecutados"
         return celda
     }
     

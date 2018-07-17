@@ -64,7 +64,7 @@ class MuroTVC: UITableViewController {
             let celda = tableView.dequeueReusableCell(withIdentifier: "inspeccion") as! MuroTVCell2
             celda.autor.text = unit.ObsPor
             celda.fecha.text = Utils.str2date2str(unit.Fecha ?? "")
-            celda.comentarios.setTitle("\(unit.Comentarios) comentarios", for: .normal)
+            celda.comentarios.setTitle("\(unit.Comentarios ?? 0) comentarios", for: .normal)
             
             let contenidoSplits = (unit.Obs ?? "").split(separator: ";")
             let nivelRSplits = (unit.NivelR ?? "").split(separator: ";")
@@ -107,7 +107,7 @@ class MuroTVC: UITableViewController {
         } else if (unit.Codigo ?? "").starts(with: "NOT") {
             let celda = tableView.dequeueReusableCell(withIdentifier: "noticia") as! MuroTVCell3
             celda.autor.text = unit.ObsPor
-            celda.comentarios.setTitle("\(unit.Comentarios) comentarios", for: .normal)
+            celda.comentarios.setTitle("\(unit.Comentarios ?? 0) comentarios", for: .normal)
             celda.contenido.text = unit.Obs
             celda.fecha.text = unit.Fecha
             celda.titulo.text = unit.Area
@@ -124,7 +124,7 @@ class MuroTVC: UITableViewController {
         } else if (unit.Codigo ?? "").starts(with: "OBF") {
             let celda = tableView.dequeueReusableCell(withIdentifier: "facilito") as! MuroTVCell4
             celda.autor.text = unit.ObsPor
-            celda.comentarios.setTitle("\(unit.Comentarios) comentarios", for: .normal)
+            celda.comentarios.setTitle("\(unit.Comentarios ?? 0) comentarios", for: .normal)
             celda.contenido.text = unit.Obs
             celda.fecha.text = unit.Fecha
             celda.detalle.text = Utils.searchMaestroStatic("TIPOFACILITO", unit.Tipo ?? "")

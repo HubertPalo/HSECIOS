@@ -27,9 +27,9 @@ class PlanAccionDetalleTVC: UITableViewController {
     }
     
     func loadData(_ nuevo: PlanAccionGeneral) {
-        self.section2ShouldShow = nuevo.Editable == "2" || nuevo.Editable == "3"
-        self.codPlanAccion = nuevo.CodAccion
-        Rest.getDataGeneral(Routes.forPlanAccionDetalle(nuevo.CodAccion), true, success: {(resultValue:Any?,data:Data?) in
+        self.section2ShouldShow = nuevo.Editable == 2 || nuevo.Editable == 3
+        self.codPlanAccion = nuevo.CodAccion ?? ""
+        Rest.getDataGeneral(Routes.forPlanAccionDetalle(nuevo.CodAccion ?? ""), true, success: {(resultValue:Any?,data:Data?) in
             let plan: PlanAccionDetalle = Dict.dataToUnit(data!)!
             self.rightLabels = [plan.CodAccion ?? "", plan.NroDocReferencia ?? "", Utils.searchMaestroDescripcion("AREA", plan.CodAreaHSEC ?? ""), Utils.searchMaestroStatic("NIVELRIESGO", plan.CodNivelRiesgo ?? ""), plan.DesPlanAccion ?? "", Utils.str2date2str(plan.FechaSolicitud ?? ""), Utils.searchMaestroStatic("ESTADOPLAN", plan.CodEstadoAccion ?? ""), plan.SolicitadoPor ?? "", Utils.searchMaestroDescripcion("ACTR", plan.CodActiRelacionada ?? ""), Utils.searchMaestroStatic("REFERENCIAPLAN", plan.CodReferencia ?? ""), Utils.searchMaestroDescripcion("TPAC", plan.CodTipoAccion ?? ""), Utils.str2date2str(plan.FecComprometidaInicial ?? ""), Utils.str2date2str(plan.FecComprometidaFinal ?? "")]
             var splitsNombres = (plan.Responsables ?? "").components(separatedBy: ";")
@@ -72,7 +72,7 @@ class PlanAccionDetalleTVC: UITableViewController {
             self.tableView.reloadData()
         })*/
         
-        Rest.getDataGeneral(Routes.forAccionMejora(nuevo.CodAccion), false, success: {(resultValue:Any?,data:Data?) in
+        Rest.getDataGeneral(Routes.forAccionMejora(nuevo.CodAccion ?? ""), false, success: {(resultValue:Any?,data:Data?) in
             self.mejoras = Dict.dataToArray(data!).Data
             // self.mejoras = Dict.toArrayAccionMejora(dict).Data
             // self.tableView.reloadSections([2], with: .none)

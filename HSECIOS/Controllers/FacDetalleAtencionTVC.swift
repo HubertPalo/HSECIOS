@@ -27,7 +27,7 @@ class FacDetalleAtencionTVC: UITableViewController {
         self.atencion = atencion
         self.editable = editable //atencion.CodObsFacilito == "1"
         self.facilito = facilito
-        self.textoNoEditable = [["Atendido por:", atencion.Persona], ["Fecha Atención:", Utils.str2date2str(atencion.Fecha)], ["Estado:", Utils.searchMaestroStatic("ESTADOFACILITO", atencion.Estado)], ["Fecha Ejecutarse:", Utils.str2date2str(atencion.FechaFin)], ["Comentario:", atencion.Comentario]]
+        self.textoNoEditable = [["Atendido por:", atencion.Persona ?? ""], ["Fecha Atención:", Utils.str2date2str(atencion.Fecha ?? "")], ["Estado:", Utils.searchMaestroStatic("ESTADOFACILITO", atencion.Estado ?? "")], ["Fecha Ejecutarse:", Utils.str2date2str(atencion.FechaFin ?? "")], ["Comentario:", atencion.Comentario ?? ""]]
         self.tableView.reloadSections([0], with: .automatic)
         Rest.getDataGeneral(Routes.forMultimedia("\(self.facilito.CodObsFacilito)-\(self.atencion.Correlativo)"), false, success: {(resultValue:Any?,data:Data?) in
             let arrayFotovideo: ArrayGeneral<FotoVideo> = Dict.dataToArray(data!)

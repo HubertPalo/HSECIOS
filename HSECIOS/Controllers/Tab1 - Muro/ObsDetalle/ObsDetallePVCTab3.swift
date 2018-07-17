@@ -3,17 +3,26 @@ import UIKit
 class ObsDetallePVCTab3: UIViewController {
     
     var galeria = GaleriaFVDVC()
+    var padre = ObsDetalleVC()
     var observacion = MuroElement()
     
-    var documentos: [Multimedia] = []
-    var multimedia: [Multimedia] = []
+    // var documentos: [Multimedia] = []
+    // var multimedia: [Multimedia] = []
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        //self.galeria.modo = "GET"
+        //self.galeria.codigo = self.observacion.Codigo ?? ""
+        /*self.galeria.galeria.fotosyvideos = []
+        self.galeria.galeria.documentos = []
+        self.galeria.galeria.nombres.removeAll()*/
+        self.galeria.galeria.tableView.reloadData()
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         if let padre = self.parent?.parent as? ObsDetalleVC {
             padre.selectTab(2)
         }
+        // self.galeria.codigo = self.observacion.Codigo ?? ""
         /*Helper.getData(Routes.forMultimedia(Utils.selectedObsCode), true, vcontroller: self, success: {(dict: NSDictionary) in
             let adjuntos = Dict.toArrayMultimedia(dict)
             self.documentos = []
@@ -50,14 +59,19 @@ class ObsDetallePVCTab3: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.galeria = self.childViewControllers[0] as! GaleriaFVDVC
-        
+        self.padre = self.parent?.parent as! ObsDetalleVC
+        self.observacion = self.padre.observacion
+        // self.galeria.modo = "GET"
+        // self.galeria.codigo = self.observacion.Codigo ?? ""
+        // self.galeria.loadModoGET(self.observacion.Codigo ?? "")
         /*let hijo = self.childViewControllers[0] as! GaleriaVC
         hijo.codigo = self.observacion.Codigo// Utils.selectedObsCode
         hijo.getFilesFor(self.observacion.Codigo)//Utils.selectedObsCode)*/
     }
     
-    func loadObservacion(_ observacion: MuroElement){
-        self.galeria.loadGaleria(observacion.Codigo ?? "")
-    }
+    /*func loadObservacion(_ observacion: MuroElement){
+        self.galeria.loadModoGET(observacion.Codigo ?? "")
+        // self.galeria.loadGaleria(observacion.Codigo ?? "")
+    }*/
     
 }

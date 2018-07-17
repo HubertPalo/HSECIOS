@@ -49,15 +49,20 @@ class VCHelper {
     
     static func openUpsertObservacion(_ viewcontroller: UIViewController, _ modo: String, _ codigo: String) {
         let vc = self.upsertObservacion as! UpsertObsVC
-        (Tabs.forAddObs[0] as! UpsertObsPVCTab1).loadModo(modo, codigo)
+        Globals.UOloadModo(modo, codigo)
+        // vc.loadModo(modo, codigo)
+        /*(Tabs.forAddObs[0] as! UpsertObsPVCTab1).loadModo(modo, codigo)
         (Tabs.forAddObs[1] as! UpsertObsPVCTab2).loadModo(modo, codigo)
-        (Tabs.forAddObs[2] as! UpsertObsPVCTab3).loadModo(modo, codigo)
+        (Tabs.forAddObs[2] as! UpsertObsPVCTab3).loadModo(modo, codigo)*/
         viewcontroller.navigationController?.pushViewController(vc, animated: true)
     }
     
-    static func openUpsertObsPlan(_ viewcontroller: UIViewController, _ modo: String, _ plan: PlanAccionDetalle, _ element: MuroElement) {
+    static func openUpsertObsPlan(_ viewcontroller: UIViewController, _ modo: Int, _ plan: PlanAccionDetalle, _ element: MuroElement, _ alTerminar: ((_ plan: PlanAccionDetalle) -> Void)?) {
         let vc = self.upsertObsPlan as! UpsertObsPlanTVC
-        vc.loadModo(modo, plan, element)
+        plan.FechaSolicitud = Utils.date2str(Date(), "YYYY-MM-dd")
+        plan.SolicitadoPor = Utils.userData.Nombres
+        plan.CodSolicitadoPor = Utils.userData.CodPersona
+        vc.loadModo(modo, plan, element, alTerminar)
         viewcontroller.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -133,7 +138,7 @@ class VCHelper {
         Tabs.indexObsDetalle = 0
         (Tabs.forObsDetalle[0] as! ObsDetallePVCTab1).loadObservacion(observacion)
         (Tabs.forObsDetalle[1] as! ObsDetallePVCTab2).observacion = observacion
-        (Tabs.forObsDetalle[2] as! ObsDetallePVCTab3).loadObservacion(observacion)
+        (Tabs.forObsDetalle[2] as! ObsDetallePVCTab3).observacion = observacion
         (Tabs.forObsDetalle[3] as! ObsDetallePVCTab4).observacion = observacion
         (Tabs.forObsDetalle[4] as! ObsDetallePVCTab5).observacion = observacion
         

@@ -10,6 +10,8 @@ class ObsDetalleVC: UIViewController {
     
     var observacion: MuroElement = MuroElement()
     
+    var codigo = ""
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         self.automaticallyAdjustsScrollViewInsets = false

@@ -2,16 +2,6 @@ import UIKit
 
 class UpsertObsPVCTab1: UITableViewController, UITextFieldDelegate {
     
-    var modo = "ADD"
-    var codigo = ""
-    
-    var obsGD = ObservacionGD()
-    
-    var codUbicacion = ""
-    var codSubUbicacion = ""
-    var codUbiEspecifica = ""
-    var fecha = Date()
-    
     override func viewDidAppear(_ animated: Bool) {
         if let padre = self.parent?.parent as? UpsertObsVC {
             padre.selectTab(0)
@@ -22,71 +12,12 @@ class UpsertObsPVCTab1: UITableViewController, UITextFieldDelegate {
         super.viewDidLoad()
     }
     
-    func loadModo(_ modo: String, _ codigo: String) {
-        self.modo = modo
-        self.codigo = codigo
-        switch modo {
-        case "ADD":
-            self.obsGD.CodTipo = "TO01"
-            self.obsGD.CodObservadoPor = Utils.userData.CodPersona
-            self.obsGD.ObservadoPor = Utils.userData.Nombres
-            self.obsGD.CodUbicacion = ""
-            self.codUbicacion = ""
-            self.codSubUbicacion = ""
-            self.codUbiEspecifica = ""
-            self.fecha = Date()
-            self.tableView.reloadData()
-        case "PUT":
-            Rest.getDataGeneral(Routes.forObservaciones(codigo), true, success: {(resultValue:Any?,data:Data?) in
-                self.obsGD = Dict.dataToUnit(data!)!
-                self.fecha = Utils.str2date(self.obsGD.Fecha ?? "") ?? Date()
-                if self.obsGD.CodUbicacion != "" {
-                    let splits = (self.obsGD.CodUbicacion ?? "").components(separatedBy: ".")
-                    self.codUbicacion = splits[0]
-                    if splits.count > 1 {
-                        self.codSubUbicacion = splits[1]
-                    }
-                    if splits.count > 2 {
-                        self.codUbiEspecifica = splits[2]
-                    }
-                } else {
-                    self.codUbicacion = ""
-                    self.codSubUbicacion = ""
-                    self.codUbiEspecifica = ""
-                }
-                self.tableView.reloadData()
-            }, error: nil)
-            break
-        default:
-            break
-        }
-    }
-    
-    func getData() -> String {
-        self.obsGD.Fecha = Utils.date2str(self.fecha, "YYYY-MM-dd")
-        var ubicacion = ""
-        if self.codUbicacion != "" {
-            ubicacion.append(self.codUbicacion)
-        }
-        if self.codSubUbicacion != "" {
-            ubicacion.append(".\(self.codSubUbicacion)")
-        }
-        if self.codUbiEspecifica != "" {
-            ubicacion.append(".\(self.codUbiEspecifica)")
-        }
-        self.obsGD.CodUbicacion = ubicacion
-        let showData = self.obsGD
-        showData.ObservadoPor = nil
-        return String.init(data: Dict.unitToData(showData)!, encoding: .utf8)!
-    }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         return true
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        self.obsGD.Lugar = textField.text
-        print("ended: \(self.obsGD.Lugar)")
+        Globals.UOTab1ObsGD.Lugar = textField.text
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -97,24 +28,24 @@ class UpsertObsPVCTab1: UITableViewController, UITextFieldDelegate {
         switch indexPath.row {
         case 0:
             let celda = tableView.dequeueReusableCell(withIdentifier: "celda1") as! Celda1Texto
-            celda.texto.text = self.modo == "ADD" ? "OBS000000XYZ" : self.obsGD.CodObservacion
+            celda.texto.text = Globals.UOModo == "ADD" ? "OBS000000XYZ" : Globals.UOTab1ObsGD.CodObservacion
             return celda
         case 1:
             let celda = tableView.dequeueReusableCell(withIdentifier: "celda2") as! Celda1Texto
-            celda.texto.text = self.obsGD.ObservadoPor
+            celda.texto.text = Globals.UOTab1ObsGD.ObservadoPor
             celda.texto.numberOfLines = 2
             return celda
         case 2:
             let celda = tableView.dequeueReusableCell(withIdentifier: "celda3") as! Celda1Texto1Boton
             celda.texto.text = "Tipo:"
             celda.boton.tag = 0
-            celda.boton.setTitle(Utils.searchMaestroDescripcion("TPOB", self.obsGD.CodTipo ?? ""), for: .normal)
+            celda.boton.setTitle(Utils.searchMaestroDescripcion("TPOB", Globals.UOTab1ObsGD.CodTipo ?? ""), for: .normal)
             return celda
         case 3:
             let celda = tableView.dequeueReusableCell(withIdentifier: "celda3") as! Celda1Texto1Boton
             celda.texto.attributedText = Utils.addInitialRedAsterisk("Área", "HelveticaNeue-Bold", 13)
             celda.boton.tag = 1
-            var dato = Utils.searchMaestroDescripcion("AREA", self.obsGD.CodAreaHSEC ?? "")
+            var dato = Utils.searchMaestroDescripcion("AREA", Globals.UOTab1ObsGD.CodAreaHSEC ?? "")
             dato = dato != "" ? dato : "- SELECCIONE -"
             celda.boton.setTitle(dato, for: .normal)
             return celda
@@ -122,7 +53,7 @@ class UpsertObsPVCTab1: UITableViewController, UITextFieldDelegate {
             let celda = tableView.dequeueReusableCell(withIdentifier: "celda3") as! Celda1Texto1Boton
             celda.texto.attributedText = Utils.addInitialRedAsterisk("Nivel de Riesgo:", "HelveticaNeue-Bold", 13)
             celda.boton.tag = 2
-            var dato = Utils.searchMaestroStatic("NIVELRIESGO", self.obsGD.CodNivelRiesgo ?? "")
+            var dato = Utils.searchMaestroStatic("NIVELRIESGO", Globals.UOTab1ObsGD.CodNivelRiesgo ?? "")
             dato = dato != "" ? dato : "- SELECCIONE -"
             celda.boton.setTitle(dato, for: .normal)
             return celda
@@ -130,13 +61,13 @@ class UpsertObsPVCTab1: UITableViewController, UITextFieldDelegate {
             let celda = tableView.dequeueReusableCell(withIdentifier: "celda3") as! Celda1Texto1Boton
             celda.texto.text = "Fecha:"
             celda.boton.tag = 3
-            celda.boton.setTitle((Utils.date2str(self.fecha, "dd 'de' MMMM") ?? "").uppercased(), for: .normal)
+            celda.boton.setTitle((Utils.date2str(Globals.UOTab1Fecha, "dd 'de' MMMM") ?? "").uppercased(), for: .normal)
             return celda
         case 6:
             let celda = tableView.dequeueReusableCell(withIdentifier: "celda3") as! Celda1Texto1Boton
             celda.texto.attributedText = Utils.addInitialRedAsterisk("Ubicación:", "HelveticaNeue-Bold", 13)
             celda.boton.tag = 4
-            var dato = Utils.searchMaestroDescripcion("UBIC", self.codUbicacion)
+            var dato = Utils.searchMaestroDescripcion("UBIC", Globals.UOTab1CodUbicacion)
             dato = dato != "" ? dato : "- SELECCIONE -"
             celda.boton.setTitle(dato, for: .normal)
             return celda
@@ -144,7 +75,7 @@ class UpsertObsPVCTab1: UITableViewController, UITextFieldDelegate {
             let celda = tableView.dequeueReusableCell(withIdentifier: "celda3") as! Celda1Texto1Boton
             celda.texto.text = "Sub Ubicación:"
             celda.boton.tag = 5
-            var dato = Utils.searchMaestroDescripcion("UBIC.\(self.codUbicacion)", self.codSubUbicacion)
+            var dato = Utils.searchMaestroDescripcion("UBIC.\(Globals.UOTab1CodUbicacion)", Globals.UOTab1CodSubUbicacion)
             dato = dato != "" ? dato : "- SELECCIONE -"
             celda.boton.setTitle(dato, for: .normal)
             return celda
@@ -152,14 +83,14 @@ class UpsertObsPVCTab1: UITableViewController, UITextFieldDelegate {
             let celda = tableView.dequeueReusableCell(withIdentifier: "celda3") as! Celda1Texto1Boton
             celda.texto.text = "Ubicación Específica:"
             celda.boton.tag = 6
-            var dato = Utils.searchMaestroDescripcion("UBIC.\(self.codUbicacion).\(self.codSubUbicacion)", self.codUbiEspecifica)
+            var dato = Utils.searchMaestroDescripcion("UBIC.\(Globals.UOTab1CodUbicacion).\(Globals.UOTab1CodSubUbicacion)", Globals.UOTab1CodUbiEspecifica)
             dato = dato != "" ? dato : "- SELECCIONE -"
             celda.boton.setTitle(dato, for: .normal)
             return celda
         case 9:
             let celda = tableView.dequeueReusableCell(withIdentifier: "celda4") as! Celda1Texto1InputText
             celda.texto.text = "Lugar:"
-            celda.inputTexto.text = self.obsGD.Lugar
+            celda.inputTexto.text = Globals.UOTab1ObsGD.Lugar
             celda.inputTexto.delegate = self
             return celda
         default:
@@ -169,8 +100,8 @@ class UpsertObsPVCTab1: UITableViewController, UITextFieldDelegate {
     
     @IBAction func clickObservadoPor(_ sender: Any) {
         VCHelper.openFiltroPersona(self, {(persona) in
-            self.obsGD.ObservadoPor = persona.Nombres
-            self.obsGD.CodObservadoPor = persona.CodPersona
+            Globals.UOTab1ObsGD.ObservadoPor = persona.Nombres
+            Globals.UOTab1ObsGD.CodObservadoPor = persona.CodPersona
             self.tableView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .none)
         })
     }
@@ -181,129 +112,49 @@ class UpsertObsPVCTab1: UITableViewController, UITextFieldDelegate {
         case 0:
             Utils.showDropdown(boton, ["Comportamiento", "Condición"], {(index, item) in
                 let realValues = ["TO01", "TO02"]
-                self.obsGD.CodTipo = realValues[index]
-                (Tabs.forAddObs[1] as! UpsertObsPVCTab2).tipo = realValues[index]
+                Globals.UOTab1ObsGD.CodTipo = realValues[index]
+                Globals.UOTab2ObsDetalle.CodTipo = realValues[index]
                 (Tabs.forAddObs[1] as! UpsertObsPVCTab2).tableView.reloadData()
             })
         case 1:
             Utils.showDropdown(sender as! UIButton, Utils.maestroDescripcion["AREA"] ?? [], {(index, item) in
                 let realValues = Utils.maestroCodTipo["AREA"] ?? []
-                self.obsGD.CodAreaHSEC = realValues[index]
+                Globals.UOTab1ObsGD.CodAreaHSEC = realValues[index]
             })
         case 2:
             Utils.showDropdown(sender as! UIButton, Utils.maestroStatic2["NIVELRIESGO"] ?? [], {(index, item) in
                 let realValues = Utils.maestroStatic1["NIVELRIESGO"] ?? []
-                self.obsGD.CodNivelRiesgo = realValues[index]
+                Globals.UOTab1ObsGD.CodNivelRiesgo = realValues[index]
             })
         case 3:
             let range = Utils.getDateMonthInterval(Date())
             Utils.openDatePicker("Seleccione Fecha", Date(), range.initialDate, Date(), chandler: {(date) in
-                self.fecha = date
+                Globals.UOTab1Fecha = date
                 self.tableView.reloadRows(at: [IndexPath.init(row: 5, section: 0)], with: .none)
             })
         case 4:
             Utils.showDropdown(boton, Utils.maestroDescripcion["UBIC"] ?? [], {(index, item) in
                 let realValues = Utils.maestroCodTipo["UBIC"] ?? []
-                self.codUbicacion = realValues[index]
-                self.codSubUbicacion = ""
-                self.codUbiEspecifica = ""
+                Globals.UOTab1CodUbicacion = realValues[index]
+                Globals.UOTab1CodSubUbicacion = ""
+                Globals.UOTab1CodUbiEspecifica = ""
                 self.tableView.reloadRows(at: [IndexPath.init(row: 7, section: 0), IndexPath.init(row: 8, section: 0)], with: .none)
             })
         case 5:
-            Utils.showDropdown(boton, Utils.maestroDescripcion["UBIC.\(self.codUbicacion)"] ?? [], {(index, item) in
-                let realValues = Utils.maestroCodTipo["UBIC.\(self.codUbicacion)"] ?? []
-                self.codSubUbicacion = realValues[index]
-                self.codUbiEspecifica = ""
+            Utils.showDropdown(boton, Utils.maestroDescripcion["UBIC.\(Globals.UOTab1CodUbicacion)"] ?? [], {(index, item) in
+                let realValues = Utils.maestroCodTipo["UBIC.\(Globals.UOTab1CodUbicacion)"] ?? []
+                Globals.UOTab1CodSubUbicacion = realValues[index]
+                Globals.UOTab1CodUbiEspecifica = ""
                 self.tableView.reloadRows(at: [IndexPath.init(row: 8, section: 0)], with: .none)
             })
         case 6:
-            Utils.showDropdown(boton, Utils.maestroDescripcion["UBIC.\(self.codUbicacion).\(self.codSubUbicacion)"] ?? [], {(index, item) in
-                let realValues = Utils.maestroCodTipo["UBIC.\(self.codUbicacion).\(self.codSubUbicacion)"] ?? []
-                self.codUbiEspecifica = realValues[index]
+            Utils.showDropdown(boton, Utils.maestroDescripcion["UBIC.\(Globals.UOTab1CodUbicacion).\(Globals.UOTab1CodSubUbicacion)"] ?? [], {(index, item) in
+                let realValues = Utils.maestroCodTipo["UBIC.\(Globals.UOTab1CodUbicacion).\(Globals.UOTab1CodSubUbicacion)"] ?? []
+                Globals.UOTab1CodUbiEspecifica = realValues[index]
             })
         default:
             break
         }
     }
-    
-    /*@IBAction func clickObservadoPor(_ sender: Any) {
-        VCHelper.openFiltroPersona(self, {(persona) in
-            self.labelNombreCompleto.text = persona.Nombres
-            self.data["CodObservadoPor"] = persona.CodPersona
-            print(self.data)
-        })
-    }
-    
-    @IBAction func clickTipo(_ sender: Any) {
-        Utils.showDropdown(sender as! UIButton, ["Comportamiento", "Condición"], {(index, item) in
-            let realValues = ["TO01", "TO02"]
-            self.data["Tipo"] = realValues[index]
-            let padre = self.parent as! UpsertObsPVC
-            padre.tab1Tipo = realValues[index]
-            print(self.data)
-        })
-    }
-    
-    @IBAction func clickArea(_ sender: Any) {
-        Utils.showDropdown(sender as! UIButton, Utils.maestroDescripcion["AREA"] ?? [], {(index, item) in
-            let realValues = Utils.maestroCodTipo["AREA"] ?? []
-            self.data["Area"] = realValues[index]
-            print(self.data)
-        })
-    }
-    
-    @IBAction func clickNivelRiesgo(_ sender: Any) {
-        Utils.showDropdown(sender as! UIButton, Utils.maestroStatic2["NIVELRIESGO"] ?? [], {(index, item) in
-            let realValues = Utils.maestroStatic1["NIVELRIESGO"] ?? []
-            self.data["NivelRiesgo"] = realValues[index]
-            print(self.data)
-        })
-    }
-    
-    @IBAction func clickFecha(_ sender: Any) {
-        let currentCalendar = Calendar.current
-        let interval = currentCalendar.dateInterval(of: .month, for: Date())
-        let endDate = currentCalendar.date(byAdding: .day, value: -1, to: interval!.end)
-        Utils.openDatePicker("Seleccione Fecha", Date(), interval?.start, endDate, chandler: {(date) in
-            self.data["Fecha"] = Utils.date2str(date)
-            self.botonFecha.setTitle(Utils.date2str(date), for: .normal)
-            print(self.data)
-        })
-    }
-    
-    @IBAction func clickUbicacion(_ sender: Any) {
-        Utils.showDropdown(sender as! UIButton, Utils.maestroDescripcion["UBIC"] ?? [], {(index, item) in
-            let realValues = Utils.maestroCodTipo["UBIC"] ?? []
-            self.data["TempUbicacion"] = realValues[index]
-            self.data["SubUbicacion"] = nil
-            self.data["UbicacionEspecifica"] = nil
-            self.botonSubUbicacion.setTitle(" - Seleccione - ", for: .normal)
-            self.botonUbicacionEsp.setTitle(" - Seleccione - ", for: .normal)
-            print(self.data)
-        })
-    }
-    
-    @IBAction func clickSubUbicacion(_ sender: Any) {
-        let ubicDesc = "UBIC.\(self.data["TempUbicacion"] ?? "")"
-        Utils.showDropdown(sender as! UIButton, Utils.maestroDescripcion[ubicDesc] ?? [], {(index, item) in
-            let realValues = Utils.maestroCodTipo[ubicDesc] ?? []
-            self.data["SubUbicacion"] = realValues[index]
-            self.data["UbicacionEspecifica"] = nil
-            self.botonUbicacionEsp.setTitle(" - Seleccione - ", for: .normal)
-            print(self.data)
-        })
-    }
-    
-    @IBAction func clickUbicacionEspecifica(_ sender: Any) {
-        let ubicDesc = "UBIC.\(self.data["TempUbicacion"] ?? "").\(self.data["SubUbicacion"] ?? "")"
-        Utils.showDropdown(sender as! UIButton, Utils.maestroDescripcion[ubicDesc] ?? [], {(index, item) in
-            let realValues = Utils.maestroCodTipo[ubicDesc] ?? []
-            self.data["UbicacionEspecifica"] = realValues[index]
-            print(self.data)
-        })
-    }*/
-    
-    
-    
 }
 

@@ -2,85 +2,98 @@ import UIKit
 
 class GaleriaFVDVC: UIViewController {
     
-    @IBOutlet weak var viewContainer: UIView!
-    @IBOutlet weak var galeriaContainer: UIView!
+    @IBOutlet var viewContainer: UIView!
+    @IBOutlet var galeriaContainer: UIView!
     
     var galeria = GaleriaFVDTVC()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.viewContainer.isHidden = Globals.GaleriaVCViewContainerIsHidden
+        self.galeriaContainer.isHidden = Globals.GaleriaVCGaleriaContainerIsHidden
+        self.galeria.tableView.reloadData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.galeria = self.childViewControllers[0] as! GaleriaFVDTVC
-        self.viewContainer.isHidden = false
         self.galeriaContainer.isHidden = true
-    }
-    
-    func loadGaleria(_ codigo: String) {
-        self.galeria.modo = "GET"
-        Rest.getDataGeneral(Routes.forMultimedia(codigo), false, success: {(resultValue:Any?,data:Data?) in
-            let arrayMultimedia: ArrayGeneral<Multimedia> = Dict.dataToArray(data!)
-            let files = arrayMultimedia.Data
-            var multimedia: [FotoVideo] = []
-            var documentos: [DocumentoGeneral] = []
-            
-            for i in 0..<files.count {
-                switch files[i].TipoArchivo ?? "" {
-                case "TP01":
-                    multimedia.append(files[i].toFotoVideo())
-                    break
-                case "TP02":
-                    multimedia.append(files[i].toFotoVideo())
-                    break
-                case "TP03":
-                    documentos.append(files[i].toDocumentoGeneral())
-                    break
-                default:
-                    break
-                }
-            }
-            
-            self.viewContainer?.isHidden = !(files.count == 0)
-            self.galeriaContainer?.isHidden = files.count == 0
-            self.galeria.documentos = documentos
-            self.galeria.fotosyvideos = multimedia
-            self.galeria.tableView.reloadData()
-            self.galeria.tableView.bounces = false
-        }, error: nil)
-        /*Rest.getData(Routes.forMultimedia(codigo), false, vcontroller: self, success: {(dict: NSDictionary) in
-            let files: [Multimedia] = Dict.toArrayMultimedia(dict)
-            var multimedia: [FotoVideo] = []
-            var documentos: [DocumentoGeneral] = []
-            
-            for i in 0..<files.count {
-                switch files[i].TipoArchivo ?? "" {
-                case "TP01":
-                    multimedia.append(files[i].toFotoVideo())
-                    break
-                case "TP02":
-                    multimedia.append(files[i].toFotoVideo())
-                    break
-                case "TP03":
-                    documentos.append(files[i].toDocumentoGeneral())
-                    break
-                default:
-                    break
-                }
-            }
-            
-            self.viewContainer?.isHidden = !(files.count == 0)
-            self.galeriaContainer?.isHidden = files.count == 0
-            self.galeria.documentos = documentos
-            self.galeria.fotosyvideos = multimedia
-            self.galeria.tableView.reloadData()
-            self.galeria.tableView.bounces = false
-        })*/
-    }
-    
-    func loadModoPOST() {
-        self.galeria.modo = "POST"
-        self.galeriaContainer.isHidden = false
         self.viewContainer.isHidden = true
+    }
+    
+    
+    /*func loadModoPOST() {
+        self.modo = "ADD"
+        self.galeria.modo = "ADD"
+        self.galeria.fotosyvideos = []
+        self.galeria.documentos = []
+        self.galeria.nombres.removeAll()
+        self.galeriaContainer?.isHidden = false
+        self.viewContainer?.isHidden = true
         self.galeria.tableView.reloadData()
     }
     
+    func loadModoPUT(_ codigo: String) {
+        self.modo = "PUT"
+        self.codigo = codigo
+        self.galeria.modo = "PUT"
+        self.galeria.fotosyvideos = []
+        self.galeria.documentos = []
+        self.galeria.nombres.removeAll()
+        Rest.getDataGeneral(Routes.forMultimedia(codigo), true, success: {(resultValue:Any?,data:Data?) in
+            let arrayMultimedia: ArrayGeneral<Multimedia> = Dict.dataToArray(data!)
+            self.galeriaContainer?.isHidden = arrayMultimedia.Count == 0
+            self.viewContainer?.isHidden = arrayMultimedia.Count != 0
+            for multimedia in arrayMultimedia.Data {
+                switch multimedia.TipoArchivo ?? "" {
+                case "TP01":
+                    self.galeria.fotosyvideos.append(multimedia.toFotoVideo())
+                    Images.downloadCorrelativo("\(multimedia.Correlativo ?? 0)", {(self.galeria.tableView.reloadData())})
+                    break
+                case "TP02":
+                    self.galeria.fotosyvideos.append(multimedia.toFotoVideo())
+                    Images.downloadCorrelativo("\(multimedia.Correlativo ?? 0)", {(self.galeria.tableView.reloadData())})
+                    break
+                default:
+                    self.galeria.documentos.append(multimedia.toDocumentoGeneral())
+                    break
+                }
+            }
+            self.galeria.tableView.reloadData()
+        }, error: {(error) in
+            
+        })
+    }
+    
+    func loadModoGET(_ codigo: String) {
+        self.modo = "GET"
+        self.codigo = codigo
+        self.galeria.modo = "GET"
+        self.galeria.fotosyvideos = []
+        self.galeria.documentos = []
+        self.galeria.nombres.removeAll()
+        Rest.getDataGeneral(Routes.forMultimedia(codigo), true, success: {(resultValue:Any?,data:Data?) in
+            let arrayMultimedia: ArrayGeneral<Multimedia> = Dict.dataToArray(data!)
+            self.galeriaContainer?.isHidden = arrayMultimedia.Count == 0
+            self.viewContainer?.isHidden = arrayMultimedia.Count != 0
+            for multimedia in arrayMultimedia.Data {
+                switch multimedia.TipoArchivo ?? "" {
+                case "TP01":
+                    self.galeria.fotosyvideos.append(multimedia.toFotoVideo())
+                    Images.downloadCorrelativo("\(multimedia.Correlativo ?? 0)", {(self.galeria.tableView.reloadData())})
+                    break
+                case "TP02":
+                    self.galeria.fotosyvideos.append(multimedia.toFotoVideo())
+                    Images.downloadCorrelativo("\(multimedia.Correlativo ?? 0)", {(self.galeria.tableView.reloadData())})
+                    break
+                default:
+                    self.galeria.documentos.append(multimedia.toDocumentoGeneral())
+                    break
+                }
+            }
+            self.galeria.tableView.reloadData()
+        }, error: {(error) in
+            
+        })
+    }*/
     
 }
