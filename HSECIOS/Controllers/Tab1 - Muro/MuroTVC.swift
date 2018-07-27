@@ -205,10 +205,42 @@ class MuroTVC: UITableViewController {
         
         Utils.openSheetMenu(self, "OPCIONES", nil, ["Editar", "Eliminar", "Cancelar"], [.default, .destructive, .cancel], [{(editarAlert) in
             if (unit.Codigo ?? "").starts(with: "OBS") {
-                VCHelper.openUpsertObservacion(self, "PUT", unit.Codigo ?? "")
+                VCHelper.upsertObservacion(self, "PUT", unit.Codigo!)
+            } else if (unit.Codigo ?? "").starts(with: "INS") {
+                VCHelper.upsertInspeccion(self, "PUT", unit.Codigo!)
+                // VCHelper.openUpsertObservacion(self, "PUT", unit.Codigo ?? "")
             }
             }, {(eliminarAlert) in
-                Alerts.presentAlert("Oops", "Funcionalidad aun no implementada", duration: 1, imagen: nil, viewController: self)
+                var tipo = ""
+                var ruta = ""
+                if (unit.Codigo ?? "").starts(with: "OBS") {
+                    tipo = "Observación"
+                    ruta = "/Observaciones/Delete/\(unit.Codigo!)"
+                }
+                if (unit.Codigo ?? "").starts(with: "INS") {
+                    tipo = "Inspección"
+                    ruta = "/Inspecciones/Delete/\(unit.Codigo!)"
+                }
+                if (unit.Codigo ?? "").starts(with: "OBF") {
+                    tipo = "Facilito"
+                    ruta = "/ObsFacilito/Delete/\(unit.Codigo!)"
+                }
+                if (unit.Codigo ?? "").starts(with: "NOT") {
+                    tipo = "Noticia"
+                    ruta = "/Noticias/Delete/\(unit.Codigo!)"
+                }
+                self.presentAlert("¿Desea eliminar item?", "\(tipo) \(unit.Codigo ?? "")", .alert, nil, nil, ["Aceptar", "Cancelar"], [.default, .cancel], actionHandlers: [{(alert) in
+                    Rest.getDataGeneral("\(Config.urlBase)\(ruta)", true, success: {(resultValue:Any?,data:Data?) in
+                        let respuesta = resultValue as! String
+                        if respuesta == "1" {
+                            self.presentAlert("Item eliminado", nil, .alert, 1, nil, [], [], actionHandlers: [])
+                        } else {
+                            self.presentAlert("Error", "Ocurrió un error al intentar eliminar el item", .alert, 2, nil, [], [], actionHandlers: [])
+                        }
+                        
+                        // hacer mas cosas al borrar, como actualizar la lista
+                    }, error: nil)
+                    }, nil])
             }, nil])
         
         

@@ -139,17 +139,17 @@ class Utils {
         celda.play2.isHidden = !(dataDer?.esVideo ?? false)
         celda.imagen2.isHidden = dataDer == nil
         if dataIzq.asset == nil {
-            Images.loadImagePreviewFromCode("\(dataIzq.Correlativo ?? 0)", celda.imagen1, {
+            /*Images.loadImagePreviewFromCode("\(dataIzq.Correlativo ?? 0)", celda.imagen1, {
                 tableview.reloadRows(at: [indexPath], with: .none)
-            })
+            })*/
         } else {
             celda.imagen1.image = dataIzq.imagen
         }
         if let newdataDer = dataDer {
             if newdataDer.asset == nil {
-                Images.loadImagePreviewFromCode("\(newdataDer.Correlativo ?? 0)", celda.imagen2, {
+                /*Images.loadImagePreviewFromCode("\(newdataDer.Correlativo ?? 0)", celda.imagen2, {
                     tableview.reloadRows(at: [indexPath], with: .none)
-                })
+                })*/
             } else {
                 celda.imagen2.image = newdataDer.imagen
             }
@@ -370,6 +370,24 @@ class Utils {
         for i in 0..<arrayAbuscar.count {
             if arrayAbuscar[i] == codTipo {
                 return Utils.maestroDescripcion[category]?[i] ?? ""
+            }
+        }
+        return ""
+    }
+    
+    static func searchMaestroDescripcion(_ codigo: String) -> String {
+        var codigoSplits = codigo.components(separatedBy: ".")
+        if codigoSplits.count > 1 {
+            var codTipo = codigoSplits[codigoSplits.count - 1]
+            var category = ""
+            for i in 0..<(codigoSplits.count-1) {
+                category += codigoSplits[i]
+            }
+            let arrayAbuscar = Utils.maestroCodTipo[category] ?? []
+            for i in 0..<arrayAbuscar.count {
+                if arrayAbuscar[i] == codTipo {
+                    return Utils.maestroDescripcion[category]?[i] ?? ""
+                }
             }
         }
         return ""

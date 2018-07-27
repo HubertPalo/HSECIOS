@@ -6,27 +6,24 @@ import AVKit
 
 class FacilitoUpsertTVC: UITableViewController, UITextFieldDelegate {
     
-    var modo = "ADD"
-    // var facilito = FacilitoElement()
-    var detalle = FacilitoDetalle()
+    // var modo = "ADD"
+    // var detalle = FacilitoDetalle()
     
-    var multimedia: [FotoVideo] = []
+    // var multimedia: [FotoVideo] = []
     
-    // var param1 = 0 // Acto - Condición
-    // var paramsUbiObsAcc: [String] = ["", "", ""]
-    var dataRest: [String:String] = ["Tipo" : "A"]
-    var dataShow: [String:String] = ["Tipo" : "A", "CodPosicionGer": "- SELECCIONE -", "CodPosicionSup": "- SELECCIONE -"]
+    // var dataRest: [String:String] = ["Tipo" : "A"]
+    // var dataShow: [String:String] = ["Tipo" : "A", "CodPosicionGer": "- SELECCIONE -", "CodPosicionSup": "- SELECCIONE -"]
     
-    // var gerenciaText = "- SELECCIONE -"
-    // var superintendenciaText = "- SELECCIONE -"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.isUserInteractionEnabled = true
         Utils.setTitleAndImage(self, "Nuevo reporte facilito", Images.facilito)
+        self.tableView.reloadData()
+        Globals.UFViewController = self
     }
     
-    func loadModo(_ modo: String, _ codigo: String){
+    /*func loadModo(_ modo: String, _ codigo: String){
         self.modo = modo
         // self.facilito = facilito
         
@@ -55,30 +52,7 @@ class FacilitoUpsertTVC: UITableViewController, UITextFieldDelegate {
             print(self.dataShow)
             print(self.dataRest)
         }, error: nil)
-        /*Rest.getData(Routes.forFacilitoDetalle(codigo), true, vcontroller: self, success: {(dict:NSDictionary) in
-            let detalle = Dict.toFacilitoDetalle(dict)
-            if modo == "PUT" {
-                self.dataRest["CodObsFacilito"] = detalle.CodObsFacilito
-                self.dataRest["Tipo"] = detalle.Tipo
-                self.dataRest["CodPosicionGer"] = detalle.CodPosicionGer
-                self.dataRest["CodPosicionSup"] = detalle.CodPosicionSup
-                self.dataRest["UbicacionExacta"] = detalle.UbicacionExacta
-                self.dataRest["Observacion"] = detalle.Observacion
-                self.dataRest["Accion"] = detalle.Accion
-                self.dataRest["RespAuxiliar"] = detalle.RespAuxiliar
-                self.dataRest["Estado"] = detalle.Estado
-                
-                self.dataShow["Tipo"] = Utils.searchMaestroStatic("TIPOFACILITO", detalle.Tipo)
-                self.dataShow["CodPosicionGer"] = Utils.searchMaestroDescripcion("GERE", detalle.CodPosicionGer)
-                self.dataShow["CodPosicionSup"] = Utils.searchMaestroDescripcion("SUPE.\(detalle.CodPosicionGer)", detalle.CodPosicionSup)
-                self.dataShow["RespAuxiliar"] = detalle.RespAuxiliarDesc
-                self.dataShow["Estado"] = Utils.searchMaestroStatic("ESTADOFACILITO", detalle.Estado)
-            }
-            self.tableView.reloadData()
-            print(self.dataShow)
-            print(self.dataRest)
-        })*/
-    }
+    }*/
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
@@ -92,11 +66,14 @@ class FacilitoUpsertTVC: UITableViewController, UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
         switch textField.tag {
         case 0:
-            self.dataRest["Ubicacion"] = textField.text ?? ""
+            Globals.UFDetalle.UbicacionExacta = textField.text ?? ""
+            //self.dataRest["Ubicacion"] = textField.text ?? ""
         case 1:
-            self.dataRest["Observacion"] = textField.text ?? ""
+            Globals.UFDetalle.Observacion = textField.text ?? ""
+            //self.dataRest["Observacion"] = textField.text ?? ""
         case 2:
-            self.dataRest["Accion"] = textField.text ?? ""
+            Globals.UFDetalle.Accion = textField.text ?? ""
+            // self.dataRest["Accion"] = textField.text ?? ""
         default:
             break
         }
@@ -109,7 +86,7 @@ class FacilitoUpsertTVC: UITableViewController, UITextFieldDelegate {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         switch section {
         case 1:
-            return self.modo == "ADD" ? nil : tableView.dequeueReusableCell(withIdentifier: "celda7")!.contentView
+            return Globals.UFModo == "ADD" ? nil : tableView.dequeueReusableCell(withIdentifier: "celda7")!.contentView
         case 2:
             return tableView.dequeueReusableCell(withIdentifier: "celda1")!.contentView
         default:
@@ -120,16 +97,12 @@ class FacilitoUpsertTVC: UITableViewController, UITextFieldDelegate {
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
         case 1:
-            return self.modo == "ADD" ? CGFloat.leastNonzeroMagnitude : 3
+            return Globals.UFModo == "ADD" ? CGFloat.leastNonzeroMagnitude : 3
         case 2:
             return 50
         default:
             return CGFloat.leastNonzeroMagnitude
         }
-        /*if section == 1 {
-            return 50
-        }
-        return CGFloat.leastNonzeroMagnitude*/
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -137,9 +110,9 @@ class FacilitoUpsertTVC: UITableViewController, UITextFieldDelegate {
         case 0:
             return 6
         case 1:
-            return self.modo == "ADD" ? 0 : 2
+            return Globals.UFModo == "ADD" ? 0 : 2
         case 2:
-            return self.multimedia.count/2 + self.multimedia.count%2
+            return Globals.GaleriaMultimedia.count/2 + Globals.GaleriaMultimedia.count%2
         default:
             return 0
         }
@@ -151,43 +124,45 @@ class FacilitoUpsertTVC: UITableViewController, UITextFieldDelegate {
             case 0:
                 let celda = tableView.dequeueReusableCell(withIdentifier: "celda2") as! Celda1Texto2Boton
                 celda.texto.text = "Tipo"
-                celda.boton1.backgroundColor = self.dataRest["Tipo"]! == "A" ? Images.colorClover : Images.colorClover.withAlphaComponent(0.5)
+                celda.boton1.backgroundColor = (Globals.UFDetalle.Tipo ?? "") == "A" ? Images.colorClover : Images.colorClover.withAlphaComponent(0.5)
                 celda.boton1.tag = 0
-                celda.boton2.backgroundColor = self.dataRest["Tipo"]! == "C" ? UIColor.red : UIColor.red.withAlphaComponent(0.5)
+                celda.boton2.backgroundColor = (Globals.UFDetalle.Tipo ?? "") == "C" ? UIColor.red : UIColor.red.withAlphaComponent(0.5)
                 celda.boton2.tag = 1
                 return celda
             case 1:
                 let celda = tableView.dequeueReusableCell(withIdentifier: "celda3") as! Celda1Texto1Boton
                 celda.texto.attributedText = Utils.addInitialRedAsterisk("Gerencia", "HelveticaNeue", 13)
                 celda.boton.tag = 0
-                celda.boton.setTitle(self.dataShow["CodPosicionGer"]!, for: .normal)
+                celda.boton.setTitle(Utils.searchMaestroDescripcion("GERE", Globals.UFDetalle.CodPosicionGer ?? ""), for: .normal)
+                // celda.boton.setTitle(self.dataShow["CodPosicionGer"]!, for: .normal)
                 celda.boton.titleLabel?.numberOfLines = 2
                 return celda
             case 2:
                 let celda = tableView.dequeueReusableCell(withIdentifier: "celda3") as! Celda1Texto1Boton
                 celda.texto.attributedText = Utils.generateAttributedString(["Superintendencia"], ["HelveticaNeue"], [13])
                 celda.boton.tag = 1
-                celda.boton.setTitle(self.dataShow["CodPosicionSup"]!, for: .normal)
+                celda.boton.setTitle(Utils.searchMaestroDescripcion("SUPE.\(Globals.UFDetalle.CodPosicionGer ?? "")", Globals.UFDetalle.CodPosicionSup ?? ""), for: .normal)
+                // celda.boton.setTitle(self.dataShow["CodPosicionSup"]!, for: .normal)
                 celda.boton.titleLabel?.numberOfLines = 2
                 return celda
             case 3:
                 let celda = tableView.dequeueReusableCell(withIdentifier: "celda4") as! Celda1Texto1InputText
                 celda.texto.attributedText = Utils.addInitialRedAsterisk("Ubicación", "HelveticaNeue", 13)
-                celda.inputTexto.text = self.dataRest["UbicacionExacta"] ?? ""
+                celda.inputTexto.text = (Globals.UFDetalle.UbicacionExacta ?? "")
                 celda.inputTexto.tag = 0
                 celda.inputTexto.delegate = self
                 return celda
             case 4:
                 let celda = tableView.dequeueReusableCell(withIdentifier: "celda4") as! Celda1Texto1InputText
                 celda.texto.attributedText = Utils.addInitialRedAsterisk("Observación", "HelveticaNeue", 13)
-                celda.inputTexto.text = self.dataRest["Observacion"] ?? ""
+                celda.inputTexto.text = (Globals.UFDetalle.Observacion ?? "")
                 celda.inputTexto.tag = 1
                 celda.inputTexto.delegate = self
                 return celda
             case 5:
                 let celda = tableView.dequeueReusableCell(withIdentifier: "celda4") as! Celda1Texto1InputText
                 celda.texto.attributedText = Utils.addInitialRedAsterisk("Acción", "HelveticaNeue", 13)
-                celda.inputTexto.text = self.dataRest["Accion"] ?? ""
+                celda.inputTexto.text = (Globals.UFDetalle.Accion ?? "")
                 celda.inputTexto.tag = 2
                 celda.inputTexto.delegate = self
                 return celda
@@ -198,12 +173,13 @@ class FacilitoUpsertTVC: UITableViewController, UITextFieldDelegate {
             switch indexPath.row {
             case 0:
                 let celda = tableView.dequeueReusableCell(withIdentifier: "celda6") as! Celda1Texto
-                celda.texto.text = self.dataShow["RespAuxiliar"] ?? ""
+                celda.texto.text = (Globals.UFDetalle.RespAuxiliarDesc ?? "")
                 return celda
             case 1:
                 let celda = tableView.dequeueReusableCell(withIdentifier: "celda3") as! Celda1Texto1Boton
                 celda.texto.text = "Estado:"
-                celda.boton.setTitle(self.dataShow["Estado"] ?? "", for: .normal)
+                celda.boton.setTitle(Utils.searchMaestroStatic("ESTADOFACILITO", Globals.UFDetalle.Estado ?? ""), for: .normal)
+                // celda.boton.setTitle(self.dataShow["Estado"] ?? "", for: .normal)
                 celda.boton.tag = 2
                 return celda
             default:
@@ -211,11 +187,11 @@ class FacilitoUpsertTVC: UITableViewController, UITextFieldDelegate {
             }
         } else {
             let celda = tableView.dequeueReusableCell(withIdentifier: "celda5") as! CeldaGaleria
-            let unit1 = self.multimedia[indexPath.row * 2]
+            let unit1 = Globals.GaleriaMultimedia[indexPath.row * 2]
             celda.imagen1.image = unit1.imagen
             celda.play1.isHidden = !unit1.esVideo
-            if indexPath.row * 2 + 1 != self.multimedia.count {
-                let unit2 = self.multimedia[indexPath.row * 2 + 1]
+            if indexPath.row * 2 + 1 != Globals.GaleriaMultimedia.count {
+                let unit2 = Globals.GaleriaMultimedia[indexPath.row * 2 + 1]
                 celda.view2.isHidden = false
                 celda.play2.isHidden = false
                 celda.imagen2.isHidden = false
@@ -243,49 +219,58 @@ class FacilitoUpsertTVC: UITableViewController, UITextFieldDelegate {
     
     @IBAction func clickTopDer(_ sender: Any) {
         self.view.endEditing(true)
-        // data["ActoCondicion"] = self.param1 == 0 ? "Acto" : "Condicion"
-        var nombreVariable = ""
-        if self.dataRest["CodPosicionGer"] == nil || self.dataRest["CodPosicionGer"] == "" {
-            nombreVariable = "Gerencia"
-        }
-        if self.dataRest["Ubicacion"] == nil || self.dataRest["Ubicacion"] == "" {
-            nombreVariable = "Ubicacion"
-        }
-        if self.dataRest["Observacion"] == nil || self.dataRest["Observacion"] == "" {
-            nombreVariable = "Observacion"
-        }
-        if self.dataRest["Accion"] == nil || self.dataRest["Accion"] == "" {
-            nombreVariable = "Accion"
-        }
-        if nombreVariable != "" {
-            Alerts.presentAlert("Complete el siguiente campo obligatorio", nombreVariable, duration: 2, imagen: Images.alertaAmarilla, viewController: self)
+        let respuestaTab = Globals.UFGetData()
+        if respuestaTab.respuesta != "" {
+            Alerts.presentAlert("Complete el siguiente campo obligatorio", respuestaTab.respuesta, duration: 2, imagen: Images.alertaAmarilla, viewController: self)
         } else {
-            Alerts.presentAlert("Campos correctos", "POST aun no desarrollado", duration: 1, imagen: Images.alertaVerde, viewController: self)
+            print(Globals.UFCodigo)
+            Rest.postMultipartFormData(Routes.forADDFacilito(), params: [["1", respuestaTab.data], ["2", "-"], ["3", Globals.UFCodigo]], [], [], [], [], true, 0, success: {(resultValue:Any?,data:Data?) in
+                var respuesta = resultValue as! String
+                if respuesta == "-1" {
+                    self.presentAlert("Error", "Ocurrió un error al procesar la solicitud. Por favor, inténtelo nuevamente", .alert, 2, nil, [], [], actionHandlers: [])
+                } else {
+                    let respuestaSplits = respuesta.components(separatedBy: ";")
+                    for i in 0..<respuestaSplits.count {
+                        if respuestaSplits[0] == "-1" {
+                            
+                        }
+                    }
+                }
+                print(resultValue)
+            }, progress: {(progreso:Double) in
+                
+            }, error: {(error) in
+                print(error)
+            })
+            // Alerts.presentAlert("Campos correctos", "POST aun no desarrollado", duration: 1, imagen: Images.alertaVerde, viewController: self)
         }
-        print(self.dataRest)
     }
     
     @IBAction func clickAgregarResponsable(_ sender: Any) {
         VCHelper.openFiltroPersona(self, {(persona) in
-            self.dataRest["RespAuxiliar"] = persona.CodPersona
-            self.dataShow["RespAuxiliar"] = persona.Nombres
+            Globals.UFDetalle.RespAuxiliar = persona.CodPersona
+            Globals.UFDetalle.RespAuxiliarDesc = persona.Nombres
+            /*self.dataRest["RespAuxiliar"] = persona.CodPersona
+            self.dataShow["RespAuxiliar"] = persona.Nombres*/
             self.tableView.reloadRows(at: [IndexPath.init(row: 0, section: 1)], with: .none)
         })
     }
     
     @IBAction func clickEliminarResponsable(_ sender: Any) {
-        self.dataRest["RespAuxiliar"] = nil
-        self.dataShow["RespAuxiliar"] = nil
+        Globals.UFDetalle.RespAuxiliar = nil
+        Globals.UFDetalle.RespAuxiliarDesc = nil
+        /*self.dataRest["RespAuxiliar"] = nil
+        self.dataShow["RespAuxiliar"] = nil*/
         self.tableView.reloadRows(at: [IndexPath.init(row: 0, section: 1)], with: .none)
     }
     
     @IBAction func clickActoCondicion(_ sender: Any) {
         let boton = sender as! UIButton
-        let tipo = boton.tag == 0 ? "A" : "C"
-        if self.dataRest["Tipo"]! != tipo {
+        Globals.UFDetalle.Tipo = boton.tag == 0 ? "A" : "C"
+        self.tableView.reloadRows(at: [IndexPath.init(row: 0, section: 0)], with: .none)
+        /*if self.dataRest["Tipo"]! != tipo {
             self.dataRest["Tipo"] = tipo
-            self.tableView.reloadRows(at: [IndexPath.init(row: 0, section: 0)], with: .none)
-        }
+        }*/
     }
     
     @IBAction func clickGerenciaSuperintendencia(_ sender: Any) {
@@ -295,7 +280,7 @@ class FacilitoUpsertTVC: UITableViewController, UITextFieldDelegate {
         case 0:
             data = Utils.maestroDescripcion["GERE"] ?? []
         case 1:
-            data = Utils.maestroDescripcion["SUPE.\(self.dataRest["CodPosicionGer"] ?? "")"] ?? []
+            data = Utils.maestroDescripcion["SUPE.\(Globals.UFDetalle.CodPosicionGer ?? "")"] ?? []
         case 2:
             data = Utils.maestroStatic2["ESTADOFACILITO"] ?? []
         default:
@@ -304,18 +289,23 @@ class FacilitoUpsertTVC: UITableViewController, UITextFieldDelegate {
         Utils.showDropdown(boton, data, {(index, item) in
             switch boton.tag {
             case 0:
-                self.dataRest["CodPosicionGer"] = Utils.maestroCodTipo["GERE"]?[index] ?? ""
-                self.dataRest["CodPosicionSup"] = nil
-                self.dataShow["CodPosicionSup"] = "- SELECCIONE -"
+                // Me quede aqui !!!
+                Globals.UFDetalle.CodPosicionGer = Utils.maestroCodTipo["GERE"]?[index]
+                Globals.UFDetalle.CodPosicionSup = nil
+                // self.dataRest["CodPosicionGer"] = Utils.maestroCodTipo["GERE"]?[index] ?? ""
+                // self.dataRest["CodPosicionSup"] = nil
+                // self.dataShow["CodPosicionSup"] = "- SELECCIONE -"
                 self.tableView.reloadRows(at: [IndexPath.init(row: 2, section: 0)], with: .none)
             case 1:
-                self.dataRest["CodPosicionSup"] = Utils.maestroCodTipo["SUPE.\(self.dataRest["CodPosicionGer"] ?? "")"]?[index] ?? ""
+                Globals.UFDetalle.CodPosicionSup = Utils.maestroCodTipo["SUPE.\(Globals.UFDetalle.CodPosicionGer ?? "")"]?[index]
+                // self.dataRest["CodPosicionSup"] = Utils.maestroCodTipo["SUPE.\(self.dataRest["CodPosicionGer"] ?? "")"]?[index] ?? ""
             case 2:
-                self.dataRest["Estado"] = Utils.maestroStatic1["ESTADOFACILITO"]?[index]
+                Globals.UFDetalle.Estado = Utils.maestroStatic1["ESTADOFACILITO"]?[index]
+                // self.dataRest["Estado"] = Utils.maestroStatic1["ESTADOFACILITO"]?[index]
             default:
                 break
             }
-            print(self.dataRest)
+            // print(self.dataRest)
         })
     }
     
@@ -339,7 +329,7 @@ class FacilitoUpsertTVC: UITableViewController, UITextFieldDelegate {
         }
         let celda = superView as! CeldaGaleria
         var indexToShow = (self.tableView.indexPath(for: celda)!.row) * 2
-        let unit = self.multimedia[indexToShow]
+        let unit = Globals.GaleriaMultimedia[indexToShow]
         if unit.esVideo {
             unit.asset!.fetchAVAssetWithCompleteBlock({(video, info) in
                 let playerAV = AVPlayer.init(playerItem: AVPlayerItem.init(asset: video!))
@@ -350,9 +340,9 @@ class FacilitoUpsertTVC: UITableViewController, UITextFieldDelegate {
                 }
             })
         } else {
-            var imageAssets = [FotoVideo].init(self.multimedia)
-            for i in (0..<self.multimedia.count).reversed() {
-                let unit = self.multimedia[i]
+            var imageAssets = [FotoVideo].init(Globals.GaleriaMultimedia)
+            for i in (0..<Globals.GaleriaMultimedia.count).reversed() {
+                let unit = Globals.GaleriaMultimedia[i]
                 if unit.esVideo {
                     imageAssets.remove(at: i)
                     if i < indexToShow {
@@ -371,7 +361,7 @@ class FacilitoUpsertTVC: UITableViewController, UITextFieldDelegate {
         }
         let celda = superView as! CeldaGaleria
         var indexToShow = (self.tableView.indexPath(for: celda)!.row) * 2 + 1
-        let unit = self.multimedia[indexToShow]
+        let unit = Globals.GaleriaMultimedia[indexToShow]
         if unit.esVideo {
             unit.asset!.fetchAVAssetWithCompleteBlock({(video, info) in
                 let playerAV = AVPlayer.init(playerItem: AVPlayerItem.init(asset: video!))
@@ -382,9 +372,9 @@ class FacilitoUpsertTVC: UITableViewController, UITextFieldDelegate {
                 }
             })
         } else {
-            var imageAssets = [FotoVideo].init(self.multimedia)
-            for i in (0..<self.multimedia.count).reversed() {
-                let unit = self.multimedia[i]
+            var imageAssets = [FotoVideo].init(Globals.GaleriaMultimedia)
+            for i in (0..<Globals.GaleriaMultimedia.count).reversed() {
+                let unit = Globals.GaleriaMultimedia[i]
                 if unit.esVideo {
                     imageAssets.remove(at: i)
                     if i < indexToShow {
@@ -403,7 +393,7 @@ class FacilitoUpsertTVC: UITableViewController, UITextFieldDelegate {
         }
         let celda = superView as! CeldaGaleria
         let indexToDel = self.tableView.indexPath(for: celda)!.row * 2
-        self.multimedia.remove(at: indexToDel)
+        Globals.GaleriaMultimedia.remove(at: indexToDel)
         /*self.assets.remove(at: indexToDel)
         self.imagenes.remove(at: indexToDel)
         self.assetIsVideoFlag.remove(at: indexToDel)
@@ -418,7 +408,7 @@ class FacilitoUpsertTVC: UITableViewController, UITextFieldDelegate {
         }
         let celda = superView as! CeldaGaleria
         let indexToDel = self.tableView.indexPath(for: celda)!.row * 2 + 1
-        self.multimedia.remove(at: indexToDel)
+        Globals.GaleriaMultimedia.remove(at: indexToDel)
         /*self.assets.remove(at: indexToDel)
          self.imagenes.remove(at: indexToDel)
          self.assetIsVideoFlag.remove(at: indexToDel)

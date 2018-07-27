@@ -47,7 +47,7 @@ class GaleriaFVDVC: UIViewController {
                 switch multimedia.TipoArchivo ?? "" {
                 case "TP01":
                     self.galeria.fotosyvideos.append(multimedia.toFotoVideo())
-                    Images.downloadCorrelativo("\(multimedia.Correlativo ?? 0)", {(self.galeria.tableView.reloadData())})
+                    Images.downloadImage("\(multimedia.Correlativo ?? 0)", {(self.galeria.tableView.reloadData())})
                     break
                 case "TP02":
                     self.galeria.fotosyvideos.append(multimedia.toFotoVideo())

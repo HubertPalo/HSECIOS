@@ -12,7 +12,7 @@ class ObsDetallePVCTab4: UIViewController, UITableViewDelegate, UITableViewDataS
         if let padre = self.parent?.parent as? ObsDetalleVC {
             padre.selectTab(3)
         }
-        Rest.getDataGeneral(Routes.forObsPlanAccion(self.observacion.Codigo ?? ""), true, success: {(resultValue:Any?,data:Data?) in
+        Rest.getDataGeneral(Routes.forPlanAccion(self.observacion.Codigo ?? ""), true, success: {(resultValue:Any?,data:Data?) in
             let arrayPlanes: ArrayGeneral<PlanAccionDetalle> = Dict.dataToArray(data!)
             // self.planes = Dict.toArrayObsPlanAccion(dict)
             self.planes = arrayPlanes.Data

@@ -73,12 +73,15 @@ class ComentariosVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         celda.autor.text = unit.Nombres
         celda.fecha.text = Utils.str2date2str(unit.Fecha)
         celda.comentario.text = unit.Comentario
-        let codigoImagen = "media/getAvatar/\(unit.Estado)/Carnet.jpg"
-        if let temp = Images.imagenes[codigoImagen] {
+        // let codigoImagen = "media/getAvatar/\(unit.Estado)/Carnet.jpg"
+        if (unit.Estado ?? "") != "" {
+            celda.avatar.image = Images.getImageFor("A-\(unit.Estado ?? "")")
+        }
+        /*if let temp = Images.imagenes[codigoImagen] {
             celda.avatar.image = temp
         } else {
             Images.get(codigoImagen, tableView, indexPath.row)
-        }
+        }*/
         return celda
     }
     // tabla

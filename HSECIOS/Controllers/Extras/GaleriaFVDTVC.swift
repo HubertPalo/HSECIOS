@@ -24,8 +24,8 @@ class GaleriaFVDTVC: UITableViewController, UIDocumentMenuDelegate, UIDocumentPi
         var arrayFileName = [String]()
         var arrayMimeType = [String]()
         var arrayCorreDel = [String]()
-        for i in 0..<Globals.UOTab3Multimedia.count {
-            let unit = Globals.UOTab3Multimedia[i]
+        for i in 0..<Globals.GaleriaMultimedia.count {
+            let unit = Globals.GaleriaMultimedia[i]
             if unit.Correlativo == nil {
                 if unit.Descripcion != nil && unit.multimediaData != nil {
                     arrayData.append(unit.multimediaData!)
@@ -34,7 +34,7 @@ class GaleriaFVDTVC: UITableViewController, UIDocumentMenuDelegate, UIDocumentPi
                 }
             }
         }
-        for i in Globals.UOTab3CorrelativosABorrar {
+        for i in Globals.GaleriaCorrelativosABorrar {
             arrayCorreDel.append("\(i)")
         }
         print(arrayCorreDel)
@@ -42,7 +42,7 @@ class GaleriaFVDTVC: UITableViewController, UIDocumentMenuDelegate, UIDocumentPi
     }
     
     func addFotoVideo(_ arrayFotoVideo: [FotoVideo]) {
-        Globals.UOTab3Multimedia.append(contentsOf: arrayFotoVideo)
+        Globals.GaleriaMultimedia.append(contentsOf: arrayFotoVideo)
         self.tableView.reloadData()
     }
     
@@ -56,7 +56,7 @@ class GaleriaFVDTVC: UITableViewController, UIDocumentMenuDelegate, UIDocumentPi
             documento.multimediaData = try Data.init(contentsOf: url)
             let fileSize = documento.multimediaData?.count ?? 1024*1024*8
             if fileSize < 1024*1024*8 {
-                Globals.UOTab3Documentos.append(documento)
+                Globals.GaleriaDocumentos.append(documento)
                 self.tableView.reloadData()
             } else {
                 self.presentAlert("Archivo muy pesado", "No es posible subir archivos con un peso mayor a 8 MB", .alert, 2, nil, [], [], actionHandlers: [])
@@ -87,9 +87,9 @@ class GaleriaFVDTVC: UITableViewController, UIDocumentMenuDelegate, UIDocumentPi
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return Globals.UOTab3Multimedia.count/2 + Globals.UOTab3Multimedia.count%2
+            return Globals.GaleriaMultimedia.count/2 + Globals.GaleriaMultimedia.count%2
         case 1:
-            return Globals.UOTab3Documentos.count
+            return Globals.GaleriaDocumentos.count
         default:
             return 0
         }
@@ -97,7 +97,7 @@ class GaleriaFVDTVC: UITableViewController, UIDocumentMenuDelegate, UIDocumentPi
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         switch section {
         case 0:
-            if Globals.GaleriaModo == "GET" && Globals.UOTab3Multimedia.count == 0 {
+            if Globals.GaleriaModo == "GET" && Globals.GaleriaMultimedia.count == 0 {
                 return nil
             }
             let celda = tableView.dequeueReusableCell(withIdentifier: "celda1") as! GaleriaFVDTVCell1
@@ -106,7 +106,7 @@ class GaleriaFVDTVC: UITableViewController, UIDocumentMenuDelegate, UIDocumentPi
             celda.botonAgregar.tag = 1
             return celda.contentView
         case 1:
-            if Globals.GaleriaModo == "GET" && Globals.UOTab3Documentos.count == 0 {
+            if Globals.GaleriaModo == "GET" && Globals.GaleriaDocumentos.count == 0 {
                 return nil
             }
             let celda = tableView.dequeueReusableCell(withIdentifier: "celda1") as! GaleriaFVDTVCell1
@@ -122,12 +122,12 @@ class GaleriaFVDTVC: UITableViewController, UIDocumentMenuDelegate, UIDocumentPi
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
         case 0:
-            if Globals.GaleriaModo == "GET" && Globals.UOTab3Multimedia.count == 0 {
+            if Globals.GaleriaModo == "GET" && Globals.GaleriaMultimedia.count == 0 {
                 return CGFloat.leastNonzeroMagnitude
             }
             return 50
         case 1:
-            if Globals.GaleriaModo == "GET" && Globals.UOTab3Documentos.count == 0 {
+            if Globals.GaleriaModo == "GET" && Globals.GaleriaDocumentos.count == 0 {
                 return CGFloat.leastNonzeroMagnitude
             }
             return 50
@@ -139,9 +139,9 @@ class GaleriaFVDTVC: UITableViewController, UIDocumentMenuDelegate, UIDocumentPi
         switch indexPath.section {
         case 0:
             let celda = tableView.dequeueReusableCell(withIdentifier: "celda2") as! CeldaGaleria
-            let dataIzq = Globals.UOTab3Multimedia[indexPath.row * 2]
+            let dataIzq = Globals.GaleriaMultimedia[indexPath.row * 2]
             
-            let dataDer: FotoVideo? = indexPath.row * 2 + 1 >= Globals.UOTab3Multimedia.count ? nil : Globals.UOTab3Multimedia[indexPath.row * 2 + 1]
+            let dataDer: FotoVideo? = indexPath.row * 2 + 1 >= Globals.GaleriaMultimedia.count ? nil : Globals.GaleriaMultimedia[indexPath.row * 2 + 1]
             
             celda.boton1.tag = indexPath.row * 2
             celda.botonX1.tag = indexPath.row * 2
@@ -153,17 +153,23 @@ class GaleriaFVDTVC: UITableViewController, UIDocumentMenuDelegate, UIDocumentPi
             celda.play2.isHidden = !(dataDer?.esVideo ?? false)
             celda.imagen2.isHidden = dataDer == nil
             if dataIzq.asset == nil {
-                Images.loadImagePreviewFromCode("\(dataIzq.Correlativo ?? 0)", celda.imagen1, {
+                if dataIzq.Correlativo != nil {
+                    celda.imagen1.image = Images.getImageFor("P-\(dataIzq.Correlativo!)")
+                }
+                /*Images.loadImagePreviewFromCode("\(dataIzq.Correlativo ?? 0)", celda.imagen1, {
                     tableView.reloadRows(at: [indexPath], with: .none)
-                })
+                })*/
             } else {
                 celda.imagen1.image = dataIzq.imagen
             }
             if let newdataDer = dataDer {
                 if newdataDer.asset == nil {
-                    Images.loadImagePreviewFromCode("\(newdataDer.Correlativo ?? 0)", celda.imagen2, {
+                    if newdataDer.Correlativo != nil {
+                        celda.imagen2.image = Images.getImageFor("P-\(newdataDer.Correlativo!)")
+                    }
+                    /*Images.loadImagePreviewFromCode("\(newdataDer.Correlativo ?? 0)", celda.imagen2, {
                         tableView.reloadRows(at: [indexPath], with: .none)
-                    })
+                    })*/
                 } else {
                     celda.imagen2.image = newdataDer.imagen
                 }
@@ -171,7 +177,7 @@ class GaleriaFVDTVC: UITableViewController, UIDocumentMenuDelegate, UIDocumentPi
             return celda
         case 1:
             let celda = tableView.dequeueReusableCell(withIdentifier: "celda3") as! CeldaDocumento
-            let unit = Globals.UOTab3Documentos[indexPath.row]
+            let unit = Globals.GaleriaDocumentos[indexPath.row]
             celda.icono.image = Images.alertaVerde
             celda.nombre.text = unit.Descripcion
             celda.tamanho.text = unit.tamanho
@@ -216,7 +222,7 @@ class GaleriaFVDTVC: UITableViewController, UIDocumentMenuDelegate, UIDocumentPi
     
     @IBAction func clickImagen(_ sender: Any) {
         var indice = (sender as! UIButton).tag
-        let unit = Globals.UOTab3Multimedia[indice]
+        let unit = Globals.GaleriaMultimedia[indice]
         if unit.esVideo {
             if unit.asset == nil {
                 
@@ -236,18 +242,18 @@ class GaleriaFVDTVC: UITableViewController, UIDocumentMenuDelegate, UIDocumentPi
             } else {
                 var fotos: [FotoVideo] = []
                 print(indice)
-                for i in 0..<Globals.UOTab3Multimedia.count {
-                    let foto = Globals.UOTab3Multimedia[i]
+                for i in 0..<Globals.GaleriaMultimedia.count {
+                    let foto = Globals.GaleriaMultimedia[i]
                     if !foto.esVideo {
                         fotos.append(foto)
                         
                     } else if i < indice {
-                            print("\(i) - \(Globals.UOTab3Multimedia.count) - \(indice)")
+                            print("\(i) - \(Globals.GaleriaMultimedia.count) - \(indice)")
                             indice = indice - 1
                         }
                     
                 }
-                print("fotosyvideos count: \(Globals.UOTab3Multimedia.count) - indice = \(indice)")
+                print("fotosyvideos count: \(Globals.GaleriaMultimedia.count) - indice = \(indice)")
                 Images.showGallery(fotos: fotos, index: indice, viewController: self)
             }
             
@@ -256,20 +262,20 @@ class GaleriaFVDTVC: UITableViewController, UIDocumentMenuDelegate, UIDocumentPi
     
     @IBAction func clickImagenX(_ sender: Any) {
         let indexToDel = (sender as! UIButton).tag
-        let unit = Globals.UOTab3Multimedia[indexToDel]
+        let unit = Globals.GaleriaMultimedia[indexToDel]
         
         if Globals.GaleriaModo == "PUT" && unit.Correlativo != nil {
-            Globals.UOTab3CorrelativosABorrar.insert(unit.Correlativo ?? 0)
+            Globals.GaleriaCorrelativosABorrar.insert(unit.Correlativo ?? 0)
         }
-        Globals.UOTab3Nombres.remove(unit.Descripcion ?? "")
-        Globals.UOTab3Multimedia.remove(at: indexToDel)
+        Globals.GaleriaNombres.remove(unit.Descripcion ?? "")
+        Globals.GaleriaMultimedia.remove(at: indexToDel)
         self.tableView.reloadSections([0], with: .none)
     }
     
     @IBAction func clickEliminarDocumento(_ sender: Any) {
         let boton = sender as! UIButton
-        Globals.UOTab3Nombres.remove(Globals.UOTab3Documentos[boton.tag].Descripcion ?? "")
-        Globals.UOTab3Documentos.remove(at: boton.tag)
+        Globals.GaleriaNombres.remove(Globals.GaleriaDocumentos[boton.tag].Descripcion ?? "")
+        Globals.GaleriaDocumentos.remove(at: boton.tag)
         self.tableView.reloadSections([1], with: .none)
     }
     
@@ -290,9 +296,9 @@ class GaleriaFVDTVC: UITableViewController, UIDocumentMenuDelegate, UIDocumentPi
             if flagImage && flagVideoData {
                 Utils.desbloquearPantalla()
                 Dict.unitToData(fotovideo)
-                if fotovideo.imagen != nil && fotovideo.multimediaData != nil && !Globals.UOTab3Nombres.contains(fotovideo.Descripcion ?? "") {
-                    Globals.UOTab3Multimedia.append(fotovideo)
-                    Globals.UOTab3Nombres.insert(fotovideo.Descripcion ?? "")
+                if fotovideo.imagen != nil && fotovideo.multimediaData != nil && !Globals.GaleriaNombres.contains(fotovideo.Descripcion ?? "") {
+                    Globals.GaleriaMultimedia.append(fotovideo)
+                    Globals.GaleriaNombres.insert(fotovideo.Descripcion ?? "")
                     self.tableView.reloadData()
                 }
             }
@@ -311,9 +317,9 @@ class GaleriaFVDTVC: UITableViewController, UIDocumentMenuDelegate, UIDocumentPi
             if flagImage && flagVideoData {
                 Utils.desbloquearPantalla()
                 Dict.unitToData(fotovideo)
-                if fotovideo.imagen != nil && fotovideo.multimediaData != nil && !Globals.UOTab3Nombres.contains(fotovideo.Descripcion ?? "") {
-                    Globals.UOTab3Multimedia.append(fotovideo)
-                    Globals.UOTab3Nombres.insert(fotovideo.Descripcion ?? "")
+                if fotovideo.imagen != nil && fotovideo.multimediaData != nil && !Globals.GaleriaNombres.contains(fotovideo.Descripcion ?? "") {
+                    Globals.GaleriaMultimedia.append(fotovideo)
+                    Globals.GaleriaNombres.insert(fotovideo.Descripcion ?? "")
                     self.tableView.reloadData()
                 }
             }
@@ -337,9 +343,9 @@ class GaleriaFVDTVC: UITableViewController, UIDocumentMenuDelegate, UIDocumentPi
             if flagImage && flagImagefull && flagImageData {
                 Utils.desbloquearPantalla()
                 Dict.unitToData(fotovideo)
-                if !(fotovideo.imagen == nil) && !(fotovideo.multimediaData == nil) && !Globals.UOTab3Nombres.contains(fotovideo.Descripcion ?? "") {
-                    Globals.UOTab3Multimedia.append(fotovideo)
-                    Globals.UOTab3Nombres.insert(fotovideo.Descripcion ?? "")
+                if !(fotovideo.imagen == nil) && !(fotovideo.multimediaData == nil) && !Globals.GaleriaNombres.contains(fotovideo.Descripcion ?? "") {
+                    Globals.GaleriaMultimedia.append(fotovideo)
+                    Globals.GaleriaNombres.insert(fotovideo.Descripcion ?? "")
                     self.tableView.reloadData()
                 }
             }
@@ -352,9 +358,9 @@ class GaleriaFVDTVC: UITableViewController, UIDocumentMenuDelegate, UIDocumentPi
             if flagImage && flagImagefull && flagImageData {
                 Utils.desbloquearPantalla()
                 Dict.unitToData(fotovideo)
-                if !(fotovideo.imagen == nil) && !(fotovideo.multimediaData == nil) && !Globals.UOTab3Nombres.contains(fotovideo.Descripcion ?? "") {
-                    Globals.UOTab3Multimedia.append(fotovideo)
-                    Globals.UOTab3Nombres.insert(fotovideo.Descripcion ?? "")
+                if !(fotovideo.imagen == nil) && !(fotovideo.multimediaData == nil) && !Globals.GaleriaNombres.contains(fotovideo.Descripcion ?? "") {
+                    Globals.GaleriaMultimedia.append(fotovideo)
+                    Globals.GaleriaNombres.insert(fotovideo.Descripcion ?? "")
                     self.tableView.reloadData()
                 }
             }
@@ -367,9 +373,9 @@ class GaleriaFVDTVC: UITableViewController, UIDocumentMenuDelegate, UIDocumentPi
             if flagImage && flagImagefull && flagImageData {
                 Utils.desbloquearPantalla()
                 Dict.unitToData(fotovideo)
-                if !(fotovideo.imagen == nil) && !(fotovideo.multimediaData == nil) && !Globals.UOTab3Nombres.contains(fotovideo.Descripcion ?? "") {
-                    Globals.UOTab3Multimedia.append(fotovideo)
-                    Globals.UOTab3Nombres.insert(fotovideo.Descripcion ?? "")
+                if !(fotovideo.imagen == nil) && !(fotovideo.multimediaData == nil) && !Globals.GaleriaNombres.contains(fotovideo.Descripcion ?? "") {
+                    Globals.GaleriaMultimedia.append(fotovideo)
+                    Globals.GaleriaNombres.insert(fotovideo.Descripcion ?? "")
                     self.tableView.reloadData()
                 }
             }

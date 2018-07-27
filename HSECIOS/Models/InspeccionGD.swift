@@ -1,4 +1,5 @@
 class InspeccionGD: Codable {
+    // Datos que recibe del muro
     var CodInspeccion: String?
     var CodTipo: String?
     var CodContrata: String?
@@ -11,6 +12,9 @@ class InspeccionGD: Codable {
     var Elemperpage: Int?
     var Pagenumber: Int?
     
+    // Datos upsert
+    
+    // Otros datos
     var EquipoInspeccion: String?
     var PersonasAtendidas: String?
     var Estado: String?

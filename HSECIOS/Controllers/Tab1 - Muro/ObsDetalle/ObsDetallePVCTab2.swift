@@ -10,8 +10,6 @@ class ObsDetallePVCTab2: UIViewController {
         }
         let hijo = self.childViewControllers[0] as! ObsDetalleTVC
         Rest.getDataGeneral(Routes.forObsDetalle(observacion.Codigo ?? ""), false, success: {(resultValue:Any?,data:Data?) in
-            // let obsdetalle = Dict.toObsDetalle(dict)
-            // hijo.obsDetalle = obsdetalle
             hijo.obsDetalle = Dict.dataToUnit(data!)!
             hijo.observacion = self.observacion
             hijo.reloadValues()

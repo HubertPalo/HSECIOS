@@ -1195,23 +1195,23 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="e0Y-7j-BFp">
-                                            <rect key="frame" x="5" y="5" width="365" height="180"/>
+                                            <rect key="frame" x="5" y="5" width="365" height="192"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xNb-XI-Y6X">
-                                                    <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="180" height="192"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EpW-qj-GRs">
-                                                            <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="192" height="192"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="EpW-qj-GRs" secondAttribute="height" multiplier="1:1" id="N8d-HC-7fu"/>
                                                             </constraints>
                                                         </imageView>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="play" translatesAutoresizingMaskIntoConstraints="NO" id="9ga-KK-fjM">
-                                                            <rect key="frame" x="45" y="45" width="90" height="90"/>
+                                                            <rect key="frame" x="42" y="48" width="96" height="96"/>
                                                             <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </imageView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kDF-Rp-4rx">
-                                                            <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="180" height="192"/>
                                                             <connections>
                                                                 <action selector="clickImagenIzq:" destination="vNl-7o-oEK" eventType="touchUpInside" id="M4x-xN-9Ly"/>
                                                             </connections>
@@ -1265,20 +1265,20 @@
                                                     </constraints>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bbG-Hh-7pj">
-                                                    <rect key="frame" x="185" y="0.0" width="180" height="180"/>
+                                                    <rect key="frame" x="185" y="0.0" width="180" height="192"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eZv-iB-pIP">
-                                                            <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="192" height="192"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="eZv-iB-pIP" secondAttribute="height" multiplier="1:1" id="AxY-LK-ZOF"/>
                                                             </constraints>
                                                         </imageView>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="play" translatesAutoresizingMaskIntoConstraints="NO" id="Eee-uh-O24">
-                                                            <rect key="frame" x="44.5" y="44.5" width="90" height="90"/>
+                                                            <rect key="frame" x="41.5" y="47.5" width="96" height="96"/>
                                                             <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </imageView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ASx-KN-MsF">
-                                                            <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="180" height="192"/>
                                                             <connections>
                                                                 <action selector="clickImagenDer:" destination="vNl-7o-oEK" eventType="touchUpInside" id="C2q-C2-XJB"/>
                                                             </connections>

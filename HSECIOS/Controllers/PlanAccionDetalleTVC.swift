@@ -209,7 +209,11 @@ class PlanAccionDetalleTVC: UITableViewController {
             celda.progreso.progress = Float(porcent)
             celda.progreso.progressTintColor = porcent < 0.5 ? UIColor.red : UIColor.green
             celda.limiteView.isHidden = indexPath.row == self.mejoras.count - 1
-            Images.loadAvatarFromDNI(unit.UrlObs, celda.avatar, true, tableView, indexPath)
+            // Images.loadAvatarFromDNI(unit.UrlObs, celda.avatar, true, tableView, indexPath)
+            if (unit.UrlObs ?? "") != "" {
+                celda.avatar.image = Images.getImageFor("A-\(unit.UrlObs ?? "")")
+            }
+            
             return celda
         default:
             return UITableViewCell()

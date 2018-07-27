@@ -104,13 +104,13 @@ class Tabs {
     }
     
     static func indexFor(_ viewcontroller: UIViewController) -> Int {
-        if viewcontroller is ObsDetallePVCTab1 || viewcontroller is InsDetallePVCTab1 || viewcontroller is UpsertObsPVCTab1 || viewcontroller is InsObservacionPVCTab1 || viewcontroller is AddInspeccionPVCTab1 || viewcontroller is AddInsObservacionPVCTab1 {
+        if viewcontroller is ObsDetallePVCTab1 || viewcontroller is InsDetallePVCTab1 || viewcontroller is UpsertObsPVCTab1 || viewcontroller is InsObservacionPVCTab1 || viewcontroller is UpsertInsPVCTab1 || viewcontroller is UpsertInsObsPVCTab1 {
             return 0
         }
-        if viewcontroller is ObsDetallePVCTab2 || viewcontroller is InsDetallePVCTab2 || viewcontroller is UpsertObsPVCTab2 || viewcontroller is InsObservacionPVCTab2 || viewcontroller is AddInspeccionPVCTab2 || viewcontroller is AddInsObservacionPVCTab2 {
+        if viewcontroller is ObsDetallePVCTab2 || viewcontroller is InsDetallePVCTab2 || viewcontroller is UpsertObsPVCTab2 || viewcontroller is InsObservacionPVCTab2 || viewcontroller is UpsertInsPVCTab2 || viewcontroller is UpsertInsObsPVCTab2 {
             return 1
         }
-        if viewcontroller is ObsDetallePVCTab3 || viewcontroller is InsDetallePVCTab3 || viewcontroller is UpsertObsPVCTab3 || viewcontroller is InsObservacionPVCTab3 || viewcontroller is AddInspeccionPVCTab3 || viewcontroller is AddInsObservacionPVCTab3 {
+        if viewcontroller is ObsDetallePVCTab3 || viewcontroller is InsDetallePVCTab3 || viewcontroller is UpsertObsPVCTab3 || viewcontroller is InsObservacionPVCTab3 || viewcontroller is UpsertInsPVCTab3 || viewcontroller is UpsertInsObsPVCTab3 {
             return 2
         }
         if viewcontroller is ObsDetallePVCTab4 || viewcontroller is InsDetallePVCTab4 || viewcontroller is UpsertObsPVCTab4 {
@@ -139,11 +139,11 @@ class Tabs {
             return flagsAddObs
         }
         
-        if viewcontroller is AddInspeccionPVCTab1 || viewcontroller is AddInspeccionPVCTab2 || viewcontroller is AddInspeccionPVCTab3 {
+        if viewcontroller is UpsertInsPVCTab1 || viewcontroller is UpsertInsPVCTab2 || viewcontroller is UpsertInsPVCTab3 {
             return flagsAddIns
         }
         
-        if viewcontroller is AddInsObservacionPVCTab1 || viewcontroller is AddInsObservacionPVCTab2 || viewcontroller is AddInsObservacionPVCTab3 {
+        if viewcontroller is UpsertInsObsPVCTab1 || viewcontroller is UpsertInsObsPVCTab2 || viewcontroller is UpsertInsObsPVCTab3 {
             return flagsAddInsObs
         }
         
@@ -167,11 +167,11 @@ class Tabs {
             return forAddObs
         }
         
-        if viewcontroller is AddInspeccionPVCTab1 || viewcontroller is AddInspeccionPVCTab2 || viewcontroller is AddInspeccionPVCTab3 {
+        if viewcontroller is UpsertInsPVCTab1 || viewcontroller is UpsertInsPVCTab2 || viewcontroller is UpsertInsPVCTab3 {
             return forAddIns
         }
         
-        if viewcontroller is AddInsObservacionPVCTab1 || viewcontroller is AddInsObservacionPVCTab2 || viewcontroller is AddInsObservacionPVCTab3 {
+        if viewcontroller is UpsertInsObsPVCTab1 || viewcontroller is UpsertInsObsPVCTab2 || viewcontroller is UpsertInsObsPVCTab3 {
             return forAddInsObs
         }
         

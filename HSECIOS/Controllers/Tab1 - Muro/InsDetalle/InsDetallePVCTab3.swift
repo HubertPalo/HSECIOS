@@ -37,7 +37,7 @@ class InsDetallePVCTab3: UIViewController, UITableViewDelegate, UITableViewDataS
         let celda = tableView.dequeueReusableCell(withIdentifier: "celda") as! InsDetallePVCTab3TVCell
         let unit = observaciones[indexPath.row]
         celda.observacion.text = unit.Observacion
-        celda.riesgo.image = Images.getImageForRisk(unit.CodNivelRiesgo)
+        celda.riesgo.image = Images.getImageForRisk(unit.CodNivelRiesgo ?? "")
         return celda
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

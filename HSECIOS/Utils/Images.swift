@@ -35,12 +35,16 @@ class Images {
     static func initImages() {
         self.iconos["FILES.doc"] = UIImage.init(named: "doc")
         self.iconos["FILES.DOC"] = UIImage.init(named: "doc")
+        self.iconos["FILES.docx"] = UIImage.init(named: "doc")
+        self.iconos["FILES.DOCX"] = UIImage.init(named: "doc")
         self.iconos["FILES.xls"] = UIImage.init(named: "xlsx")
         self.iconos["FILES.XLS"] = UIImage.init(named: "xlsx")
         self.iconos["FILES.xlsx"] = UIImage.init(named: "xlsx")
         self.iconos["FILES.XLSX"] = UIImage.init(named: "xlsx")
         self.iconos["FILES.ppt"] = UIImage.init(named: "ppt")
         self.iconos["FILES.PPT"] = UIImage.init(named: "ppt")
+        self.iconos["FILES.pptx"] = UIImage.init(named: "ppt")
+        self.iconos["FILES.PPTX"] = UIImage.init(named: "ppt")
         self.iconos["FILES.pdf"] = UIImage.init(named: "pdf")
         self.iconos["FILES.PDF"] = UIImage.init(named: "pdf")
         self.iconos["NIVELRIESGO.BA"] = self.alertaVerde
@@ -69,7 +73,7 @@ class Images {
         return self.imagenes[code] ?? Images.blank
     }
     
-    static func downloadCorrelativo(_ correlativo: String) {
+    static func downloadImage(_ correlativo: String) {
         let route = "\(Config.urlBase)/media/getImagePreview/\(correlativo)/Imagen.jpg"
         print(route)
         if !flags.contains("P-\(correlativo)") {
@@ -89,61 +93,22 @@ class Images {
         }
     }
     
-    static func downloadAllImagesIn(_ elementos: [Any], _ completionHandler: @escaping () -> Void) {
-        Utils.bloquearPantalla()
-        var imagesToDownload: [String] = []
-        var avatarToDownload: [String] = []
-        if elementos is [MuroElement] {
-            for i in 0..<elementos.count {
-                let unit = elementos[i] as! MuroElement
-                if unit.UrlPrew != "" {
-                    imagesToDownload.append(unit.UrlPrew ?? "")
-                }
-                if unit.UrlObs != "" && !avatarToDownload.contains(unit.UrlObs ?? "") {
-                    avatarToDownload.append(unit.UrlObs ?? "")
-                }
-            }
-        }
-        var contadorImagen = 0
-        var contadorAvatar = 0
-        
-        for i in 0..<imagesToDownload.count {
-            self.downloadImage(imagesToDownload[i], {
-                contadorImagen = contadorImagen + 1
-                print("Contador image - \(contadorImagen)")
-                if contadorImagen == imagesToDownload.count && contadorAvatar == avatarToDownload.count {
-                    Utils.desbloquearPantalla()
-                    completionHandler()
-                }
-            })
-        }
-        
-        for j in (0..<avatarToDownload.count).reversed() {
-            self.downloadAvatar(avatarToDownload[j], {
-                contadorAvatar = contadorAvatar + 1
-                print("Contador avatar - \(contadorAvatar)")
-                if contadorImagen == imagesToDownload.count && contadorAvatar == avatarToDownload.count {
-                    Utils.desbloquearPantalla()
-                    completionHandler()
-                }
-            })
-        }
-    }
-    
-    static func downloadImage(_ code: String, _ completionHandler: @escaping () -> Void) {
-        let route = "\(Config.urlBase)/media/getImagePreview/\(code)/Imagen.jpg"
+    static func downloadImage(_ correlativo: String, _ completionHandler: @escaping () -> Void) {
+        let route = "\(Config.urlBase)/media/getImagePreview/\(correlativo)/Imagen.jpg"
         print(route)
-        if !flags.contains("P-\(code)") {
-            flags.insert("P-\(code)")
+        if !flags.contains("P-\(correlativo)") {
+            flags.insert("P-\(correlativo)")
+            Utils.bloquearPantalla()
             Alamofire.request(route).responseJSON { response in
                 if let imagenData = response.data {
                     if let imagen = UIImage(data: imagenData) {
-                        self.imagenes["P-\(code)"] = imagen
+                        self.imagenes["P-\(correlativo)"] = imagen
                     } else {
-                        self.imagenes["P-\(code)"] = Images.blank
-                        flags.remove(code)
+                        self.imagenes["P-\(correlativo)"] = Images.blank
+                        flags.remove(correlativo)
                     }
                 }
+                Utils.desbloquearPantalla()
                 completionHandler()
             }
         } else {
@@ -151,59 +116,46 @@ class Images {
         }
     }
     
-    static func downloadAvatar(_ code: String, _ completionHandler: @escaping () -> Void) {
-        let route = "\(Config.urlBase)/media/getAvatar/\(code)/Carnet.jpg"
+    static func downloadAvatar(_ codPersona: String) {
+        let route = "\(Config.urlBase)/media/getAvatar/\(codPersona)/Carnet.jpg"
         print(route)
-        if !flags.contains("A-\(code)") {
-            flags.insert("A-\(code)")
+        if !flags.contains("A-\(codPersona)") {
+            flags.insert("A-\(codPersona)")
+            Utils.bloquearPantalla()
             Alamofire.request(route).responseJSON { response in
                 if let imagenData = response.data {
                     if let imagen = UIImage(data: imagenData) {
-                        self.imagenes["A-\(code)"] = imagen
+                        self.imagenes["A-\(codPersona)"] = imagen
                     } else {
-                        self.imagenes["A-\(code)"] = Images.blank
-                        flags.remove(code)
+                        self.imagenes["A-\(codPersona)"] = Images.blank
+                        flags.remove(codPersona)
                     }
                 }
+                Utils.desbloquearPantalla()
+            }
+        }
+    }
+    
+    static func downloadAvatar(_ codPersona: String, _ completionHandler: @escaping () -> Void) {
+        let route = "\(Config.urlBase)/media/getAvatar/\(codPersona)/Carnet.jpg"
+        print(route)
+        if !flags.contains("A-\(codPersona)") {
+            flags.insert("A-\(codPersona)")
+            Utils.bloquearPantalla()
+            Alamofire.request(route).responseJSON { response in
+                if let imagenData = response.data {
+                    if let imagen = UIImage(data: imagenData) {
+                        self.imagenes["A-\(codPersona)"] = imagen
+                    } else {
+                        self.imagenes["A-\(codPersona)"] = Images.blank
+                        flags.remove(codPersona)
+                    }
+                }
+                Utils.desbloquearPantalla()
                 completionHandler()
             }
         } else {
             completionHandler()
-        }
-    }
-    
-    static func getFromCode(_ code: String,_ type: String, _ tableView: UITableView, _ index: Int) {
-        if !flags.contains(code) {
-            flags.insert(code)
-            var route = ""
-            switch type {
-            case "Avatar":
-                route = "\(Config.urlBase)/media/getAvatar/\(code)/Carnet.jpg"
-                break
-            case "Image":
-                route = "\(Config.urlBase)/media/getImagepreview//\(code)/Imagen.jpg"
-                break
-            default:
-                break
-            }
-            
-            Alamofire.request(route).responseJSON { response in
-                if let data = response.data {
-                    var image = UIImage(data: data)
-                    if image == nil {
-                        image = UIImage(named: "white")!
-                        flags.remove(code)
-                    }
-                    imagenes[code] = image
-                    //let contentOffset = tableView.contentOffset
-                    tableView.reloadRows(at: [IndexPath.init(row: index, section: 0)], with: .none)
-                    // tableView.setContentOffset(contentOffset, animated: false)
-                    /*if tableView.indexPathsForVisibleRows!.contains(IndexPath.init(row: index, section: 0)) {
-                     tableView.reloadRows(at: [IndexPath.init(row: index, section: 0)], with: .none)
-                     }*/
-                    
-                }
-            }
         }
     }
     
@@ -223,14 +175,6 @@ class Images {
     
     static func imageToDataCompressed(_ imagen: UIImage) -> Data{
         var newimagen = imagen
-        /*if imagen.cgImage == nil {
-            let ciImage = imagen.ciImage
-            let cgImage = CIContext().createCGImage(ciImage!, from: (ciImage?.extent)!)
-            newimagen = UIImage.init(cgImage: cgImage!)
-        }*//* else if imagen.ciImage == nil {
-            let ciImage = CIImage.init(image: imagen)!
-            newimagen = UIImage.init(ciImage: ciImage)
-        }*/
         let data = UIImageJPEGRepresentation(newimagen, 1)!
         let umbral = 200 * 1000
         if data.count > umbral {
@@ -240,153 +184,6 @@ class Images {
         }
         return data
     }
-    
-    static func loadAvatarFromDNI(_ dni: String, _ imageView: UIImageView, _ rounded: Bool) {
-        if let imagen = avatars[dni] {
-            imageView.image = imagen
-        } else {
-            Alamofire.request(Routes.forAvatarFromDNI(dni)).responseJSON { response in
-                if let data = response.data {
-                    if let image = UIImage(data: data) {
-                        avatars[dni] = image
-                        imageView.image = image
-                    } else {
-                        imageView.image = Images.blank
-                    }
-                    if true/*rounded*/ {
-                        imageView.layer.cornerRadius = imageView.frame.height/2
-                        imageView.layer.masksToBounds = true
-                    }
-                }
-            }
-        }
-    }
-    
-    static func loadAvatarFromDNI(_ dni: String, _ imageView: UIImageView, _ rounded: Bool, _ tableview: UITableView, _ indexpath: IndexPath) {
-        imageView.layer.cornerRadius = imageView.frame.height/2
-        imageView.layer.masksToBounds = true
-        if let imagen = avatars[dni] {
-            imageView.image = imagen
-        } else {
-            Alamofire.request(Routes.forAvatarFromDNI(dni)).responseJSON { response in
-                if let data = response.data {
-                    if let image = UIImage(data: data) {
-                        avatars[dni] = image
-                        imageView.image = image
-                    } else {
-                        imageView.image = Images.blank
-                    }
-                    tableview.reloadRows(at: [indexpath], with: .none)
-                }
-            }
-        }
-    }
-    
-    
-    static func loadImagePreviewFromCode(_ code: String, _ imageView: UIImageView) {
-        if let imagen = imagenes[code] {
-            imageView.image = imagen
-        } else {
-            Alamofire.request(Routes.forImagePreview(code)).responseJSON { response in
-                if let data = response.data {
-                    if let imagen = UIImage(data: data) {
-                        imageView.image = imagen
-                        imagenes[code] = imagen
-                    } else {
-                        imageView.image = Images.blank
-                    }
-                }
-            }
-        }
-    }
-    
-    static func loadImage(_ code: String, _ afterGetting: ((_ image: UIImage) -> Void)?) {
-        if let imagen = imagenes[code] {
-            afterGetting?(imagen)
-        } else {
-            Alamofire.request(Routes.forImagePreview(code)).responseJSON { response in
-                if let data = response.data {
-                    if let imagen = UIImage(data: data) {
-                        afterGetting?(imagen)
-                    } else {
-                        afterGetting?(Images.blank)
-                    }
-                }
-            }
-        }
-    }
-    
-    static func loadImagePreviewFromCode(_ code: String, _ imageView: UIImageView, _ completionHandler : @escaping () -> Void) {
-        if let imagen = imagenes[code] {
-            imageView.image = imagen
-        } else {
-            Alamofire.request(Routes.forImagePreview(code)).responseJSON { response in
-                if let data = response.data {
-                    if let imagen = UIImage(data: data) {
-                        // imageView.image = imagen
-                        imagenes[code] = imagen
-                    } else {
-                        imagenes[code] = Images.blank
-                    }
-                    completionHandler()
-                    /*(if (table.indexPathsForVisibleRows?.contains(indexPath))! {
-                        table.reloadRows(at: [indexPath], with: .none)
-                    }*/
-                }
-            }
-        }
-    }
-    
-    static func get(_ code: String, _ tableView: UITableView, _ index: Int) {
-        if !flags.contains(code) {
-            flags.insert(code)
-            Alamofire.request("\(Config.urlBase)/\(code)").responseJSON { response in
-                if let data = response.data {
-                    var image = UIImage(data: data)
-                    if image == nil {
-                        image = UIImage(named: "white")!
-                        flags.remove(code)
-                    }
-                    imagenes[code] = image
-                    tableView.reloadRows(at: [IndexPath.init(row: index, section: 0)], with: .none)
-                }
-            }
-        }
-    }
-    
-    
-    
-    static func get(_ code: String, success: @escaping ()-> Void) {
-        if !flags.contains(code) {
-            flags.insert(code)
-            Alamofire.request("\(Config.urlBase)/\(code)").responseJSON { response in
-                if let data = response.data {
-                    var image = UIImage(data: data)
-                    if image == nil {
-                        image = UIImage(named: "white")!
-                        flags.remove(code)
-                    }
-                    imagenes[code] = image
-                    success()
-                }
-            }
-        }
-    }
-    
-    /*static func showGallery(codigo: String, list: [Multimedia], index: Int, viewController: UIViewController) {
-        // let vc = viewController.storyboard!.instantiateViewController(withIdentifier: "imageSlider") as! ImageSliderPVC
-        let vc = Utils.utilsSB.instantiateViewController(withIdentifier: "imageSlider") as! ImageSliderPVC
-        vc.imageCode = codigo
-        vc.multimedia = list
-        viewController.present(vc, animated: true, completion: nil)
-    }*/
-    
-    /*static func showGallery(assets: [DKAsset], index: Int, viewController: UIViewController) {
-        let vc = Utils.utilsSB.instantiateViewController(withIdentifier: "imageSliderVC") as! ImageSliderVC
-        vc.index = index
-        vc.assets = assets
-        viewController.present(vc, animated: true, completion: nil)
-    }*/
     
     static func showGallery(fotos: [FotoVideo], index: Int, viewController: UIViewController) {
         let vc = Utils.utilsSB.instantiateViewController(withIdentifier: "imageSliderVC") as! ImageSliderVC

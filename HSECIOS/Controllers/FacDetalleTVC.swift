@@ -142,8 +142,11 @@ class FacDetalleTVC: UITableViewController {
             celda.fecha.text = Utils.str2date2str(unit.Fecha ?? "")
             celda.estado.text = Utils.searchMaestroStatic("ESTADOFACILITO", unit.Estado ?? "")
             celda.comentario.text = unit.Comentario
-            Images.loadAvatarFromDNI(unit.UrlObs ?? "", celda.avatar, true, tableView, indexPath)
-            //Images.loadAvatarFromDNI(unit.UrlObs, celda.avatar, true)
+            // Images.loadAvatarFromDNI(unit.UrlObs ?? "", celda.avatar, true, tableView, indexPath)
+            if (unit.UrlObs ?? "") != "" {
+                celda.avatar.image = Images.getImageFor("A-\(unit.UrlObs ?? "")")
+            }
+            
             return celda
         default:
             return UITableViewCell()

@@ -2,6 +2,34 @@ import  UIKit
 
 class Routes {
     
+    static func forADDFacilito() -> String{
+        return "\(Config.urlBase)/ObsFacilito/Post"
+    }
+    
+    static func forPUTFacilito() -> String{
+        return "\(Config.urlBase)/ObsFacilito/Post"
+    }
+    
+    static func forADDInspeccion() -> String {
+        return "\(Config.urlBase)/Inspecciones/Insertar"
+    }
+    
+    static func forPUTInspeccion() -> String {
+        return "\(Config.urlBase)/Inspecciones/Actualizar"
+    }
+    
+    static func forADDInsObservacion() -> String {
+        return "\(Config.urlBase)/Inspecciones/InsertarObservacion"
+    }
+    
+    static func forPUTInsObservacion() -> String {
+        return "\(Config.urlBase)/Inspecciones/ActualizarObservacion"
+    }
+    
+    static func forPostPlanAccion() -> String {
+        return "\(Config.urlBase)/PlanAccion/Post"
+    }
+    
     static func forLogin(_ username: String, _ password: String) -> String{
         return "\(Config.urlBase)/membership/authenticate?username=\(username)&password=\(password)&domain=anyaccess"
     }
@@ -71,7 +99,7 @@ class Routes {
     static func forObservaciones(_ code: String) -> String{
         return "\(Config.urlBase)/Observaciones/Get/\(code)"
     }
-    static func forObsPlanAccion(_ code: String) -> String{
+    static func forPlanAccion(_ code: String) -> String{
         return "\(Config.urlBase)/PlanAccion/GetPlanes/\(code)"
     }
     static func forObsDetalle(_ code: String) -> String{

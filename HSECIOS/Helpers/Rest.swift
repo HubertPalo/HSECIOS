@@ -155,7 +155,7 @@ class Rest {
         })*/
     }*/
     
-    static func postMultipartFormData(_ route: String, params: [[String]], _ multipartData: [Data], _ filename: [String], _ mimeType: [String], _ shouldBlock: Bool, _ id: Int, success: @escaping (_ resultValue: Any?, _ data: Data?)-> Void, progress: ((_ progress: Double) -> Void)?, error: ((_ error: String) -> Void)?) {
+    static func postMultipartFormData(_ route: String, params: [[String]], _ multipartData: [Data], _ name: [String], _ filename: [String], _ mimeType: [String], _ shouldBlock: Bool, _ id: Int, success: @escaping (_ resultValue: Any?, _ data: Data?)-> Void, progress: ((_ progress: Double) -> Void)?, error: ((_ error: String) -> Void)?) {
         print(route)
         print(params)
         self.requestFlags.insert(id)
@@ -170,8 +170,9 @@ class Rest {
             for i in 0..<multipartData.count {
                 // let dataImagen = Images.imageToDataCompressed(images[i])
                 let dataImagen = multipartData[i]
-                print("Tamaño archivo: \(dataImagen.count)")
-                multipartFormData.append(dataImagen, withName: "name-\(i)", fileName: filename[i], mimeType: mimeType[i])
+                // print("Tamaño archivo: \(dataImagen.count)")
+                print("Nombre archvo: \(filename[i]), tamaño: \(dataImagen.count), name: \(name[i]), mimetype: \(mimeType[i])")
+                multipartFormData.append(dataImagen, withName: name[i], fileName: filename[i], mimeType: mimeType[i])
                 
                 /*if multimediaIsVideo[i] {
                     multipartFormData.append(dataImagen, withName: "name-\(i)", fileName: "filename-\(i).mp4", mimeType: "video/mp4")

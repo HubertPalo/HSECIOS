@@ -2,29 +2,47 @@ import UIKit
 
 class Globals {
     
-    // Seccion Observacion
-    static var UOCodigo = ""
-    static var UOModo = ""
+    // GET Observacion
+    static var GODataLeft = ["Codigo", "Area", "Nivel de riesgo", "Observado Por", "Fecha", "Hora", "Gerencia", "Superintendencia"]
+    static var GODataRight = ["-", "-", "-", "-", "-", "-", "-", "-"]
+    // GET Observacion
     
+    
+    // Variables Galeria
     static var GaleriaModo = ""
     static var GaleriaVCViewContainerIsHidden = false
     static var GaleriaVCGaleriaContainerIsHidden = false
+    static var GaleriaMultimedia = [FotoVideo]()
+    static var GaleriaDocumentos = [DocumentoGeneral]()
+    static var GaleriaNombres = Set<String>()
+    static var GaleriaCorrelativosABorrar = Set<Int>()
+    
+    // Cambiar para usar en Todo Galeria
+    //No olvidar enviar NroDetInspeccion en el Key de cada archivo (no nombre de archivo, sino lo que va a la izq)
+    /*static var UOTab3Multimedia = [FotoVideo]()
+    static var UOTab3Documentos = [DocumentoGeneral]()
+    static var UOTab3Nombres = Set<String>()
+    static var UOTab3CorrelativosABorrar = Set<Int>()*/
+    
+    // Variables Galeria
+    
+    // Upsert Observación
+    static var UOCodigo = ""
+    static var UOModo = ""
     
     static var UOTab1ObsGD = ObservacionGD()
     static var UOTab1CodUbicacion = ""
     static var UOTab1CodSubUbicacion = ""
     static var UOTab1CodUbiEspecifica = ""
     static var UOTab1Fecha = Date()
+    static var UOTab1String = ""
     
     static var UOTab2ObsDetalle = ObsDetalle()
-    
-    static var UOTab3Multimedia = [FotoVideo]()
-    static var UOTab3Documentos = [DocumentoGeneral]()
-    static var UOTab3Nombres: Set<String> = Set<String>()
-    static var UOTab3CorrelativosABorrar: Set<Int> = Set<Int>()
+    static var UOTab2String = ""
     
     static var UOTab4Planes: [PlanAccionDetalle] = []
-    static var UOTab4CorrelativosABorrar: Set<Int> = Set<Int>()
+    static var UOTab4CodAccionABorrar = Set<String>()
+    // Upsert Observación
     
     static func UOloadModo(_ modo: String, _ codigo: String) {
         UOModo = modo
@@ -53,10 +71,10 @@ class Globals {
             UOTab2ObsDetalle.CodError = nil
             (Tabs.forAddObs[1] as! UpsertObsPVCTab2).tableView.reloadData()
             // Tab3
-            UOTab3Multimedia = []
-            UOTab3Documentos = []
-            UOTab3Nombres.removeAll()
-            UOTab3CorrelativosABorrar.removeAll()
+            GaleriaMultimedia = []
+            GaleriaDocumentos = []
+            GaleriaNombres.removeAll()
+            GaleriaCorrelativosABorrar.removeAll()
             GaleriaVCViewContainerIsHidden = true
             GaleriaVCGaleriaContainerIsHidden = false
             (Tabs.forAddObs[2] as! UpsertObsPVCTab3).galeriaVC.galeria.tableView.reloadData()// self.galeria.tableView.reloadData()
@@ -94,26 +112,69 @@ class Globals {
                     switch multimedia.TipoArchivo ?? "" {
                     case "TP01":
                         arrayFotoVideo.append(multimedia.toFotoVideo())
-                        Images.downloadCorrelativo("\(multimedia.Correlativo ?? 0)")
+                        Images.downloadImage("\(multimedia.Correlativo ?? 0)")
                         break
                     case "TP02":
                         arrayFotoVideo.append(multimedia.toFotoVideo())
-                        Images.downloadCorrelativo("\(multimedia.Correlativo ?? 0)")
+                        Images.downloadImage("\(multimedia.Correlativo ?? 0)")
                         break
                     default:
                         arrayDocumentos.append(multimedia.toDocumentoGeneral())
                         break
                     }
                 }
-                UOTab3Multimedia = arrayFotoVideo
-                UOTab3Documentos = arrayDocumentos
+                GaleriaMultimedia = arrayFotoVideo
+                GaleriaDocumentos = arrayDocumentos
                 (Tabs.forAddObs[2] as! UpsertObsPVCTab3).galeriaVC.galeria.tableView.reloadData()
                 // (Tabs.forAddObs[2] as! UpsertObsPVCTab3).galeriaVC.loadModo("PUT")
             }, error: nil)
-            Rest.getDataGeneral(Routes.forObsPlanAccion(codigo), true, success: {(resultValue:Any?,data:Data?) in
+            Rest.getDataGeneral(Routes.forPlanAccion(codigo), true, success: {(resultValue:Any?,data:Data?) in
                 let arrayPlanes: ArrayGeneral<PlanAccionDetalle> = Dict.dataToArray(data!)
                 UOTab4Planes = arrayPlanes.Data
                 (Tabs.forAddObs[3] as! UpsertObsPVCTab4).tableView.reloadData()
+            }, error: nil)
+            break
+        case "GET":
+            GODataLeft = ["Codigo", "Area", "Nivel de riesgo", "Observado Por", "Fecha", "Hora", "Gerencia", "Superintendencia"]
+            GODataRight = ["-", "-", "-", "-", "-", "-", "-", "-"]
+            (Tabs.forObsDetalle[0] as! ObsDetallePVCTab1).hijo.tableView.reloadData()
+            print(Routes.forObservaciones(UOCodigo))
+            Rest.getDataGeneral(Routes.forObservaciones(UOCodigo), true, success: {(resultValue:Any?,data:Data?) in
+                let data: ObservacionGD = Dict.dataToUnit(data!)!
+                let splits = (data.CodUbicacion ?? "").split(separator: ".")
+                var labels = ["Codigo", "Area", "Nivel de riesgo", "Observado Por", "Fecha", "Hora", "Gerencia", "Superintendencia"]
+                var values = [
+                    data.CodObservacion ?? "",
+                    Utils.searchMaestroDescripcion("AREA", data.CodAreaHSEC ?? ""),
+                    Utils.searchMaestroStatic("NIVELRIESGO", data.CodNivelRiesgo ?? ""),
+                    data.ObservadoPor ?? "",
+                    Utils.str2date2str(data.Fecha ?? ""),
+                    Utils.str2hour2str(data.Fecha ?? ""),
+                    Utils.searchMaestroDescripcion("GERE", data.Gerencia ?? ""),
+                    Utils.searchMaestroDescripcion("SUPE.\(data.Gerencia ?? "")", data.Superint ?? "")
+                ]
+                if splits.count > 0 {
+                    labels.append("Ubicación")
+                    values.append(Utils.searchMaestroDescripcion("UBIC", String(splits[0])))
+                }
+                
+                if splits.count > 1 {
+                    labels.append("Sub Ubicación")
+                    values.append(Utils.searchMaestroDescripcion("UBIC.\(String(splits[0]))", String(splits[1])))
+                }
+                if splits.count > 2 {
+                    labels.append("Ubicación Específica")
+                    values.append(Utils.searchMaestroDescripcion("UBIC.\(String(splits[0])).\(String(splits[1]))", String(splits[2])))
+                }
+                labels.append(contentsOf: ["Lugar", "Tipo"])
+                values.append(contentsOf: [data.Lugar ?? "", Utils.searchMaestroDescripcion("TPOB", data.CodTipo ?? "")])
+                GODataRight = values
+                GODataLeft = labels
+                (Tabs.forObsDetalle[0] as! ObsDetallePVCTab1).reloadData()
+                /*let hijo = self.childViewControllers[0] as! InfoDetalleTVC
+                hijo.dataLeft = labels
+                hijo.dataRight = values
+                hijo.tableView.reloadData()*/
             }, error: nil)
             break
         default:
@@ -154,8 +215,13 @@ class Globals {
         }
         
         // Enviar los datos, o el nombre de la variable que falta
+        var data = String.init(data: Dict.unitToData(showData)!, encoding: .utf8)!
+        if UOModo == "PUT" && data == UOTab1String {
+            data = "-"
+        }
+        
         if nombreVariable == "" {
-            return (true, String.init(data: Dict.unitToData(showData)!, encoding: .utf8)!)
+            return (true, data)
         } else {
             return (false, nombreVariable)
         }
@@ -201,50 +267,561 @@ class Globals {
         }
         
         // Enviar los datos, o el nombre de la variable que falta
+        var data = String.init(data: Dict.unitToData(showData)!, encoding: .utf8)!
+        if UOModo == "PUT" && data == UOTab1String {
+            data = "-"
+        }
+        
         if nombreVariable == "" {
-            return (true, String.init(data: Dict.unitToData(showData)!, encoding: .utf8)!)
+            return (true, data)
         } else {
             return (false, nombreVariable)
         }
     }
     
-    static func UOTab3GetData() -> (data: [Data], fileNames: [String], mimeTypes: [String]) {
+    static func UOTab3GetData() -> (data: [Data], names: [String], fileNames: [String], mimeTypes: [String], toDel: String) {
         var arrayData = [Data]()
+        var arrayNames = [String]()
         var arrayFileNames = [String]()
         var arrayMimeTypes = [String]()
-        for i in 0..<Globals.UOTab3Multimedia.count {
-            let unit = Globals.UOTab3Multimedia[i]
+        for i in 0..<Globals.GaleriaMultimedia.count {
+            let unit = Globals.GaleriaMultimedia[i]
             if unit.multimediaData != nil && unit.Descripcion != nil {
                 arrayData.append(unit.multimediaData!)
+                arrayNames.append("multimedia\(i)")
                 arrayFileNames.append(unit.getFileName())
                 arrayMimeTypes.append(unit.getMimeType())
             }
         }
-        for i in 0..<Globals.UOTab3Documentos.count {
-            let unit = Globals.UOTab3Documentos[i]
+        for i in 0..<Globals.GaleriaDocumentos.count {
+            let unit = Globals.GaleriaDocumentos[i]
             if unit.multimediaData != nil && unit.Descripcion != nil {
                 arrayData.append(unit.multimediaData!)
+                arrayNames.append("documento\(i)")
                 arrayFileNames.append(unit.getFileName())
                 arrayMimeTypes.append(unit.getMimeType())
             }
         }
-        return (arrayData, arrayFileNames, arrayMimeTypes)
+        var toDel = (Globals.GaleriaCorrelativosABorrar.map{String($0)}).joined(separator: ";")
+        toDel = toDel == "" ? "-" : toDel
+        return (arrayData, arrayNames, arrayFileNames, arrayMimeTypes, toDel)
     }
     
     static func UOTab4GetData() -> (toAdd: String, toDel: String) {
-        var newPlanes = Globals.UOTab4Planes
-        for i in 0..<newPlanes.count {
-            newPlanes[i].CodAccion = "\(i*(-1))"
-            newPlanes[i].NroDocReferencia = newPlanes[i].NroDocReferencia ?? ""
-            newPlanes[i].CodReferencia = newPlanes[i].CodReferencia ?? ""
-            newPlanes[i].CodResponsable = newPlanes[i].CodResponsables ?? ""
-            newPlanes[i].CodTablaRef = newPlanes[i].CodTabla ?? ""
-            newPlanes[i].NroAccionOrigen = newPlanes[i].NroAccionOrigen ?? ""
+        var cont = -1
+        for plan in Globals.UOTab4Planes {
+            if plan.CodAccion == nil {
+                plan.CodAccion = "\(cont)"
+                plan.NroDocReferencia = plan.NroDocReferencia ?? ""
+                plan.CodReferencia = plan.CodReferencia ?? ""
+                plan.CodResponsable = plan.CodResponsables ?? ""
+                plan.CodTablaRef = plan.CodTabla ?? ""
+                cont = cont - 1
+            }
         }
-        return (String.init(data: Dict.unitToData(newPlanes)!, encoding: .utf8)!, "")
+        var toDel = UOTab4CodAccionABorrar.joined(separator: ";")
+        toDel = toDel == "" ? "-" : toDel
+        return (String.init(data: Dict.unitToData(Globals.UOTab4Planes)!, encoding: .utf8)!, toDel)
     }
     // Seccion Observacion
     
+    // Upsert Inspección
+    static var UIModo = ""
+    static var UICodigo = ""
+    
+    static var UITab1InsGD = InspeccionGD()
+    static var UITab1Fecha: Date? = nil
+    static var UITab1FechaP: Date? = nil
+    static var UITab1Hora: Date? = nil
+    
+    static var UITab2Realizaron = [Persona]()
+    static var UITab2Atendieron = [Persona]()
+    static var UITab2RealizaronNuevo = Set<String>()
+    static var UITab2RealizaronNuevoLider = ""
+    static var UITab2AtendieronNuevo = Set<String>()
+    static var UITab2RealizaronOriginal = Set<String>()
+    static var UITab2RealizaronOriginalLider = ""
+    static var UITab2AtendieronOriginal = Set<String>()
+    
+    static var UITab2IndexLider = -1
+    
+    static var UITab3ObsGeneral = [InsObservacion]()
+    static var UITab3LocalObsDetalle = [InsObservacionGD]()
+    static var UITab3LocalMultimedias = [[FotoVideo]]()
+    static var UITab3LocalDocumentos = [[DocumentoGeneral]]()
+    static var UITab3LocalPlanes = [[PlanAccionDetalle]]()
+    static var UITab3ObsToDel = Set<Int>()
+    
+    static func UILoadModo(_ modo: String, _ codigo: String) {
+        UIModo = modo
+        UICodigo = codigo
+        switch modo {
+        case "ADD":
+            // Tab1
+            UITab1InsGD = InspeccionGD()
+            UITab1Hora = nil
+            UITab1Fecha = nil
+            UITab1FechaP = nil
+            (Tabs.forAddIns[0] as! UpsertInsPVCTab1).tableView.reloadData()
+            // Tab2
+            UITab2IndexLider = -1
+            UITab2Realizaron = []
+            UITab2RealizaronNuevo.removeAll()
+            UITab2RealizaronOriginal.removeAll()
+            UITab2RealizaronOriginalLider = ""
+            UITab2RealizaronNuevoLider = ""
+            UITab2Atendieron = []
+            UITab2AtendieronOriginal.removeAll()
+            UITab2AtendieronNuevo.removeAll()
+            (Tabs.forAddIns[1] as! UpsertInsPVCTab2).tableView.reloadData()
+            // Tab3
+            UITab3ObsGeneral = []
+            (Tabs.forAddIns[2] as! UpsertInsPVCTab3).tableView.reloadData()
+            break
+        case "PUT":
+            // Tab1
+            UITab1InsGD = InspeccionGD()
+            UITab1Hora = nil
+            UITab1Fecha = nil
+            UITab1FechaP = nil
+            (Tabs.forAddIns[0] as! UpsertInsPVCTab1).tableView.reloadData()
+            Rest.getDataGeneral(Routes.forInspecciones(codigo), true, success: {(resultValue:Any?,data:Data?) in
+                Globals.UITab1InsGD = Dict.dataToUnit(data!)!
+                UITab1Fecha = Utils.str2date(Globals.UITab1InsGD.Fecha ?? "")
+                UITab1Hora = UITab1Fecha
+                UITab1FechaP = Utils.str2date(Globals.UITab1InsGD.FechaP ?? "")
+                (Tabs.forAddIns[0] as! UpsertInsPVCTab1).tableView.reloadData()
+            }, error: nil)
+            // Tab2
+            UITab2IndexLider = -1
+            UITab2Realizaron = []
+            UITab2RealizaronNuevo.removeAll()
+            UITab2RealizaronOriginal.removeAll()
+            UITab2RealizaronOriginalLider = ""
+            UITab2RealizaronNuevoLider = ""
+            UITab2Atendieron = []
+            UITab2AtendieronOriginal.removeAll()
+            UITab2AtendieronNuevo.removeAll()
+            (Tabs.forAddIns[1] as! UpsertInsPVCTab2).tableView.reloadData()
+            Rest.getDataGeneral(Routes.forInsEquipoInspeccion(codigo), true, success: {(resultValue:Any?,data:Data?) in
+                let arrayPersonas: ArrayGeneral<Persona> = Dict.dataToArray(data!)
+                UITab2Realizaron = arrayPersonas.Data
+                for i in 0..<UITab2Realizaron.count {
+                    if UITab2Realizaron[i].Lider == "1" {
+                        UITab2IndexLider = i
+                        UITab2RealizaronOriginalLider = UITab2Realizaron[i].CodPersona!
+                    }
+                    UITab2RealizaronOriginal.insert(UITab2Realizaron[i].CodPersona!)
+                    UITab2RealizaronNuevo.insert(UITab2Realizaron[i].CodPersona!)
+                }
+                (Tabs.forAddIns[1] as! UpsertInsPVCTab2).tableView.reloadData()
+            }, error: nil)
+            Rest.getDataGeneral(Routes.forInsPersonasAtendidas(codigo), true, success: {(resultValue:Any?,data:Data?) in
+                let arrayPersonas: ArrayGeneral<Persona> = Dict.dataToArray(data!)
+                UITab2Atendieron = arrayPersonas.Data
+                for persona in arrayPersonas.Data {
+                    UITab2AtendieronOriginal.insert(persona.CodPersona!)
+                    UITab2AtendieronNuevo.insert(persona.CodPersona!)
+                }
+                (Tabs.forAddIns[1] as! UpsertInsPVCTab2).tableView.reloadData()
+            }, error: nil)
+            // Tab3
+            UITab3ObsGeneral = []
+            (Tabs.forAddIns[2] as! UpsertInsPVCTab3).tableView.reloadData()
+            Rest.getDataGeneral(Routes.forInsObservaciones(codigo), true, success: {(resultValue:Any?,data:Data?) in
+                let arrayObservaciones: ArrayGeneral<InsObservacion> = Dict.dataToArray(data!)
+                UITab3ObsGeneral = arrayObservaciones.Data
+                UITab3LocalObsDetalle = [InsObservacionGD].init(repeating: InsObservacionGD(), count: UITab3ObsGeneral.count)
+                UITab3LocalMultimedias = [[FotoVideo]].init(repeating: [], count: UITab3ObsGeneral.count)
+                UITab3LocalDocumentos = [[DocumentoGeneral]].init(repeating: [], count: UITab3ObsGeneral.count)
+                UITab3LocalPlanes = [[PlanAccionDetalle]].init(repeating: [], count: UITab3ObsGeneral.count)
+                (Tabs.forAddIns[2] as! UpsertInsPVCTab3).tableView.reloadData()
+            }, error: nil)
+            break
+        default:
+            break
+        }
+    }
+    
+    static func UITab1GetData() -> (success: Bool, data: String) {
+        // Limpar de data no necesaria
+        var showData = Globals.UITab1InsGD
+        showData.CodInspeccion = showData.CodInspeccion ?? "INSP000000XYZ"
+        
+        // Verificar que estén los datos mínimos
+        var nombreVariable = ""
+        if Globals.UITab1FechaP == nil {
+            nombreVariable = "Fecha Programada"
+        } else {
+            showData.FechaP = Utils.date2str(Globals.UITab1FechaP, "YYYY-MM-dd")
+        }
+        if Globals.UITab1Fecha == nil {
+            nombreVariable = "Fecha Inspección"
+        } else {
+            showData.Fecha = Utils.date2str(Globals.UITab1Fecha, "YYYY-MM-dd")
+            if Globals.UITab1Hora != nil {
+                showData.Fecha = "\(showData.Fecha!)T\(Utils.date2str(Globals.UITab1Hora, "HH:mm:SS"))"
+            } else {
+                showData.Fecha = "\(showData.Fecha!)T00:00:00"
+            }
+        }
+        if showData.Gerencia == nil || showData.Gerencia == "" {
+            nombreVariable = "Gerencia"
+        }
+        if showData.CodUbicacion == nil || showData.CodUbicacion == "" {
+            nombreVariable = "CodUbicacion"
+        }
+        
+        // Enviar los datos, o el nombre de la variable que falta
+        var data = String.init(data: Dict.unitToData(showData)!, encoding: .utf8)!
+        /*if UOModo == "PUT" && data == UOTab1String {
+            data = "-"
+        }*/
+        print(data)
+        if nombreVariable == "" {
+            return (true, data)
+        } else {
+            return (false, nombreVariable)
+        }
+    }
+    
+    static func UITab2GetData() -> (respuesta: String, responsables: String, atendidos: String) {
+        if Globals.UITab2Realizaron.count == 0 {
+            return ("Personas que realizaron la inspección", "", "")
+        }
+        if Globals.UITab2IndexLider == -1 {
+            return ("Lider en Equipo de Inspección", "", "")
+        }
+        var responsables = [Persona]()
+        var atendieron = [Persona]()
+        var strResponsables = "-"
+        var strAtendieron = "-"
+        switch UIModo {
+        case "ADD":
+            for persona in UITab2Realizaron {
+                let nuevaPersona = Persona()
+                nuevaPersona.CodPersona = persona.CodPersona
+                nuevaPersona.Lider = persona.Lider == "1" ? "1" : "0"
+                responsables.append(nuevaPersona)
+            }
+            for persona in UITab2Atendieron {
+                let nuevaPersona = Persona()
+                nuevaPersona.CodPersona = persona.CodPersona
+                atendieron.append(nuevaPersona)
+            }
+            strResponsables = String.init(data: Dict.unitToData(responsables)!, encoding: .utf8) ?? "-"
+            strAtendieron = String.init(data: Dict.unitToData(atendieron)!, encoding: .utf8) ?? "-"
+            return ("", strResponsables, strAtendieron)
+        case "PUT":
+            if UITab2RealizaronNuevoLider != UITab2RealizaronOriginalLider || UITab2RealizaronNuevo != UITab2RealizaronOriginal {
+                let primeraPersona = Persona()
+                primeraPersona.NroReferencia = UICodigo
+                primeraPersona.Estado = "L"
+                primeraPersona.Lider = UITab2RealizaronNuevoLider
+                responsables.append(primeraPersona)
+                for codigo in UITab2RealizaronNuevo.subtracting(UITab2RealizaronOriginal) {
+                    let persona = Persona()
+                    persona.CodPersona = codigo
+                    persona.Estado = "A"
+                    responsables.append(persona)
+                }
+                for codigo in UITab2RealizaronOriginal.subtracting(UITab2RealizaronNuevo) {
+                    let persona = Persona()
+                    persona.CodPersona = codigo
+                    persona.Estado = "E"
+                    responsables.append(persona)
+                }
+                strResponsables = String.init(data: Dict.unitToData(responsables)!, encoding: .utf8) ?? ""
+            }
+            if UITab2AtendieronNuevo != UITab2AtendieronOriginal {
+                for codigo in UITab2AtendieronNuevo.subtracting(UITab2AtendieronOriginal) {
+                    let persona = Persona()
+                    persona.CodPersona = codigo
+                    persona.Estado = "A"
+                    atendieron.append(persona)
+                }
+                for codigo in UITab2AtendieronOriginal.subtracting(UITab2AtendieronNuevo) {
+                    let persona = Persona()
+                    persona.CodPersona = codigo
+                    persona.Estado = "E"
+                    atendieron.append(persona)
+                }
+                atendieron[0].NroReferencia = UICodigo
+                strAtendieron = String.init(data: Dict.unitToData(atendieron)!, encoding: .utf8) ?? "-"
+            }
+            return ("", strResponsables, strAtendieron)
+        default:
+            return ("Error desconocido, informe a un administrador", "", "")
+        }
+    }
+    
+    static func UITab3GetData() -> (observaciones: String, planes: String, atendidos: String, data: [Data], names: [String], fileNames: [String], mimeTypes: [String], obsToDel: String) {
+        switch UIModo {
+        case "ADD":
+            var arrayData = [Data]()
+            var arrayNames = [String]()
+            var arrayFileNames = [String]()
+            var arrayMimeTypes = [String]()
+            var arrayPlanes = [PlanAccionDetalle]()
+            for i in 0..<UITab3ObsGeneral.count {
+                // Tab1 - UIO
+                UITab3ObsGeneral[i].Correlativo = i+1
+                UITab3LocalObsDetalle[i].Correlativo = nil
+                UITab3LocalObsDetalle[i].CodInspeccion = "INSP000000XYZ"
+                UITab3LocalObsDetalle[i].NroDetInspeccion = i+1
+                UITab3LocalObsDetalle[i].Lugar = UITab3LocalObsDetalle[i].Lugar ?? ""
+                UITab3LocalObsDetalle[i].Observacion = UITab3LocalObsDetalle[i].Observacion ?? ""
+                // Tab2 - UIO
+                for unit in UITab3LocalMultimedias[i] {
+                    if unit.multimediaData != nil && unit.Descripcion != nil {
+                        arrayData.append(unit.multimediaData!)
+                        arrayNames.append("\(i+1)")
+                        arrayFileNames.append(unit.getFileName())
+                        arrayMimeTypes.append(unit.getMimeType())
+                    }
+                }
+                for unit in UITab3LocalDocumentos[i] {
+                    if unit.multimediaData != nil && unit.Descripcion != nil {
+                        arrayData.append(unit.multimediaData!)
+                        arrayNames.append("\(i+1)")
+                        arrayFileNames.append(unit.getFileName())
+                        arrayMimeTypes.append(unit.getMimeType())
+                    }
+                }
+                // Tab3 - UIO
+                for j in 0..<UITab3LocalPlanes[i].count {
+                    let unit = UITab3LocalPlanes[i][j].copy()
+                    unit.CodAccion = "\((j * -1)-1)"
+                    unit.NroDocReferencia = ""
+                    unit.SolicitadoPor = nil
+                    unit.Responsables = nil
+                    unit.CodEstadoAccion = "01"
+                    unit.CodReferencia = "02"
+                    unit.CodTabla = "TINS"
+                    unit.NroAccionOrigen = i+1
+                    arrayPlanes.append(unit)
+                }
+            }
+            let strObservaciones = String.init(data: Dict.unitToData(UITab3LocalObsDetalle)!, encoding: .utf8) ?? "[]"
+            let strPlanes = String.init(data: Dict.unitToData(arrayPlanes)!, encoding: .utf8) ?? "[]"
+            return (strObservaciones, strPlanes, "", arrayData, arrayNames, arrayFileNames, arrayMimeTypes, "")
+        case "PUT":
+            var toDel = (UITab3ObsToDel.map{String($0)}).joined(separator: ";")
+            toDel = toDel == "" ? "-" : toDel
+            return ("[]", "[]", "", [], [], [], [], toDel)
+        default:
+            return ("[]", "[]", "", [], [], [], [], "")
+        }
+    }
+    // Upsert Inspección
+    
+    
+    // Upsert InsObservacion
+    static var UIOModo = ""
+    static var UIOCodigo = ""
+    static var UIOCorrelativo: Int?
+    
+    static var UIOTab1ObsDetalle = InsObservacionGD()
+    // static var UIOTab1CodUbiEspecifica: String?
+    // No hay variables para tab2: Galeria
+    static var UIOTab3Planes = [PlanAccionDetalle]()
+    static var UIOTab3PlanesToDel = Set<String>()
+    
+    static func UIOLoadModo(_ modo: String, _ codigoInspeccion: String, _ correlativo: Int?, _ id: Int) {
+        UIOModo = modo
+        UIOCodigo = codigoInspeccion
+        UIOCorrelativo = correlativo
+        
+        switch modo {
+        case "ADD":
+            // Tab1
+            UIOTab1ObsDetalle = InsObservacionGD()
+            // UIOTab1CodUbiEspecifica = ""
+            (Tabs.forAddInsObs[0] as! UpsertInsObsPVCTab1).tableView.reloadData()
+            // Tab2
+            GaleriaModo = "ADD"
+            GaleriaNombres.removeAll()
+            GaleriaDocumentos = []
+            GaleriaMultimedia = []
+            GaleriaCorrelativosABorrar.removeAll()
+            (Tabs.forAddInsObs[1] as! UpsertInsObsPVCTab2).galeria.tableView.reloadData()
+            // Tab3
+            UIOTab3Planes = []
+            (Tabs.forAddInsObs[2] as! UpsertInsObsPVCTab3).tableView.reloadData()
+            break
+        case "PUT":
+            if correlativo != nil {
+                // Tab1
+                Rest.getDataGeneral(Routes.forInsObservacionGD("\(correlativo!)"), true, success: {(resultValue:Any?,data:Data?) in
+                    let insObservacionGD: InsObservacionGD = Dict.dataToUnit(data!)!
+                    Globals.UIOTab1ObsDetalle = insObservacionGD
+                    (Tabs.forAddInsObs[0] as! UpsertInsObsPVCTab1).tableView.reloadData()
+                }, error: nil)
+                // Tab2
+                GaleriaModo = "PUT"
+                GaleriaNombres.removeAll()
+                GaleriaDocumentos = []
+                GaleriaMultimedia = []
+                GaleriaCorrelativosABorrar.removeAll()
+                Rest.getDataGeneral(Routes.forMultimedia(codigoInspeccion), true, success: {(resultValue:Any?,data:Data?) in
+                    let arrayMultimedia: ArrayGeneral<Multimedia> = Dict.dataToArray(data!)
+                    let separados = Utils.separateMultimedia(arrayMultimedia.Data)
+                    for fotovideo in separados.fotovideos {
+                        Images.downloadImage("\(fotovideo.Correlativo!)")
+                    }
+                    GaleriaMultimedia = separados.fotovideos
+                    GaleriaDocumentos = separados.documentos
+                    (Tabs.forAddInsObs[1] as! UpsertInsObsPVCTab2).galeria.tableView.reloadData()
+                }, error: nil)
+                Rest.getDataGeneral(Routes.forPlanAccion(codigoInspeccion), true, success: {(resultValue:Any?,data:Data?) in
+                    print(resultValue)
+                    let arrayPlanes: ArrayGeneral<PlanAccionDetalle> = Dict.dataToArray(data!)
+                    UIOTab3Planes = arrayPlanes.Data
+                    (Tabs.forAddInsObs[2] as! UpsertInsObsPVCTab3).tableView.reloadData()
+                }, error: nil)
+            } else {
+                // Tab1
+                UIOTab1ObsDetalle = UITab3LocalObsDetalle[id].copy()
+                (Tabs.forAddInsObs[0] as! UpsertInsObsPVCTab1).tableView.reloadData()
+                // Tab2
+                GaleriaModo = "PUT"
+                GaleriaNombres.removeAll()
+                GaleriaDocumentos = []
+                GaleriaMultimedia = []
+                GaleriaCorrelativosABorrar.removeAll()
+                
+            }
+            
+            
+            break
+        default:
+            break
+        }
+    }
+    
+    static func UIOTab1GetData() -> (success: Bool, data: String) {
+        // Limpar de data no necesaria
+        let showData = Globals.UIOTab1ObsDetalle
+        showData.CodInspeccion = UICodigo ?? ""
+        showData.CodAspectoObs = showData.CodAspectoObs ?? ""
+        showData.CodActividadRel = showData.CodActividadRel ?? ""
+        showData.CodNivelRiesgo = showData.CodNivelRiesgo ?? ""
+        showData.Observacion = showData.Observacion ?? ""
+        showData.Lugar = showData.Lugar ?? ""
+        /*parametros.Add(new SqlParameter("CodInspeccion", value.CodInspeccion == null ? "" : value.CodInspeccion));
+         parametros.Add(new SqlParameter("CodTipoInspeccion", value.CodTipo == null ? (object)DBNull.Value : value.CodTipo));
+         parametros.Add(new SqlParameter("CodProveedor", value.CodContrata == null ? (object)DBNull.Value : value.CodContrata));
+         parametros.Add(new SqlParameter("FechaProgramada", value.FechaP == null ? (object)"" : value.FechaP));
+         parametros.Add(new SqlParameter("FechaInspeccion", value.Fecha == null ? (object)"" : value.Fecha));
+         parametros.Add(new SqlParameter("CodPosicionGer", value.Gerencia));
+         parametros.Add(new SqlParameter("CodPosicionSup", value.SuperInt == null ? (object)DBNull.Value : value.SuperInt));
+         parametros.Add(new SqlParameter("CodUbicacion", value.CodUbicacion));
+         parametros.Add(new SqlParameter("CodSubUbicacion", value.CodSubUbicacion == null ? (object)DBNull.Value : value.CodSubUbicacion));*/
+        
+        
+        // Verificar que estén los datos mínimos
+        var nombreVariable = ""
+        if showData.CodAspectoObs == "" {
+            nombreVariable = "Aspecto Observado"
+        }
+        if showData.CodActividadRel == "" {
+            nombreVariable = "Actividad Relacionada"
+        }
+        if showData.CodNivelRiesgo == "" {
+            nombreVariable = "Nivel Riesgo"
+        }
+        if showData.Observacion == "" {
+            nombreVariable = "Observación"
+        }
+        
+        // Enviar los datos, o el nombre de la variable que falta
+        // Verificar, modo PUT aun no esta
+        var data = String.init(data: Dict.unitToData(showData)!, encoding: .utf8)!
+        /*if UOModo == "PUT" && data == UOTab1String {
+            data = "-"
+        }*/
+        
+        if nombreVariable == "" {
+            return (true, data)
+        } else {
+            return (false, nombreVariable)
+        }
+    }
+    
+    static func UIOTab3GetData() -> (toAdd: String, todel: String) {
+        var arrayPlanes = [PlanAccionDetalle]()
+        var toAdd = ""
+        for unit in UIOTab3Planes {
+            let copia = unit.copy()
+            copia.CodAccion = "-1"
+            copia.NroDocReferencia = ""
+            copia.SolicitadoPor = nil
+            copia.Responsables = nil
+            copia.CodEstadoAccion = "01"
+            copia.CodReferencia = "02"
+            copia.CodTabla = "TINS"
+            copia.NroAccionOrigen = -2000
+            arrayPlanes.append(copia)
+        }
+        toAdd = String.init(data: Dict.unitToData(arrayPlanes)!, encoding: .utf8) ?? "[]"
+        return (toAdd,"")
+    }
+    // Upsert InsObservacion
+    
+    // Upsert Facilito
+    static var UFViewController = FacilitoUpsertTVC()
+    static var UFModo = ""
+    static var UFCodigo = ""
+    static var UFDetalle = FacilitoDetalle()
+    
+    static func UFLoadModo(_ modo: String, _ codigo: String) {
+        UFModo = modo
+        UFCodigo = codigo
+        UFDetalle = FacilitoDetalle()
+        UFDetalle.Tipo = "A"
+        switch modo {
+        case "ADD":
+            UFViewController.tableView.reloadData()
+            break
+        case "PUT":
+            Rest.getDataGeneral(Routes.forFacilitoDetalle(codigo), true, success: {(resultValue:Any?,data:Data?) in
+                UFDetalle = Dict.dataToUnit(data!)!
+                
+                print(resultValue)
+            }, error: {(error) in
+                print(error)
+            })
+            break
+        default:
+            break
+        }
+    }
+    
+    static func UFGetData() -> (respuesta: String, data: String) {
+        var nombreVariable = ""
+        if UFDetalle.CodPosicionGer == nil || UFDetalle.CodPosicionGer == "" {
+            nombreVariable = "Gerencia"
+        }
+        if UFDetalle.UbicacionExacta == nil || UFDetalle.UbicacionExacta == "" {
+            nombreVariable = "Ubicacion"
+        }
+        if UFDetalle.Observacion == nil || UFDetalle.Observacion == "" {
+            nombreVariable = "Observacion"
+        }
+        if UFDetalle.Accion == nil || UFDetalle.Accion == "" {
+            nombreVariable = "Accion"
+        }
+        if nombreVariable == "" {
+            UFDetalle.CodObsFacilito = UFCodigo
+            UFDetalle.CodPosicionSup = UFDetalle.CodPosicionSup ?? ""
+            UFDetalle.RespAuxiliar = UFDetalle.RespAuxiliar ?? ""
+            UFDetalle.Estado = UFDetalle.Estado ?? "P"
+            return ("", String.init(data: Dict.unitToData(UFDetalle)!, encoding: .utf8)!)
+        } else {
+            return (nombreVariable, "")
+        }
+    }
+    // Upsert Facilito
     
     static func loadGlobals() {
         Utils.maestroStatic1["REFERENCIAPLAN"] = ["01", "02", "03", "04", "05", "06", "07", "08", "09"]

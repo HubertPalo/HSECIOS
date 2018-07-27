@@ -17,12 +17,19 @@ class InspeccionesVC: UIViewController {
                 let arrayMuroElement: ArrayGeneral<MuroElement> = Dict.dataToArray(data!)
                 self.muro.data = arrayMuroElement.Data
                 self.muro.tableView.reloadData()
+                for unit in arrayMuroElement.Data {
+                    if (unit.UrlObs ?? "") != "" {
+                        Images.downloadAvatar(unit.UrlObs!, {() in
+                            self.muro.tableView.reloadData()
+                        })
+                    }
+                    if (unit.UrlPrew ?? "") != "" {
+                        Images.downloadImage(unit.UrlPrew!, {() in
+                            self.muro.tableView.reloadData()
+                        })
+                    }
+                }
             }, error: nil)
-            /*Rest.postData(Routes.forMuroSearchO(), self.data, true, vcontroller: self, success: {(dict:NSDictionary) in
-                let data: [MuroElement] = Dict.toArrayMuroElement(dict)
-                self.muro.data = data
-                self.muro.tableView.reloadData()
-            })*/
         }
         self.muro.alScrollLimiteBot = {
             var pagina = self.muro.data.count / 10
@@ -33,14 +40,21 @@ class InspeccionesVC: UIViewController {
             self.data["Elemperpage"] = "10"
             Rest.postDataGeneral(Routes.forMuroSearchO(), self.data, true, success: {(resultValue:Any?,data:Data?) in
                 let arrayMuroElement: ArrayGeneral<MuroElement> = Dict.dataToArray(data!)
-                self.muro.data = arrayMuroElement.Data
+                self.muro.data.append(contentsOf: arrayMuroElement.Data)
                 self.muro.tableView.reloadData()
+                for unit in arrayMuroElement.Data {
+                    if (unit.UrlObs ?? "") != "" {
+                        Images.downloadAvatar(unit.UrlObs!, {() in
+                            self.muro.tableView.reloadData()
+                        })
+                    }
+                    if (unit.UrlPrew ?? "") != "" {
+                        Images.downloadImage(unit.UrlPrew!, {() in
+                            self.muro.tableView.reloadData()
+                        })
+                    }
+                }
             }, error: nil)
-            /*Rest.postData(Routes.forMuroSearchO(), self.data, true, vcontroller: self, success: {(dict:NSDictionary) in
-                let data: [MuroElement] = Dict.toArrayMuroElement(dict)
-                self.muro.data = data
-                self.muro.tableView.reloadData()
-            })*/
         }
         self.muro.alClickCelda = {(unit: MuroElement) in
             Tabs.indexInsDetalle = 1
@@ -51,11 +65,6 @@ class InspeccionesVC: UIViewController {
             self.muro.data = arrayMuroElement.Data
             self.muro.tableView.reloadData()
         }, error: nil)
-        /*Rest.postData(Routes.forMuroSearchI(), self.data, true, vcontroller: self, success: {(dict:NSDictionary) in
-            let data: [MuroElement] = Dict.toArrayMuroElement(dict)
-            self.muro.data = data
-            self.muro.tableView.reloadData()
-        })*/
     }
     
     

@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HSECIOS/Utils/Tabs.swift"
-            timestampString = "553552756.980397"
+            timestampString = "554238025.371158"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "153"
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HSECIOS/Utils/Tabs.swift"
-            timestampString = "553552756.980791"
+            timestampString = "554238025.3729089"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "181"
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HSECIOS/Controllers/Tab3 - Ficha/Estadisticas/EstadDetalleVC.swift"
-            timestampString = "553552756.98087"
+            timestampString = "554238025.373175"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
             landmarkName = "buscar()"
             landmarkType = "7">
          </BreakpointContent>
@@ -154,7 +154,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HSECIOS/Controllers/Tab1 - Muro/MuroTVC.swift"
-            timestampString = "553552756.981482"
+            timestampString = "554238025.375299"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "46"
@@ -170,7 +170,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HSECIOS/Controllers/FacDetalleAtencionTVC.swift"
-            timestampString = "553552756.981756"
+            timestampString = "553794084.129441"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "108"
@@ -282,7 +282,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HSECIOS/Controllers/FacDetalleTVC.swift"
-            timestampString = "553552756.982155"
+            timestampString = "554238025.376036"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "137"
@@ -314,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HSECIOS/Helpers/Rest.swift"
-            timestampString = "553548889.0338399"
+            timestampString = "554238025.376447"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "258"
-            endingLineNumber = "258"
+            startingLineNumber = "259"
+            endingLineNumber = "259"
             landmarkName = "postData(_:_:_:_:_:vcontroller:success:error:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -330,7 +330,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HSECIOS/Utils/Utils.swift"
-            timestampString = "553474854.048435"
+            timestampString = "554238025.376844"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "138"
@@ -346,28 +346,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HSECIOS/Controllers/Tab3 - Ficha/Estadisticas/EstadDetalleVC.swift"
-            timestampString = "553552756.982495"
+            timestampString = "554238025.3902889"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
             landmarkName = "buscar()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HSECIOS/Utils/Images.swift"
-            timestampString = "553552756.982553"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
-            landmarkName = "imageToDataCompressed(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -474,12 +458,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HSECIOS/Helpers/Rest.swift"
-            timestampString = "553548889.035"
+            timestampString = "554238025.390823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "183"
-            endingLineNumber = "183"
-            landmarkName = "postMultipartFormData(_:params:_:_:_:_:_:success:progress:error:)"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
+            landmarkName = "postMultipartFormData(_:params:_:_:_:_:_:_:success:progress:error:)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -537,27 +521,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HSECIOS/Controllers/Extras/GaleriaFVDTVC.swift"
-            timestampString = "553552756.9829251"
+            timestampString = "554238025.39134"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
-            landmarkName = "documentPicker(_:didPickDocumentAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HSECIOS/Controllers/Extras/GaleriaFVDTVC.swift"
-            timestampString = "553552756.983179"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "258"
-            endingLineNumber = "258"
+            startingLineNumber = "264"
+            endingLineNumber = "264"
             landmarkName = "clickImagenX(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -575,6 +543,278 @@
             startingLineNumber = "17"
             endingLineNumber = "17"
             landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HSECIOS/Controllers/Extras/AddObservacion/UpsertObsVC.swift"
+            timestampString = "554238025.391956"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
+            landmarkName = "clickTopDer(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HSECIOS/Controllers/Extras/AddObservacion/UpsertObsPVCTab4.swift"
+            timestampString = "554246622.741837"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
+            landmarkName = "clickAddPlan(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HSECIOS/Controllers/Extras/AddObservacion/UpsertObsPVCTab4.swift"
+            timestampString = "554246622.741964"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
+            landmarkName = "clickAddPlan(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HSECIOS/Controllers/Extras/AddObservacion/UpsertObsPVCTab4.swift"
+            timestampString = "554246622.742025"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "clickAddPlan(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HSECIOS/Controllers/Extras/AddInspeccion/UpsertInsVC.swift"
+            timestampString = "554243519.701512"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "clickTopDer(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HSECIOS/Controllers/Extras/AddInspeccion/UpsertInsVC.swift"
+            timestampString = "554243519.7018861"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "clickTopDer(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HSECIOS/Controllers/Extras/AddInspeccion/UpsertInsVC.swift"
+            timestampString = "554243519.702135"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "clickTopDer(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HSECIOS/Controllers/Extras/AddInspeccion/UpsertInsPVCTab3.swift"
+            timestampString = "554238025.411667"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
+            landmarkName = "clickAddInsObservacion(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HSECIOS/Controllers/Extras/AddInsObservacion/UpsertInsObsVC.swift"
+            timestampString = "554251602.4362611"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "clickTopDer(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HSECIOS/Controllers/Extras/AddInspeccion/UpsertInsPVCTab3.swift"
+            timestampString = "554238025.415141"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
+            landmarkName = "clickAddInsObservacion(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "HSECIOS.UpsertInsPVCTab3.clickAddInsObservacion(Any) -&gt; ()"
+                  moduleName = "HSECIOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mac02/Desktop/HSECIOS/HSECIOS/Controllers/Extras/AddInspeccion/UpsertInsPVCTab3.swift"
+                  timestampString = "554401343.121266"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "675">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (HSECIOS.InsObservacionGD, Swift.Array&lt;HSECIOS.FotoVideo&gt;, Swift.Array&lt;HSECIOS.DocumentoGeneral&gt;, Swift.Array&lt;HSECIOS.PlanAccionDetalle&gt;) -&gt; () in HSECIOS.UpsertInsPVCTab3.clickAddInsObservacion(Any) -&gt; ()"
+                  moduleName = "HSECIOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mac02/Desktop/HSECIOS/HSECIOS/Controllers/Extras/AddInspeccion/UpsertInsPVCTab3.swift"
+                  timestampString = "554401343.12529"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "77"
+                  endingLineNumber = "77"
+                  offsetFromSymbolStart = "33">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HSECIOS/Controllers/Extras/AddInsObservacion/UpsertInsObsPVCTab3.swift"
+            timestampString = "554401341.783567"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "clickAddInsObsPlanAccion(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HSECIOS/Utils/Globals.swift"
+            timestampString = "554401341.78371"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "788"
+            endingLineNumber = "788"
+            landmarkName = "UFLoadModo(_:_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HSECIOS/Utils/Globals.swift"
+            timestampString = "554401341.7844011"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "792"
+            endingLineNumber = "792"
+            landmarkName = "UFLoadModo(_:_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HSECIOS/Controllers/Tab 4 - Registro/FacilitoUpsertTVC.swift"
+            timestampString = "554401341.7851681"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
+            landmarkName = "clickTopDer(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HSECIOS/Controllers/Tab 4 - Registro/FacilitoUpsertTVC.swift"
+            timestampString = "554401341.785848"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "232"
+            endingLineNumber = "232"
+            landmarkName = "clickTopDer(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

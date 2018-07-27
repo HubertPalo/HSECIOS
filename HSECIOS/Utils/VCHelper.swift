@@ -47,28 +47,40 @@ class VCHelper {
         self.upsertObservacion = Utils.addObservacionSB.instantiateViewController(withIdentifier: "upsertObservacion")
     }
     
-    static func openUpsertObservacion(_ viewcontroller: UIViewController, _ modo: String, _ codigo: String) {
-        let vc = self.upsertObservacion as! UpsertObsVC
+    static func upsertObservacion(_ viewcontroller: UIViewController, _ modo: String, _ codigo: String) {
         Globals.UOloadModo(modo, codigo)
-        // vc.loadModo(modo, codigo)
-        /*(Tabs.forAddObs[0] as! UpsertObsPVCTab1).loadModo(modo, codigo)
-        (Tabs.forAddObs[1] as! UpsertObsPVCTab2).loadModo(modo, codigo)
-        (Tabs.forAddObs[2] as! UpsertObsPVCTab3).loadModo(modo, codigo)*/
+        let vc = self.upsertObservacion as! UpsertObsVC
         viewcontroller.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    static func upsertInspeccion(_ viewcontroller: UIViewController, _ modo: String, _ codigo: String)-> Void {
+        Globals.UILoadModo(modo, codigo)
+        let vc = self.agregarInspeccion as! UpsertInsVC
+        viewcontroller.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    static func upsertInsObservacion(_ viewcontroller: UIViewController, _ modo: String, _ codigoInspeccion: String, _ correlativo: Int?, _ id: Int, _ onClickOk: @escaping (_ obsDetalle: InsObservacionGD, _ multimedia: [FotoVideo], _ documentos: [DocumentoGeneral], _ planes: [PlanAccionDetalle])-> Void)-> Void {
+        Globals.UIOLoadModo(modo, codigoInspeccion, correlativo, id)
+        let agregarVC = self.agregarInsObservacion as! UpsertInsObsVC
+        agregarVC.alAgregarObservacion = onClickOk
+        viewcontroller.navigationController?.pushViewController(agregarVC, animated: true)
     }
     
     static func openUpsertObsPlan(_ viewcontroller: UIViewController, _ modo: Int, _ plan: PlanAccionDetalle, _ element: MuroElement, _ alTerminar: ((_ plan: PlanAccionDetalle) -> Void)?) {
         let vc = self.upsertObsPlan as! UpsertObsPlanTVC
-        plan.FechaSolicitud = Utils.date2str(Date(), "YYYY-MM-dd")
-        plan.SolicitadoPor = Utils.userData.Nombres
-        plan.CodSolicitadoPor = Utils.userData.CodPersona
-        vc.loadModo(modo, plan, element, alTerminar)
+        let copia = plan.copy()
+        copia.NroDocReferencia = element.Codigo
+        copia.FechaSolicitud = Utils.date2str(Date(), "YYYY-MM-dd")
+        copia.SolicitadoPor = Utils.userData.Nombres
+        copia.CodSolicitadoPor = Utils.userData.CodPersona
+        vc.loadModo(modo, copia, element, alTerminar)
         viewcontroller.navigationController?.pushViewController(vc, animated: true)
     }
     
     static func openUpsertFacilito(_ viewcontroller: UIViewController, _ modo: String, _ codigo: String) {
         let vc = self.upsertFacilito as! FacilitoUpsertTVC
-        vc.loadModo(modo, codigo)
+        Globals.UFLoadModo(modo, codigo)
+        // vc.loadModo(modo, codigo)
         viewcontroller.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -104,15 +116,9 @@ class VCHelper {
         viewcontroller.navigationController?.pushViewController(filtroVC, animated: true)
     }
     
-    static func openAddInspeccion(_ viewcontroller: UIViewController)-> Void {
-        let agregarVC = self.agregarInspeccion as! AddInspeccionVC
-        viewcontroller.navigationController?.pushViewController(agregarVC, animated: true)
-    }
     
-    static func openAddInsObservacion(_ viewcontroller: UIViewController)-> Void {
-        let agregarVC = self.agregarInsObservacion as! AddInsObservacionVC
-        viewcontroller.navigationController?.pushViewController(agregarVC, animated: true)
-    }
+    
+    
     
     static func openAddObsPlanAccion(_ viewcontroller: UIViewController)-> Void {
         let agregarVC = self.agregarObsPlanAccion as! AddPutObsPlATVC
@@ -136,7 +142,8 @@ class VCHelper {
         let vc = self.obsDetalle as! ObsDetalleVC
         vc.observacion = observacion
         Tabs.indexObsDetalle = 0
-        (Tabs.forObsDetalle[0] as! ObsDetallePVCTab1).loadObservacion(observacion)
+        // (Tabs.forObsDetalle[0] as! ObsDetallePVCTab1).loadObservacion(observacion)
+        Globals.UOloadModo("GET", observacion.Codigo!)
         (Tabs.forObsDetalle[1] as! ObsDetallePVCTab2).observacion = observacion
         (Tabs.forObsDetalle[2] as! ObsDetallePVCTab3).observacion = observacion
         (Tabs.forObsDetalle[3] as! ObsDetallePVCTab4).observacion = observacion

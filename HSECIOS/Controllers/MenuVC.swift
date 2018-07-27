@@ -165,6 +165,9 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 0 && indexPath.row == 5 {
             Utils.menuPlanesPendientes.initialLoad()
         }
+        if indexPath.section == 0 && indexPath.row == 0 {
+            Globals.UFLoadModo("ADD", "")
+        }
     }
     // Tabla
     

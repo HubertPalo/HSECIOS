@@ -10,7 +10,7 @@ class InsObservacionPVCTab3: UIViewController {
             padre.selectTab(2)
         }
         let hijo = self.childViewControllers[0] as! ObsPlanAccionVC
-        hijo.loadData(codigo: insObs.CodInspeccion)
+        hijo.loadData(codigo: insObs.CodInspeccion ?? "")
     }
     
     override func viewDidLoad() {

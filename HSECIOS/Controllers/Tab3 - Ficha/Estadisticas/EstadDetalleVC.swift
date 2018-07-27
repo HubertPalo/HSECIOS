@@ -80,13 +80,24 @@ class EstadDetalleVC: UIViewController {
             if self.mes != "*" {
                 
             }
-            
             Rest.postDataGeneral(Routes.forFiltroFacilito(), self.data, true, success: {(resultValue:Any?,data:Data?) in
-                let facilitos: ArrayGeneral<FacilitoElement> = Dict.dataToArray(data!)
-                hijo.facilitos = facilitos.Data
+                let arrayFacilito: ArrayGeneral<FacilitoElement> = Dict.dataToArray(data!)
+                hijo.facilitos = arrayFacilito.Data
                 hijo.tableView.reloadData()
-                self.viewNoData.isHidden = facilitos.Data.count > 0
-                self.containerData.isHidden = facilitos.Data.count <= 0
+                for unit in arrayFacilito.Data {
+                    if (unit.UrlObs ?? "") != "" {
+                        Images.downloadAvatar(unit.UrlObs!, {() in
+                            hijo.tableView.reloadData()
+                        })
+                    }
+                    if (unit.UrlPrew ?? "") != "" {
+                        Images.downloadImage(unit.UrlPrew!, {() in
+                            hijo.tableView.reloadData()
+                        })
+                    }
+                }
+                self.viewNoData.isHidden = arrayFacilito.Data.count > 0
+                self.containerData.isHidden = arrayFacilito.Data.count <= 0
             }, error: nil)
         case "00":
             Rest.getDataGeneral(Routes.forPlanAccionGeneral(self.codPersona, anho, mes, 1, elemsPP), true, success: {(resultValue:Any?,data:Data?) in

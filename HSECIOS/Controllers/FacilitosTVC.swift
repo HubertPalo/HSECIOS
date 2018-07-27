@@ -28,9 +28,16 @@ class FacilitosTVC: UITableViewController {
         celda.viewEditable.isHidden = unit.Editable == "0" || unit.Editable == "2"
         celda.tiempo.attributedText = Utils.handleSeconds("\(unit.TiempoDiffMin ?? 0)")
         celda.limiteView.isHidden = indexPath.row == self.facilitos.Data.count - 1
-        Images.loadAvatarFromDNI(unit.UrlObs ?? "", celda.avatar, true, tableView, indexPath)
-        // Images.loadAvatarFromDNI(unit.UrlObs, celda.avatar, true)
-        if unit.UrlPrew == "" {
+        if (unit.UrlObs ?? "") != "" {
+            celda.avatar.image = Images.getImageFor("A-\(unit.UrlObs ?? "")")
+        }
+        celda.imagen.isHidden = (unit.UrlPrew ?? "").isEmpty
+        if (unit.UrlPrew ?? "") != "" {
+            celda.imagen.image = Images.getImageFor("P-\(unit.UrlPrew ?? "")")
+        }
+        // Images.loadAvatarFromDNI(unit.UrlObs ?? "", celda.avatar, true, tableView, indexPath)
+        
+        /*if unit.UrlPrew == "" {
             celda.imagen.isHidden = true
         } else {
             celda.imagen.isHidden = false
@@ -40,7 +47,7 @@ class FacilitosTVC: UITableViewController {
                  tableview.reloadRows(at: [indexPath], with: .none)
                  }*/
             })
-        }
+        }*/
         Images.loadIcon("ESTADOFACILITO.\(unit.Estado)", celda.imagenEstado)
         
         return celda

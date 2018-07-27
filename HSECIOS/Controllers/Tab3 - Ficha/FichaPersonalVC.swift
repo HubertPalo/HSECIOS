@@ -59,10 +59,10 @@ class FichaPersonalVC: UIViewController {
         hijo.dataLeft = dataInLeft
         hijo.dataRight = dataInRight
         hijo.tableView.reloadData()
-        
-        Images.loadAvatarFromDNI(data.NroDocumento ?? "", avatar, true)
-        
-        
+        if (data.NroDocumento ?? "") != "" {
+            avatar.image = Images.getImageFor("A-\(data.NroDocumento ?? "")")
+        }
+        // Images.loadAvatarFromDNI(data.NroDocumento ?? "", avatar, true)
     }
     
     

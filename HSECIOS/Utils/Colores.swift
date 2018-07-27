@@ -8,13 +8,3 @@ class Colores {
     static let colorDeBorde = UIColor.init(red: 204.0/255.0, green: 204.0/255.0, blue: 204.0/255.0, alpha: 1.0)
     
 }
-
-/*class UIButtonBar: UISegmentedControl {
-    
-    static func initFrom(_ segmentedControl: UISegmentedControl) -> UIButtonBar {
-        var newButtonBar = UIButtonBar()
-        segmentedControl.backgroundColor = UIColor.clear
-        segmentedControl.tintColor = UIColor.clear
-    }
-    
-}*/

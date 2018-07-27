@@ -315,8 +315,9 @@ class UpsertObsPlanTVC: UITableViewController, UITextViewDelegate {
         }
         
         if nombreVariable == "" {
-            self.navigationController?.popViewController(animated: true)
             self.alClickTopDer?(self.obsPlan)
+            self.navigationController?.popViewController(animated: true)
+            self.dismiss(animated: true, completion: nil)
         } else {
             Alerts.presentAlert("Campo faltante", "El campo \(nombreVariable) no puede estar vacío", duration: 2, imagen: nil, viewController: self)
         }

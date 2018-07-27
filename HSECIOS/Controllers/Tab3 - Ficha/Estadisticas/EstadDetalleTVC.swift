@@ -66,21 +66,23 @@ class EstadDetalleTVC: UITableViewController {
             celda.viewEditable.isHidden = unit.Editable == "0" || unit.Editable == "2"
             celda.tiempo.attributedText = Utils.handleSeconds("\(unit.TiempoDiffMin ?? 0)")
             celda.limiteView.isHidden = indexPath.row == self.facilitos.count - 1
-            Images.loadAvatarFromDNI(unit.UrlObs ?? "", celda.avatar, true, tableView, indexPath)
-            // Images.loadAvatarFromDNI(unit.UrlObs, celda.avatar, true)
-            if unit.UrlPrew == "" {
+            if (unit.UrlObs ?? "") != "" {
+                celda.avatar.image = Images.getImageFor("A-\(unit.UrlObs ?? "")")
+            }
+            celda.imagen.isHidden = (unit.UrlPrew ?? "").isEmpty
+            if (unit.UrlPrew ?? "") != "" {
+                celda.imagen.image = Images.getImageFor("P-\(unit.UrlPrew ?? "")")
+            }
+            // Images.loadAvatarFromDNI(unit.UrlObs ?? "", celda.avatar, true, tableView, indexPath)
+            /*if unit.UrlPrew == "" {
                 celda.imagen.isHidden = true
             } else {
                 celda.imagen.isHidden = false
                 Images.loadImagePreviewFromCode(unit.UrlPrew ?? "", celda.imagen, {
                     tableView.reloadRows(at: [indexPath], with: .none)
-                    /*(if (tableview.indexPathsForVisibleRows?.contains(indexPath))! {
-                     tableview.reloadRows(at: [indexPath], with: .none)
-                     }*/
                 })
-            }
+            }*/
             Images.loadIcon("ESTADOFACILITO.\(unit.Estado)", celda.imagenEstado)
-            
             return celda
         case "00":
             /*let unit = planesAccion[indexPath.row]
@@ -90,7 +92,10 @@ class EstadDetalleTVC: UITableViewController {
             celda.contenido.text = unit.DesPlanAccion*/
             let celda = tableView.dequeueReusableCell(withIdentifier: "celdaPlan") as! PlanesAccionPendientesTVCell
             let unit = self.planesAccion[indexPath.row]
-            Images.loadAvatarFromDNI(unit.CodSolicitadoPor ?? "", celda.avatar, true, tableView, indexPath)
+            if (unit.CodSolicitadoPor ?? "") != "" {
+                celda.avatar.image = Images.getImageFor("A-\(unit.CodSolicitadoPor ?? "")")
+            }
+            // Images.loadAvatarFromDNI(unit.CodSolicitadoPor ?? "", celda.avatar, true, tableView, indexPath)
             Images.loadIcon("NIVELRIESGO.\(unit.CodNivelRiesgo)", celda.icono)
             celda.editableView.isHidden = unit.Editable != nil && unit.Editable != 1 && unit.Editable != 3
             celda.autor.text = unit.SolicitadoPor
@@ -116,14 +121,17 @@ class EstadDetalleTVC: UITableViewController {
             celda.contenido.text = unit.Obs
             celda.comentarios.setTitle("\(unit.Comentarios) comentarios", for: .normal)
             
-            Images.loadAvatarFromDNI(unit.UrlObs ?? "", celda.avatar, true, tableView, indexPath)
-            /*if let imagen = Images.imagenes[unit.UrlObs] {
-             celda.avatar.image = imagen
-             } else {
-             celda.avatar.image = Images.blank
-             Images.getFromCode(unit.UrlObs, "Avatar", tableView, indexPath.row)
-             }*/
-            if unit.UrlPrew == "" {
+            //Images.loadAvatarFromDNI(unit.UrlObs ?? "", celda.avatar, true, tableView, indexPath)
+            
+            if (unit.UrlObs ?? "") != "" {
+                celda.avatar.image = Images.getImageFor("A-\(unit.UrlObs ?? "")")
+            }
+            celda.imagen.isHidden = (unit.UrlPrew ?? "").isEmpty
+            if (unit.UrlPrew ?? "") != "" {
+                celda.imagen.image = Images.getImageFor("P-\(unit.UrlPrew ?? "")")
+            }
+            
+            /*if unit.UrlPrew == "" {
                 celda.imagen.isHidden = true
             } else {
                 celda.imagen.isHidden = false
@@ -133,27 +141,7 @@ class EstadDetalleTVC: UITableViewController {
                     celda.imagen.image = Images.blank
                     Images.getFromCode(unit.UrlPrew ?? "", "Image", tableView, indexPath.row)
                 }
-            }
-            /*
-             if unit.UrlPrew == "" {
-             celda.imagenView.isHidden = true
-             /*if !celda.imagenView.isHidden {
-             celda.imagenView.isHidden = true
-             }*/
-             } else {
-             celda.imagenView.isHidden = false
-             /*if celda.imagenView.isHidden {
-             celda.imagenView.isHidden = false
-             }*/
-             if Images.imagenes[unit.UrlPrew] != nil {
-             celda.imagen.image = Images.imagenes[unit.UrlPrew]
-             } else {
-             celda.imagen.image = Images.blank
-             Images.getFromCode(unit.UrlPrew, "Image", tableView, indexPath.row)
-             //Images.get(unit.UrlPrew, tableView, indexPath.row)
-             }
-             }
-             */
+            }*/
             celda.riesgoImagen.image = Images.getImageForRisk(unit.NivelR ?? "")
             return celda
         case "02":
@@ -196,14 +184,14 @@ class EstadDetalleTVC: UITableViewController {
                 Utils.showStackView(celda.stack2)
                 Utils.showStackView(celda.stack3)
             }
-            Images.loadAvatarFromDNI(unit.UrlObs ?? "", celda.avatar, true, tableView, indexPath)
-            /*if let imagen = Images.imagenes[unit.UrlObs] {
-             celda.avatar.image = imagen
-             } else {
-             celda.avatar.image = Images.blank
-             Images.getFromCode(unit.UrlObs, "Avatar", tableView, indexPath.row)
-             }*/
-            
+            if (unit.UrlObs ?? "") != "" {
+                celda.avatar.image = Images.getImageFor("A-\(unit.UrlObs ?? "")")
+            }
+            celda.imagen.isHidden = (unit.UrlPrew ?? "").isEmpty
+            if (unit.UrlPrew ?? "") != "" {
+                celda.imagen.image = Images.getImageFor("P-\(unit.UrlPrew ?? "")")
+            }
+            /*Images.loadAvatarFromDNI(unit.UrlObs ?? "", celda.avatar, true, tableView, indexPath)
             if unit.UrlPrew == "" {
                 celda.imagen.isHidden = true
             } else {
@@ -214,7 +202,7 @@ class EstadDetalleTVC: UITableViewController {
                     celda.imagen.image = Images.blank
                     Images.getFromCode(unit.UrlPrew ?? "", "Image", tableView, indexPath.row)
                 }
-            }
+            }*/
             return celda
         case "03":
             let unit = incidentes[indexPath.row]
@@ -223,7 +211,11 @@ class EstadDetalleTVC: UITableViewController {
             celda.contenido.text = unit.Descripcion
             celda.fecha.text = Utils.str2date2str(unit.Fecha)
             celda.limiteView.isHidden = indexPath.row == self.incidentes.count - 1
-            Images.loadAvatarFromDNI(unit.ResponsableDNI, celda.avatar, true, tableView, indexPath)
+            // Images.loadAvatarFromDNI(unit.ResponsableDNI, celda.avatar, true, tableView, indexPath)
+            if (unit.ResponsableDNI ?? "") != "" {
+                celda.avatar.image = Images.getImageFor("A-\(unit.ResponsableDNI ?? "")")
+            }
+            
             return celda
         case "04":
             let unit = iperc[indexPath.row]
@@ -232,7 +224,10 @@ class EstadDetalleTVC: UITableViewController {
             celda.contenido.text = unit.Descripcion
             celda.fecha.text = Utils.str2date2str(unit.Fecha)
             celda.limiteView.isHidden = indexPath.row == self.iperc.count - 1
-            Images.loadAvatarFromDNI(unit.ResponsableDNI, celda.avatar, true, tableView, indexPath)
+            // Images.loadAvatarFromDNI(unit.ResponsableDNI, celda.avatar, true, tableView, indexPath)
+            if (unit.ResponsableDNI ?? "") != "" {
+                celda.avatar.image = Images.getImageFor("A-\(unit.ResponsableDNI ?? "")")
+            }
             return celda
         case "05":
             let unit = auditorias[indexPath.row]
@@ -241,7 +236,10 @@ class EstadDetalleTVC: UITableViewController {
             celda.contenido.text = unit.Descripcion
             celda.fecha.text = Utils.str2date2str(unit.Fecha)
             celda.limiteView.isHidden = indexPath.row == self.auditorias.count - 1
-            Images.loadAvatarFromDNI(unit.ResponsableDNI, celda.avatar, true, tableView, indexPath)
+            // Images.loadAvatarFromDNI(unit.ResponsableDNI, celda.avatar, true, tableView, indexPath)
+            if (unit.ResponsableDNI ?? "") != "" {
+                celda.avatar.image = Images.getImageFor("A-\(unit.ResponsableDNI ?? "")")
+            }
             return celda
         case "06":
             let unit = simulacros[indexPath.row]
@@ -250,7 +248,10 @@ class EstadDetalleTVC: UITableViewController {
             celda.contenido.text = unit.Descripcion
             celda.fecha.text = Utils.str2date2str(unit.Fecha)
             celda.limiteView.isHidden = indexPath.row == self.simulacros.count - 1
-            Images.loadAvatarFromDNI(unit.ResponsableDNI, celda.avatar, true, tableView, indexPath)
+            // Images.loadAvatarFromDNI(unit.ResponsableDNI, celda.avatar, true, tableView, indexPath)
+            if (unit.ResponsableDNI ?? "") != "" {
+                celda.avatar.image = Images.getImageFor("A-\(unit.ResponsableDNI ?? "")")
+            }
             return celda
         case "07":
             let unit = reuniones[indexPath.row]
@@ -259,7 +260,10 @@ class EstadDetalleTVC: UITableViewController {
             celda.contenido.text = unit.Descripcion
             celda.fecha.text = Utils.str2date2str(unit.Fecha)
             celda.limiteView.isHidden = indexPath.row == self.reuniones.count - 1
-            Images.loadAvatarFromDNI(unit.ResponsableDNI, celda.avatar, true, tableView, indexPath)
+            // Images.loadAvatarFromDNI(unit.ResponsableDNI, celda.avatar, true, tableView, indexPath)
+            if (unit.ResponsableDNI ?? "") != "" {
+                celda.avatar.image = Images.getImageFor("A-\(unit.ResponsableDNI ?? "")")
+            }
             return celda
         case "08":
             let unit = comites[indexPath.row]
@@ -268,7 +272,10 @@ class EstadDetalleTVC: UITableViewController {
             celda.contenido.text = unit.Descripcion
             celda.fecha.text = Utils.str2date2str(unit.Fecha)
             celda.limiteView.isHidden = indexPath.row == self.comites.count - 1
-            Images.loadAvatarFromDNI(unit.ResponsableDNI, celda.avatar, true, tableView, indexPath)
+            // Images.loadAvatarFromDNI(unit.ResponsableDNI, celda.avatar, true, tableView, indexPath)
+            if (unit.ResponsableDNI ?? "") != "" {
+                celda.avatar.image = Images.getImageFor("A-\(unit.ResponsableDNI ?? "")")
+            }
             return celda
         default:
             return UITableViewCell()
@@ -323,7 +330,7 @@ class EstadDetalleTVC: UITableViewController {
         
         Utils.openSheetMenu(self, "OPCIONES", nil, ["Editar", "Eliminar", "Cancelar"], [.default, .destructive, .cancel], [{(editarAlert) in
             if (unit.Codigo ?? "").starts(with: "OBS") {
-                VCHelper.openUpsertObservacion(self, "PUT", unit.Codigo ?? "")
+                VCHelper.upsertObservacion(self, "PUT", unit.Codigo ?? "")
             }
             }, {(eliminarAlert) in
                 Alerts.presentAlert("Oops", "Funcionalidad aun no implementada", duration: 1, imagen: nil, viewController: self)

@@ -4,7 +4,7 @@ class PlanesAccionPendTVC: UITableViewController {
     
     var planes: [PlanAccionGeneral] = []
     
-    var alClickCelda: ((_ plan:PlanAccionGeneral) -> Void)?
+    // var alClickCelda: ((_ plan:PlanAccionGeneral) -> Void)?
     
     var alScrollLimiteTop: (() -> Void)?
     var alScrollLimiteBot: (() -> Void)?
@@ -38,7 +38,7 @@ class PlanesAccionPendTVC: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let celda = tableView.dequeueReusableCell(withIdentifier: "celda") as! PlanesAccionPendientesTVCell
         let unit = self.planes[indexPath.row]
-        Images.loadAvatarFromDNI(unit.CodSolicitadoPor ?? "", celda.avatar, true, tableView, indexPath)
+        // Images.loadAvatarFromDNI(unit.CodSolicitadoPor ?? "", celda.avatar, true, tableView, indexPath)
         Images.loadIcon("NIVELRIESGO.\(unit.CodNivelRiesgo)", celda.icono)
         celda.editableView.isHidden = unit.Editable != nil && unit.Editable != 1 && unit.Editable != 3
         celda.autor.text = unit.SolicitadoPor
@@ -47,6 +47,9 @@ class PlanesAccionPendTVC: UITableViewController {
         celda.estado.text = Utils.searchMaestroStatic("ESTADOPLAN", unit.CodEstadoAccion ?? "")
         celda.contenido.text = unit.DesPlanAccion
         celda.limiteView.isHidden = indexPath.row == self.planes.count - 1
+        if (unit.CodSolicitadoPor ?? "") != "" {
+            celda.avatar.image = Images.getImageFor("A-\(unit.CodSolicitadoPor ?? "")")
+        }
         return celda
     }
     
@@ -70,7 +73,6 @@ class PlanesAccionPendTVC: UITableViewController {
     @IBAction func click3Puntos(_ sender: Any) {
         Utils.openSheetMenu(self, "OPCIONES", nil, ["Editar plan de acción", "Eliminar plan de acción", "Cancelar"], [.default, .destructive, .cancel], [nil, nil, nil])
     }
-    
     
 }
 

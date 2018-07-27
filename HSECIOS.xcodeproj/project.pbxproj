@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		19614E2A4633EDC5E5443FD8 /* Pods_HSECIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B953CA57FCB62C69AE024E5 /* Pods_HSECIOS.framework */; };
+		C811BD7D21000A2C002150BD /* UpsertInsObsPVCTab1.swift in Sources */ = {isa = PBXBuildFile; fileRef = C811BD7C21000A2C002150BD /* UpsertInsObsPVCTab1.swift */; };
 		C81FCF2C20476BB000D23F9C /* InsObservacionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81FCF2B20476BB000D23F9C /* InsObservacionVC.swift */; };
 		C81FCF2E20476BE800D23F9C /* InsObservacionPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81FCF2D20476BE800D23F9C /* InsObservacionPVC.swift */; };
 		C81FCF3120476C6200D23F9C /* InsObservacionPVCTab1.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81FCF3020476C6200D23F9C /* InsObservacionPVCTab1.swift */; };
@@ -24,11 +25,11 @@
 		C8440127209278AC0001CB2C /* DictadoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8440126209278AC0001CB2C /* DictadoVC.swift */; };
 		C866371E20A6494F00306052 /* ObservacionesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C866371D20A6494F00306052 /* ObservacionesVC.swift */; };
 		C866372020A65BF400306052 /* AddInspeccion.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C866371F20A65BF400306052 /* AddInspeccion.storyboard */; };
-		C866372220A9DC5200306052 /* AddInspeccionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C866372120A9DC5200306052 /* AddInspeccionVC.swift */; };
-		C866372420A9DC7A00306052 /* AddInspeccionPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C866372320A9DC7A00306052 /* AddInspeccionPVC.swift */; };
-		C866372620A9DC9400306052 /* AddInspeccionPVCTab1.swift in Sources */ = {isa = PBXBuildFile; fileRef = C866372520A9DC9400306052 /* AddInspeccionPVCTab1.swift */; };
-		C866372820A9DCA900306052 /* AddInspeccionPVCTab2.swift in Sources */ = {isa = PBXBuildFile; fileRef = C866372720A9DCA900306052 /* AddInspeccionPVCTab2.swift */; };
-		C866372A20A9DCB800306052 /* AddInspeccionPVCTab3.swift in Sources */ = {isa = PBXBuildFile; fileRef = C866372920A9DCB800306052 /* AddInspeccionPVCTab3.swift */; };
+		C866372220A9DC5200306052 /* UpsertInsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C866372120A9DC5200306052 /* UpsertInsVC.swift */; };
+		C866372420A9DC7A00306052 /* UpsertInsPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C866372320A9DC7A00306052 /* UpsertInsPVC.swift */; };
+		C866372620A9DC9400306052 /* UpsertInsPVCTab1.swift in Sources */ = {isa = PBXBuildFile; fileRef = C866372520A9DC9400306052 /* UpsertInsPVCTab1.swift */; };
+		C866372820A9DCA900306052 /* UpsertInsPVCTab2.swift in Sources */ = {isa = PBXBuildFile; fileRef = C866372720A9DCA900306052 /* UpsertInsPVCTab2.swift */; };
+		C866372A20A9DCB800306052 /* UpsertInsPVCTab3.swift in Sources */ = {isa = PBXBuildFile; fileRef = C866372920A9DCB800306052 /* UpsertInsPVCTab3.swift */; };
 		C866372D20AA340100306052 /* InspeccionesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C866372C20AA340100306052 /* InspeccionesVC.swift */; };
 		C866372F20AB92B400306052 /* FiltroContrataVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C866372E20AB92B400306052 /* FiltroContrataVC.swift */; };
 		C866373120AB92E900306052 /* FiltroContrataTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C866373020AB92E900306052 /* FiltroContrataTVC.swift */; };
@@ -47,11 +48,10 @@
 		C8755A4A20BC927A00575EF8 /* GaleriaFVCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8755A4920BC927A00575EF8 /* GaleriaFVCVC.swift */; };
 		C8755A4C20BCA11600575EF8 /* InsDetalle.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C8755A4B20BCA11600575EF8 /* InsDetalle.storyboard */; };
 		C87768AB20AE32B00069C133 /* AddInsObservacion.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C87768AA20AE32B00069C133 /* AddInsObservacion.storyboard */; };
-		C87768AD20AE3B0B0069C133 /* AddInsObservacionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87768AC20AE3B0B0069C133 /* AddInsObservacionVC.swift */; };
-		C87768AF20AE3B830069C133 /* AddInsObservacionPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87768AE20AE3B830069C133 /* AddInsObservacionPVC.swift */; };
-		C87768B120AE4B700069C133 /* AddInsObservacionPVCTab1.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87768B020AE4B700069C133 /* AddInsObservacionPVCTab1.swift */; };
-		C87768B320AE4B890069C133 /* AddInsObservacionPVCTab2.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87768B220AE4B880069C133 /* AddInsObservacionPVCTab2.swift */; };
-		C87768B520AE4B960069C133 /* AddInsObservacionPVCTab3.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87768B420AE4B960069C133 /* AddInsObservacionPVCTab3.swift */; };
+		C87768AD20AE3B0B0069C133 /* UpsertInsObsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87768AC20AE3B0B0069C133 /* UpsertInsObsVC.swift */; };
+		C87768AF20AE3B830069C133 /* UpsertInsObsPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87768AE20AE3B830069C133 /* UpsertInsObsPVC.swift */; };
+		C87768B320AE4B890069C133 /* UpsertInsObsPVCTab2.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87768B220AE4B880069C133 /* UpsertInsObsPVCTab2.swift */; };
+		C87768B520AE4B960069C133 /* UpsertInsObsPVCTab3.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87768B420AE4B960069C133 /* UpsertInsObsPVCTab3.swift */; };
 		C87768BD20AF376F0069C133 /* GaleriaFVDTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87768BC20AF376F0069C133 /* GaleriaFVDTVC.swift */; };
 		C87768C020B329670069C133 /* AddPutObsPlanATVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87768BF20B329670069C133 /* AddPutObsPlanATVC.swift */; };
 		C87768C420B378000069C133 /* MuroFiltroVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87768C320B378000069C133 /* MuroFiltroVC.swift */; };
@@ -180,6 +180,7 @@
 		4B953CA57FCB62C69AE024E5 /* Pods_HSECIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HSECIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		819F68FC07A76F20611F937F /* Pods-HSECIOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HSECIOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-HSECIOS/Pods-HSECIOS.release.xcconfig"; sourceTree = "<group>"; };
 		C7F5F79B112A1417FBE39DEA /* Pods-HSECIOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HSECIOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HSECIOS/Pods-HSECIOS.debug.xcconfig"; sourceTree = "<group>"; };
+		C811BD7C21000A2C002150BD /* UpsertInsObsPVCTab1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpsertInsObsPVCTab1.swift; sourceTree = "<group>"; };
 		C81FCF2B20476BB000D23F9C /* InsObservacionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsObservacionVC.swift; sourceTree = "<group>"; };
 		C81FCF2D20476BE800D23F9C /* InsObservacionPVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsObservacionPVC.swift; sourceTree = "<group>"; };
 		C81FCF3020476C6200D23F9C /* InsObservacionPVCTab1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsObservacionPVCTab1.swift; sourceTree = "<group>"; };
@@ -196,11 +197,11 @@
 		C8440126209278AC0001CB2C /* DictadoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictadoVC.swift; sourceTree = "<group>"; };
 		C866371D20A6494F00306052 /* ObservacionesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservacionesVC.swift; sourceTree = "<group>"; };
 		C866371F20A65BF400306052 /* AddInspeccion.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddInspeccion.storyboard; sourceTree = "<group>"; };
-		C866372120A9DC5200306052 /* AddInspeccionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInspeccionVC.swift; sourceTree = "<group>"; };
-		C866372320A9DC7A00306052 /* AddInspeccionPVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInspeccionPVC.swift; sourceTree = "<group>"; };
-		C866372520A9DC9400306052 /* AddInspeccionPVCTab1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInspeccionPVCTab1.swift; sourceTree = "<group>"; };
-		C866372720A9DCA900306052 /* AddInspeccionPVCTab2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInspeccionPVCTab2.swift; sourceTree = "<group>"; };
-		C866372920A9DCB800306052 /* AddInspeccionPVCTab3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInspeccionPVCTab3.swift; sourceTree = "<group>"; };
+		C866372120A9DC5200306052 /* UpsertInsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpsertInsVC.swift; sourceTree = "<group>"; };
+		C866372320A9DC7A00306052 /* UpsertInsPVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpsertInsPVC.swift; sourceTree = "<group>"; };
+		C866372520A9DC9400306052 /* UpsertInsPVCTab1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpsertInsPVCTab1.swift; sourceTree = "<group>"; };
+		C866372720A9DCA900306052 /* UpsertInsPVCTab2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpsertInsPVCTab2.swift; sourceTree = "<group>"; };
+		C866372920A9DCB800306052 /* UpsertInsPVCTab3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpsertInsPVCTab3.swift; sourceTree = "<group>"; };
 		C866372C20AA340100306052 /* InspeccionesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspeccionesVC.swift; sourceTree = "<group>"; };
 		C866372E20AB92B400306052 /* FiltroContrataVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltroContrataVC.swift; sourceTree = "<group>"; };
 		C866373020AB92E900306052 /* FiltroContrataTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltroContrataTVC.swift; sourceTree = "<group>"; };
@@ -219,11 +220,10 @@
 		C8755A4920BC927A00575EF8 /* GaleriaFVCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaleriaFVCVC.swift; sourceTree = "<group>"; };
 		C8755A4B20BCA11600575EF8 /* InsDetalle.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = InsDetalle.storyboard; sourceTree = "<group>"; };
 		C87768AA20AE32B00069C133 /* AddInsObservacion.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddInsObservacion.storyboard; sourceTree = "<group>"; };
-		C87768AC20AE3B0B0069C133 /* AddInsObservacionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInsObservacionVC.swift; sourceTree = "<group>"; };
-		C87768AE20AE3B830069C133 /* AddInsObservacionPVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInsObservacionPVC.swift; sourceTree = "<group>"; };
-		C87768B020AE4B700069C133 /* AddInsObservacionPVCTab1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInsObservacionPVCTab1.swift; sourceTree = "<group>"; };
-		C87768B220AE4B880069C133 /* AddInsObservacionPVCTab2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInsObservacionPVCTab2.swift; sourceTree = "<group>"; };
-		C87768B420AE4B960069C133 /* AddInsObservacionPVCTab3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInsObservacionPVCTab3.swift; sourceTree = "<group>"; };
+		C87768AC20AE3B0B0069C133 /* UpsertInsObsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpsertInsObsVC.swift; sourceTree = "<group>"; };
+		C87768AE20AE3B830069C133 /* UpsertInsObsPVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpsertInsObsPVC.swift; sourceTree = "<group>"; };
+		C87768B220AE4B880069C133 /* UpsertInsObsPVCTab2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpsertInsObsPVCTab2.swift; sourceTree = "<group>"; };
+		C87768B420AE4B960069C133 /* UpsertInsObsPVCTab3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpsertInsObsPVCTab3.swift; sourceTree = "<group>"; };
 		C87768BC20AF376F0069C133 /* GaleriaFVDTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaleriaFVDTVC.swift; sourceTree = "<group>"; };
 		C87768BF20B329670069C133 /* AddPutObsPlanATVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPutObsPlanATVC.swift; sourceTree = "<group>"; };
 		C87768C320B378000069C133 /* MuroFiltroVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuroFiltroVC.swift; sourceTree = "<group>"; };
@@ -427,11 +427,11 @@
 		C866372B20AA30B100306052 /* AddInspeccion */ = {
 			isa = PBXGroup;
 			children = (
-				C866372120A9DC5200306052 /* AddInspeccionVC.swift */,
-				C866372320A9DC7A00306052 /* AddInspeccionPVC.swift */,
-				C866372520A9DC9400306052 /* AddInspeccionPVCTab1.swift */,
-				C866372720A9DCA900306052 /* AddInspeccionPVCTab2.swift */,
-				C866372920A9DCB800306052 /* AddInspeccionPVCTab3.swift */,
+				C866372120A9DC5200306052 /* UpsertInsVC.swift */,
+				C866372320A9DC7A00306052 /* UpsertInsPVC.swift */,
+				C866372520A9DC9400306052 /* UpsertInsPVCTab1.swift */,
+				C866372720A9DCA900306052 /* UpsertInsPVCTab2.swift */,
+				C866372920A9DCB800306052 /* UpsertInsPVCTab3.swift */,
 			);
 			path = AddInspeccion;
 			sourceTree = "<group>";
@@ -439,11 +439,11 @@
 		C87768B620AE4BEC0069C133 /* AddInsObservacion */ = {
 			isa = PBXGroup;
 			children = (
-				C87768AC20AE3B0B0069C133 /* AddInsObservacionVC.swift */,
-				C87768AE20AE3B830069C133 /* AddInsObservacionPVC.swift */,
-				C87768B020AE4B700069C133 /* AddInsObservacionPVCTab1.swift */,
-				C87768B220AE4B880069C133 /* AddInsObservacionPVCTab2.swift */,
-				C87768B420AE4B960069C133 /* AddInsObservacionPVCTab3.swift */,
+				C87768AC20AE3B0B0069C133 /* UpsertInsObsVC.swift */,
+				C87768AE20AE3B830069C133 /* UpsertInsObsPVC.swift */,
+				C811BD7C21000A2C002150BD /* UpsertInsObsPVCTab1.swift */,
+				C87768B220AE4B880069C133 /* UpsertInsObsPVCTab2.swift */,
+				C87768B420AE4B960069C133 /* UpsertInsObsPVCTab3.swift */,
 			);
 			path = AddInsObservacion;
 			sourceTree = "<group>";
@@ -968,12 +968,13 @@
 				C8293A7F208FD117007822C6 /* EstadDetalleTVC.swift in Sources */,
 				C8C95AC22086551800D2D5D9 /* EstadisticaGral.swift in Sources */,
 				C8976A1C202E52080035895E /* Rest.swift in Sources */,
-				C87768B520AE4B960069C133 /* AddInsObservacionPVCTab3.swift in Sources */,
+				C811BD7D21000A2C002150BD /* UpsertInsObsPVCTab1.swift in Sources */,
+				C87768B520AE4B960069C133 /* UpsertInsObsPVCTab3.swift in Sources */,
 				C87CA8BB2033450300D36A99 /* InsDetallePVC.swift in Sources */,
 				C8FA6FEC200EA1EA00D00219 /* MuroSearchVC.swift in Sources */,
 				C866372D20AA340100306052 /* InspeccionesVC.swift in Sources */,
 				C87768C420B378000069C133 /* MuroFiltroVC.swift in Sources */,
-				C87768AD20AE3B0B0069C133 /* AddInsObservacionVC.swift in Sources */,
+				C87768AD20AE3B0B0069C133 /* UpsertInsObsVC.swift in Sources */,
 				C8B0BAC6207FC20500789F33 /* GaleriaVC.swift in Sources */,
 				C82400732093C8EB00281655 /* GaleriaImgVidTVC.swift in Sources */,
 				C8C2CC212069A37B00E385E4 /* NotDetalleVC.swift in Sources */,
@@ -983,7 +984,7 @@
 				C8BC72EA209A625F00D16285 /* FacilitoUpsertTVC.swift in Sources */,
 				C874A3D320C746FE0030ACA6 /* ObsPlanAccionDetalleTVC.swift in Sources */,
 				C8FA6FEE200EA9E900D00219 /* MuroSearchFilterVC.swift in Sources */,
-				C87768AF20AE3B830069C133 /* AddInsObservacionPVC.swift in Sources */,
+				C87768AF20AE3B830069C133 /* UpsertInsObsPVC.swift in Sources */,
 				C8755A4A20BC927A00575EF8 /* GaleriaFVCVC.swift in Sources */,
 				C88B645020C1A2F700E325D1 /* NotDetalleTVC.swift in Sources */,
 				C884FD2620C5D95B008AEB43 /* FiltroNoticiaVC.swift in Sources */,
@@ -994,13 +995,13 @@
 				C884FD2420C5D3B0008AEB43 /* ContactenosVC.swift in Sources */,
 				C87CA8C52034C46900D36A99 /* PersonasVC.swift in Sources */,
 				C87CA8B120323C8C00D36A99 /* InfoDetalleTVC.swift in Sources */,
-				C866372820A9DCA900306052 /* AddInspeccionPVCTab2.swift in Sources */,
+				C866372820A9DCA900306052 /* UpsertInsPVCTab2.swift in Sources */,
 				C89CFA8F2004076B00DD3EAD /* Globals.swift in Sources */,
 				C89CFA992006D09F00DD3EAD /* UpsertObsVC.swift in Sources */,
 				C8FA6FF220114F6000D00219 /* Persona.swift in Sources */,
 				C8C2CC1E206995B700E385E4 /* Noticia.swift in Sources */,
 				C866371E20A6494F00306052 /* ObservacionesVC.swift in Sources */,
-				C866372220A9DC5200306052 /* AddInspeccionVC.swift in Sources */,
+				C866372220A9DC5200306052 /* UpsertInsVC.swift in Sources */,
 				C88B644C20BF45AB00E325D1 /* ObfDetallePVC.swift in Sources */,
 				C8293A81208FD205007822C6 /* EstadGralTVC.swift in Sources */,
 				C89CFA871FF6A1CD00DD3EAD /* ObsDetallePVCTab5.swift in Sources */,
@@ -1009,9 +1010,9 @@
 				C8FA6FDE200806F800D00219 /* ImageSliderPVC.swift in Sources */,
 				C8755A4220B5D47400575EF8 /* Facilito.swift in Sources */,
 				C88CBF0D20D9656A004A8780 /* UpsertObsPVCTab3.swift in Sources */,
-				C866372A20A9DCB800306052 /* AddInspeccionPVCTab3.swift in Sources */,
+				C866372A20A9DCB800306052 /* UpsertInsPVCTab3.swift in Sources */,
 				C8C2CC18206953B600E385E4 /* ObsPlanAccionVC.swift in Sources */,
-				C866372420A9DC7A00306052 /* AddInspeccionPVC.swift in Sources */,
+				C866372420A9DC7A00306052 /* UpsertInsPVC.swift in Sources */,
 				C8C95AC62086570C00D2D5D9 /* EstadGralVC.swift in Sources */,
 				C81FCF3320476C9100D23F9C /* InsObservacionPVCTab2.swift in Sources */,
 				C89CFA831FF6A1A300DD3EAD /* ObsDetallePVCTab3.swift in Sources */,
@@ -1023,8 +1024,8 @@
 				C89CFA6E1FEC0B8A00DD3EAD /* MuroElement.swift in Sources */,
 				C8440127209278AC0001CB2C /* DictadoVC.swift in Sources */,
 				C86D020B20DD50A600B95D33 /* UpsertObsPVCTab1.swift in Sources */,
-				C87768B320AE4B890069C133 /* AddInsObservacionPVCTab2.swift in Sources */,
-				C866372620A9DC9400306052 /* AddInspeccionPVCTab1.swift in Sources */,
+				C87768B320AE4B890069C133 /* UpsertInsObsPVCTab2.swift in Sources */,
+				C866372620A9DC9400306052 /* UpsertInsPVCTab1.swift in Sources */,
 				C89CFA481FE4801200DD3EAD /* Dict.swift in Sources */,
 				C8755A4620B6092A00575EF8 /* FacDetalleTVC.swift in Sources */,
 				C87CA8B72032491A00D36A99 /* InspeccionGD.swift in Sources */,
@@ -1083,7 +1084,6 @@
 				C89CFA811FF6A12A00DD3EAD /* ObsDetallePVCTab1.swift in Sources */,
 				C8BC72EC209BBEBF00D16285 /* ImageSliderVC.swift in Sources */,
 				C8B8FE96202276C30014270A /* FiltroInspeccionVC.swift in Sources */,
-				C87768B120AE4B700069C133 /* AddInsObservacionPVCTab1.swift in Sources */,
 				C89CFA7B1FF5A04A00DD3EAD /* ObsDetalleVC.swift in Sources */,
 				C8B8FE94201A49520014270A /* MuroTVC.swift in Sources */,
 				C894FC7B20922EA80022DCE4 /* RegistroVC.swift in Sources */,

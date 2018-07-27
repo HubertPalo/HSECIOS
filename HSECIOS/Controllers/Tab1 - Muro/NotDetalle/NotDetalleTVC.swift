@@ -114,7 +114,10 @@ class NotDetalleTVC: UITableViewController, UIWebViewDelegate {
         celda.autor.text = unit.Nombres
         celda.comentario.text = unit.Comentario
         celda.fecha.text = Utils.str2date2str(unit.Fecha)
-        Images.loadAvatarFromDNI(unit.CodComentario, celda.avatar, true)
+        if (unit.CodComentario ?? "") != "" {
+            celda.avatar.image = Images.getImageFor("A-\(unit.CodComentario ?? "")")
+        }
+        // Images.loadAvatarFromDNI(unit.CodComentario, celda.avatar, true)
         // Images.loadImagePreviewFromCode(unit.CodComentario, celda.avatar, tableView, indexPath)
         return celda
         
