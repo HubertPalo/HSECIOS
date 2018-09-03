@@ -298,7 +298,7 @@ class AsistenciaVC: UIViewController, UITabBarDelegate, UITableViewDelegate, UIT
                     popup.tituloPop = "REGISTRADO CORRECTAMENTE"
                     popup.tiempo = 5
                     popup.re = 0
-                    popup.gr = 95
+                    popup.gr = 95			
                     popup.bl = 146
                     popup.tipoIcon = "check"
                     self.present(popup, animated: true, completion: nil)
