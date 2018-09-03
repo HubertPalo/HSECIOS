@@ -19,11 +19,15 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var agregarObservacionContainer: UIView!
     
+    @IBOutlet weak var irSisap: UIView!
+    
     @IBOutlet weak var agregarInspeccionContainer: UIView!
     
     @IBOutlet weak var noticiasContainer: UIView!
     
     @IBOutlet weak var planesAccionContainer: UIView!
+    
+    @IBOutlet weak var capacitacionesContainer: UIView!
     
     @IBOutlet weak var feedbackContainer: UIView!
     
@@ -38,8 +42,8 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var progressHUD: MBProgressHUD?
     
     let menuHeaders = ["General", "Más Opciones"]
-    let menuLabels = [["Ingresar reporte facilito", "Sisap", "Ingresar observación", "Ingresar inspección", "Noticias", "Planes de acción pendientes"], ["Feedback", "Contáctenos"]]
-    let menuIconNames = [["facilito", "sisap", "observacion", "inspeccion", "noticia", "planesPendientes"], ["feedback", "contactenos"]]
+    let menuLabels = [["Ingresar reporte facilito", "Sisap", "Ingresar observación", "Ingresar inspección", "Noticias", "Planes de acción pendientes","Capacitaciones curso"], ["Feedback", "Contáctenos"]]
+    let menuIconNames = [["facilito", "sisap", "observacion", "inspeccion", "noticia", "planesPendientes","cursos"], ["feedback", "contactenos"]]
     
     let maxWidth = Utils.widthDevice * 0.75
     let midWidth = Utils.widthDevice * 0.75 * 0.5
@@ -65,11 +69,13 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.rightView.isHidden = true
         self.tabContainer.isHidden = false
         self.agregarFacilitoContainer.isHidden = true
+        self.irSisap.isHidden = true
         self.contactenosContainer.isHidden = true
         self.agregarObservacionContainer.isHidden = true
         self.agregarInspeccionContainer.isHidden = true
         self.noticiasContainer.isHidden = true
         self.planesAccionContainer.isHidden = true
+        self.capacitacionesContainer.isHidden = true
         self.feedbackContainer.isHidden = true
         let recognizer = UIPanGestureRecognizer(target: self, action: #selector(self.handleDragging(recognizer:)))
         self.view.addGestureRecognizer(recognizer)
@@ -155,6 +161,8 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         noticiasContainer.isHidden = !(indexPath.section == 0 && indexPath.row == 4)
         planesAccionContainer.isHidden = !(indexPath.section == 0 && indexPath.row == 5)
         
+        capacitacionesContainer.isHidden = !(indexPath.section == 0 && indexPath.row == 6)
+        
         feedbackContainer.isHidden = !(indexPath.section == 1 && indexPath.row == 0)
         contactenosContainer.isHidden = !(indexPath.section == 1 && indexPath.row == 1)
         
@@ -163,11 +171,26 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         UIView.animate(withDuration: 0.5) {
             self.view.layoutIfNeeded()
         }
+        
         if indexPath.section == 0 && indexPath.row == 1 {
-            Alerts.presentAlert("Alerta", "Funcionalidad en desarrollo", imagen: nil, viewController: self)
+            //Alerts.presentAlert("Alerta", "Funcionalidad en desarrollo", imagen: nil, viewController: self)
+            let sisapApp = "Sisap://true"
+            //let sisapApp = "showEjm://holamundo"
+
+            //let sisapApp = "fb://profile/1392365134368940"
+            let appUrl = URL(string:sisapApp)!
+            //UtilsRedesSociales.getUrl(forApp: self.redesTargets[indexPath.row], app: true)
+            UIApplication.shared.open(appUrl, options: [:], completionHandler: nil)
+            
         }
         if indexPath.section == 0 && indexPath.row == 5 {
             Utils.menuPlanesPendientes.initialLoad()
+        }
+        if indexPath.section == 0 && indexPath.row == 6 {
+            //let cleanCap = self.childViewControllers[7] as! CapacitacionVC
+            //cleanCap.cursosCap = []
+            Utils.menuCapRecibidas.initialLoad()
+
         }
     }
     // Tabla
@@ -181,8 +204,10 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         planesAccionContainer.isHidden = true
         feedbackContainer.isHidden = true
         contactenosContainer.isHidden = true
+        capacitacionesContainer.isHidden = true
         let tabBC = self.childViewControllers[0] as! UITabBarController
         tabBC.selectedIndex = (index < 0 || index > 4) ? 0 : index
+        
     }
     
     func bloquear() {
@@ -204,6 +229,7 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         agregarInspeccionContainer.isHidden = true
         noticiasContainer.isHidden = true
         planesAccionContainer.isHidden = true
+        capacitacionesContainer.isHidden = true
         feedbackContainer.isHidden = true
         contactenosContainer.isHidden = true
         hideMenu()
@@ -232,6 +258,7 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         agregarInspeccionContainer.isHidden = true
         noticiasContainer.isHidden = true
         planesAccionContainer.isHidden = true
+        capacitacionesContainer.isHidden=true
         feedbackContainer.isHidden = true
         contactenosContainer.isHidden = true
         let tabBC = self.childViewControllers[0] as! UITabBarController
@@ -253,6 +280,7 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             tabBC.selectedIndex = 1
             noticiasContainer.isHidden = true
             planesAccionContainer.isHidden = true
+            capacitacionesContainer.isHidden = true
             feedbackContainer.isHidden = true
             contactenosContainer.isHidden = true
             hideMenu()

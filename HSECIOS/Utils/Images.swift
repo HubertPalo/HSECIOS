@@ -17,15 +17,17 @@ class Images {
     static let observacion = UIImage(named: "observacion")
     static let inspeccion = UIImage(named: "inspeccion")
     static let facilito = UIImage(named: "facilito")
+    static let cursos = UIImage(named: "cursos")
     
     static let alertaRoja = UIImage(named: "alertaRoja")!
     static let alertaVerde = UIImage(named: "alertaVerde")!
     static let alertaAmarilla = UIImage(named: "alertaAmarilla")!
-    
+    static let confirmIcon = UIImage(named: "confirmicon")!
+    static let errorIcon = UIImage(named: "erroricon")
     static var flags: Set<String> = Set()
     static var imagenes: [String: UIImage] = [:]
     static var avatars: [String: UIImage] = [:]
-    
+    static var notasCap = UIImage(named: "notasCapa")
     
     static var iconos: [String:UIImage] = [:]
     static func initDicts() {

@@ -20,8 +20,12 @@ class Utils {
     static let facDetalleSB = UIStoryboard.init(name: "FacDetalle", bundle: nil)
     static let planAccionSB = UIStoryboard.init(name: "PlanAccion", bundle: nil)
     
+    static var capCursoDetalle = CapCursoDetalle()
+    static var notasVC = NotasVC()
+    static var asistenciaVC = AsistenciaVC()
     static var menuVC = MenuVC()
     static var menuPlanesPendientes = PlanesAccionVC()
+    static var menuCapRecibidas = CapacitacionVC()
     
     static var userData = UserData()
     
@@ -248,7 +252,7 @@ class Utils {
         newStack.spacing = 2
         let width = 100
         let height = 25
-        
+        // var imagennueva = imagen?.withRenderingMode(.alwaysTemplate)
         // let newTitleView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: width, height: height))
         // let newTitleImage = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: height, height: height))
         let newTitleView = UIView()
@@ -278,6 +282,49 @@ class Utils {
         // print(viewcontroller.navigationItem.titleView?.frame)
         viewcontroller.navigationItem.titleView = newTitleView
     }
+    
+    
+    static func setTitleAndImage2(_ viewcontroller: UIViewController,_ title: String, _ imagen: UIImage?) {
+        // print(viewcontroller.navigationItem.titleView?.frame)
+        let newStack = UIStackView()
+        newStack.spacing = 5
+        let width = 100
+        let height = 25
+        // var imagennueva = imagen?.withRenderingMode(.alwaysTemplate)
+        // let newTitleView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: width, height: height))
+        // let newTitleImage = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: height, height: height))
+        let newTitleView = UIView()
+        let newTitleImage = UIImageView.init(image: imagen)
+        newTitleImage.widthAnchor.constraint(equalToConstant: CGFloat(22)).isActive = true
+        newTitleImage.heightAnchor.constraint(equalToConstant: CGFloat(22)).isActive = true
+        let newTitleLabel = UILabel.init()
+        newTitleLabel.attributedText = NSAttributedString.init(string: title, attributes: [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont.init(name: "HelveticaNeue", size: title.count > 25 ? 11 : 15)])
+        newTitleLabel.textAlignment = .natural
+        
+        
+        newTitleView.addSubview(newStack)
+        newStack.translatesAutoresizingMaskIntoConstraints = false
+        
+        // newTitleImage.widthAnchor.constraint(equalToConstant: CGFloat(height)).isActive = true
+        
+        newStack.centerXAnchor.constraint(equalTo: newTitleView.centerXAnchor).isActive = true
+        newStack.centerYAnchor.constraint(equalTo: newTitleView.centerYAnchor).isActive = true
+        //newStack.bottomAnchor.anchorWithOffset(to: newTitleView.bottomAnchor).constraint(equalToConstant: 15).isActive = true
+        //newStack.topAnchor.anchorWithOffset(to: newTitleView.topAnchor).constraint(equalToConstant: 15).isActive = true
+        //newStack.heightAnchor.constraint(equalToConstant: 40)
+        newStack.widthAnchor.constraint(greaterThanOrEqualToConstant: 60).isActive = true
+        
+        newStack.distribution = .fill
+        newStack.addArrangedSubview(newTitleImage)
+        newStack.addArrangedSubview(newTitleLabel)
+        // print(viewcontroller.navigationItem.titleView?.frame)
+        viewcontroller.navigationItem.titleView = newTitleView
+    }
+    
+    
+    
+    
+    
     
     static func openSheetMenu(_ viewcontroller: UIViewController, _ titulo: String?, _ mensaje: String?, _ titulos: [String], _ estilos: [UIAlertActionStyle], _ handlers: [((_ alertAction:UIAlertAction) -> Void)?]) {
         let alertaVC = UIAlertController.init(title: titulo, message: nil, preferredStyle: .actionSheet)
@@ -524,11 +571,15 @@ class Utils {
     
     static func str2date(_ date:String) -> Date? {
         let dateFormatterInput = DateFormatter()
+        dateFormatterInput.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+        if let temp = dateFormatterInput.date(from: date) {
+            return temp
+        }
         dateFormatterInput.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         if let temp = dateFormatterInput.date(from: date) {
             return temp
         }
-        dateFormatterInput.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+        dateFormatterInput.dateFormat = "yyyy-MM-dd"
         if let temp = dateFormatterInput.date(from: date) {
             return temp
         }
@@ -551,6 +602,50 @@ class Utils {
             dateFormatterOutput.locale = Locale(identifier: "es-ES")
             dateFormatterOutput.dateFormat = "EEEE dd 'de' MMMM 'de' yyyy"
             return dateFormatterOutput.string(from: newdate)
+        }
+        return ""
+    }
+    
+    
+    static func dateShort(_ date: Date?) -> String {
+        if let newdate = date {
+            let dateFormatterOutput = DateFormatter()
+            dateFormatterOutput.locale = Locale(identifier: "es-ES")
+            dateFormatterOutput.dateFormat = "EEE d MMM"
+            return dateFormatterOutput.string(from: newdate)
+        }
+        return ""
+    }
+    
+    ///dato con hora
+    
+    static func fechaconHora(_ date: String) -> String {
+        if date == "" {
+            return ""
+        }
+        let temp = str2date(date)
+        return date2hora(temp)
+    }
+    
+    static func date2hora(_ date: Date?) -> String {
+        if let newdate = date {
+            let dateFormatterOutput = DateFormatter()
+            dateFormatterOutput.locale = Locale(identifier: "es-ES")
+            dateFormatterOutput.dateFormat = "EEEE, d MMM yyyy, h:mm a"
+            return dateFormatterOutput.string(from: newdate)
+            
+        }
+        return ""
+    }
+    
+    
+    static func dataCombox(_ date: Date?) -> String {
+        if let newdate = date {
+            let dateFormatterOutput = DateFormatter()
+            dateFormatterOutput.locale = Locale(identifier: "es-ES")
+            dateFormatterOutput.dateFormat = "EEE d MMM"
+            return dateFormatterOutput.string(from: newdate)
+            
         }
         return ""
     }
@@ -590,6 +685,59 @@ class Utils {
     static func randomBool() -> Bool {
         return arc4random_uniform(2) == 0
     }
+    
+    static func Duracion_curso(_ input: String) -> String {
+        print("\(input)")
+        if let numero: Int = Int(input) {
+            let minutos = numero.magnitude
+            if minutos == 1 {
+                return "1 minuto"
+            }
+            if minutos < 60 {
+                return "\(minutos) minutos"
+            }
+            
+            let horas = minutos / (60)
+            if horas == 1 {
+                return "1 hora"
+            }
+            if horas < 24 {
+                return "\(horas) horas"
+            }
+            
+            let dias = minutos / (60*24)
+            if dias == 1 {
+                return "1 día"
+            }
+            if dias < 7 {
+                return "\(dias) días"
+            }
+            
+            let semanas = minutos / (60*24*7)
+            if semanas == 1 {
+                return "1 semana"
+            }
+            return "\(semanas) semanas"
+        }
+        return ""
+    }
+    
+    static func setButtonImage(_ boton: UIButton,_ imagen: UIImage) {
+        var subview = UIImageView.init(image: imagen)
+        subview.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        subview.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        boton.addSubview(subview)
+        boton.frame = CGRect.init(x: 0, y: 0, width: 50, height: 50)
+        subview.centerXAnchor.anchorWithOffset(to: boton.centerXAnchor).constraint(equalToConstant: 0).isActive = true
+        subview.centerYAnchor.anchorWithOffset(to: boton.centerYAnchor).constraint(equalToConstant: 0).isActive = true
+        boton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        boton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+    
+    }
+    
+    
+    
+    
     
     
 }

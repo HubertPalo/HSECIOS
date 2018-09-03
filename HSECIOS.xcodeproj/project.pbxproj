@@ -8,6 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		19614E2A4633EDC5E5443FD8 /* Pods_HSECIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B953CA57FCB62C69AE024E5 /* Pods_HSECIOS.framework */; };
+		B81258652134C04E00CFB081 /* NFCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81258642134C04E00CFB081 /* NFCVC.swift */; };
+		B8203CE3212E107B005FBB38 /* ScannerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8203CE2212E107B005FBB38 /* ScannerVC.swift */; };
+		B8295D6720FFEBE5006A35F0 /* CapacitacionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8295D6620FFEBE5006A35F0 /* CapacitacionVC.swift */; };
+		B82DDAFE21011F58004140BE /* CapCursoGeneral.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82DDAFD21011F58004140BE /* CapCursoGeneral.swift */; };
+		B82DDB0021068E45004140BE /* CapCursoDetalle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82DDAFF21068E45004140BE /* CapCursoDetalle.swift */; };
+		B82DDB022107CD28004140BE /* Curso.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82DDB012107CD28004140BE /* Curso.swift */; };
+		B835B067210F6CE400839C9D /* NotasVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B835B066210F6CE400839C9D /* NotasVC.swift */; };
+		B835B069210F9C5500839C9D /* AsistenciaVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B835B068210F9C5500839C9D /* AsistenciaVC.swift */; };
+		B86A8AE62130B39D004D89D1 /* scan_dni.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B86A8AE52130B39B004D89D1 /* scan_dni.mp3 */; };
+		B8A819E221276208007EF67A /* PopUpAsistenteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A819E121276208007EF67A /* PopUpAsistenteVC.swift */; };
+		B8B71DC22110D0E90032C14A /* NotaEditPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B71DC12110D0E90032C14A /* NotaEditPopupVC.swift */; };
+		B8C6EE082114EC1E008CE508 /* Extensiones.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C6EE072114EC1E008CE508 /* Extensiones.swift */; };
 		C81FCF2C20476BB000D23F9C /* InsObservacionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81FCF2B20476BB000D23F9C /* InsObservacionVC.swift */; };
 		C81FCF2E20476BE800D23F9C /* InsObservacionPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81FCF2D20476BE800D23F9C /* InsObservacionPVC.swift */; };
 		C81FCF3120476C6200D23F9C /* InsObservacionPVCTab1.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81FCF3020476C6200D23F9C /* InsObservacionPVCTab1.swift */; };
@@ -183,6 +195,18 @@
 /* Begin PBXFileReference section */
 		4B953CA57FCB62C69AE024E5 /* Pods_HSECIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HSECIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		819F68FC07A76F20611F937F /* Pods-HSECIOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HSECIOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-HSECIOS/Pods-HSECIOS.release.xcconfig"; sourceTree = "<group>"; };
+		B81258642134C04E00CFB081 /* NFCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFCVC.swift; sourceTree = "<group>"; };
+		B8203CE2212E107B005FBB38 /* ScannerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerVC.swift; sourceTree = "<group>"; };
+		B8295D6620FFEBE5006A35F0 /* CapacitacionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapacitacionVC.swift; sourceTree = "<group>"; };
+		B82DDAFD21011F58004140BE /* CapCursoGeneral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapCursoGeneral.swift; sourceTree = "<group>"; };
+		B82DDAFF21068E45004140BE /* CapCursoDetalle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapCursoDetalle.swift; sourceTree = "<group>"; };
+		B82DDB012107CD28004140BE /* Curso.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Curso.swift; sourceTree = "<group>"; };
+		B835B066210F6CE400839C9D /* NotasVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotasVC.swift; sourceTree = "<group>"; };
+		B835B068210F9C5500839C9D /* AsistenciaVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsistenciaVC.swift; sourceTree = "<group>"; };
+		B86A8AE52130B39B004D89D1 /* scan_dni.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = scan_dni.mp3; path = ../../../Downloads/scan_dni.mp3; sourceTree = "<group>"; };
+		B8A819E121276208007EF67A /* PopUpAsistenteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpAsistenteVC.swift; sourceTree = "<group>"; };
+		B8B71DC12110D0E90032C14A /* NotaEditPopupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotaEditPopupVC.swift; sourceTree = "<group>"; };
+		B8C6EE072114EC1E008CE508 /* Extensiones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensiones.swift; sourceTree = "<group>"; };
 		C7F5F79B112A1417FBE39DEA /* Pods-HSECIOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HSECIOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HSECIOS/Pods-HSECIOS.debug.xcconfig"; sourceTree = "<group>"; };
 		C81FCF2B20476BB000D23F9C /* InsObservacionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsObservacionVC.swift; sourceTree = "<group>"; };
 		C81FCF2D20476BE800D23F9C /* InsObservacionPVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsObservacionPVC.swift; sourceTree = "<group>"; };
@@ -548,6 +572,7 @@
 				C8976A1B202E52080035895E /* Rest.swift */,
 				C8976A1D202E549D0035895E /* Routes.swift */,
 				C8C2CC2F206AFE0300E385E4 /* Alerts.swift */,
+				B8C6EE072114EC1E008CE508 /* Extensiones.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -598,6 +623,14 @@
 				C874A3E020CB13DA0030ACA6 /* PlanAccionMejoraTVC.swift */,
 				C8755A4520B6092A00575EF8 /* FacDetalleTVC.swift */,
 				C8755A4720B7173E00575EF8 /* FacDetalleAtencionTVC.swift */,
+				B8295D6620FFEBE5006A35F0 /* CapacitacionVC.swift */,
+				B82DDAFF21068E45004140BE /* CapCursoDetalle.swift */,
+				B835B066210F6CE400839C9D /* NotasVC.swift */,
+				B835B068210F9C5500839C9D /* AsistenciaVC.swift */,
+				B8B71DC12110D0E90032C14A /* NotaEditPopupVC.swift */,
+				B8A819E121276208007EF67A /* PopUpAsistenteVC.swift */,
+				B8203CE2212E107B005FBB38 /* ScannerVC.swift */,
+				B81258642134C04E00CFB081 /* NFCVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -624,6 +657,8 @@
 				C8293A82208FE294007822C6 /* PlanAccionGeneral.swift */,
 				C8C6BF6520A343E1003BB982 /* FotoVideoDocumento.swift */,
 				C8755A4120B5D47400575EF8 /* Facilito.swift */,
+				B82DDAFD21011F58004140BE /* CapCursoGeneral.swift */,
+				B82DDB012107CD28004140BE /* Curso.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -737,6 +772,7 @@
 				C8C6BF6420A23D79003BB982 /* HSECIOS.entitlements */,
 				C8D474351FE4385D000ADB4E /* AppDelegate.swift */,
 				C8D4743C1FE4385D000ADB4E /* Assets.xcassets */,
+				B86A8AE52130B39B004D89D1 /* scan_dni.mp3 */,
 				C8D474411FE4385D000ADB4E /* Info.plist */,
 				C89CFA4B1FE811B400DD3EAD /* Helpers */,
 				C89CFA441FE471D300DD3EAD /* Utils */,
@@ -892,6 +928,7 @@
 				C8D4743D1FE4385D000ADB4E /* Assets.xcassets in Resources */,
 				C874A3D920C9BB7C0030ACA6 /* PlanAccion.storyboard in Resources */,
 				C8D4743B1FE4385D000ADB4E /* Main.storyboard in Resources */,
+				B86A8AE62130B39D004D89D1 /* scan_dni.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -973,6 +1010,7 @@
 				C87CA8BF2033452400D36A99 /* InsDetallePVCTab3.swift in Sources */,
 				C8B8FE902017D2C60014270A /* FiltroObservacionVC.swift in Sources */,
 				C89CFA4A1FE8102900DD3EAD /* Utils.swift in Sources */,
+				B82DDAFE21011F58004140BE /* CapCursoGeneral.swift in Sources */,
 				C8C0114E20729FAA00F0FA25 /* CapacitacionesCVC.swift in Sources */,
 				C8C0114C2072972100F0FA25 /* CapacitacionesTVC.swift in Sources */,
 				C89CFAA32006D29C00DD3EAD /* UpsertObsPVCTab4.swift in Sources */,
@@ -992,8 +1030,10 @@
 				C8C2CC212069A37B00E385E4 /* NotDetalleVC.swift in Sources */,
 				C87768BD20AF376F0069C133 /* GaleriaFVDTVC.swift in Sources */,
 				C87CA8C12033452C00D36A99 /* InsDetallePVCTab4.swift in Sources */,
+				B835B069210F9C5500839C9D /* AsistenciaVC.swift in Sources */,
 				C8755A4020B5D37700575EF8 /* FacilitosTVC.swift in Sources */,
 				C8BC72EA209A625F00D16285 /* FacilitoUpsertTVC.swift in Sources */,
+				B81258652134C04E00CFB081 /* NFCVC.swift in Sources */,
 				C874A3D320C746FE0030ACA6 /* ObsPlanAccionDetalleTVC.swift in Sources */,
 				C8FA6FEE200EA9E900D00219 /* MuroSearchFilterVC.swift in Sources */,
 				C87768AF20AE3B830069C133 /* AddInsObservacionPVC.swift in Sources */,
@@ -1014,6 +1054,7 @@
 				C8C2CC1E206995B700E385E4 /* Noticia.swift in Sources */,
 				C866371E20A6494F00306052 /* ObservacionesVC.swift in Sources */,
 				C866372220A9DC5200306052 /* AddInspeccionVC.swift in Sources */,
+				B8C6EE082114EC1E008CE508 /* Extensiones.swift in Sources */,
 				C88B644C20BF45AB00E325D1 /* ObfDetallePVC.swift in Sources */,
 				C8293A81208FD205007822C6 /* EstadGralTVC.swift in Sources */,
 				C89CFA871FF6A1CD00DD3EAD /* ObsDetallePVCTab5.swift in Sources */,
@@ -1028,15 +1069,18 @@
 				C8C95AC62086570C00D2D5D9 /* EstadGralVC.swift in Sources */,
 				C81FCF3320476C9100D23F9C /* InsObservacionPVCTab2.swift in Sources */,
 				C89CFA831FF6A1A300DD3EAD /* ObsDetallePVCTab3.swift in Sources */,
+				B8295D6720FFEBE5006A35F0 /* CapacitacionVC.swift in Sources */,
 				C87768C620B37F4F0069C133 /* MuroFiltroPopUp.swift in Sources */,
 				C894FC7920913CD60022DCE4 /* EstadDetFullTVC.swift in Sources */,
 				C89CFA521FE86DE000DD3EAD /* LoginVC.swift in Sources */,
 				C81FCF3120476C6200D23F9C /* InsObservacionPVCTab1.swift in Sources */,
+				B8B71DC22110D0E90032C14A /* NotaEditPopupVC.swift in Sources */,
 				C8C0114A207296F400F0FA25 /* CapacitacionesVC.swift in Sources */,
 				C89CFA6E1FEC0B8A00DD3EAD /* MuroElement.swift in Sources */,
 				C8440127209278AC0001CB2C /* DictadoVC.swift in Sources */,
 				C86D020B20DD50A600B95D33 /* UpsertObsPVCTab1.swift in Sources */,
 				C87768B320AE4B890069C133 /* AddInsObservacionPVCTab2.swift in Sources */,
+				B82DDB022107CD28004140BE /* Curso.swift in Sources */,
 				C866372620A9DC9400306052 /* AddInspeccionPVCTab1.swift in Sources */,
 				C89CFA481FE4801200DD3EAD /* Dict.swift in Sources */,
 				C8755A4620B6092A00575EF8 /* FacDetalleTVC.swift in Sources */,
@@ -1058,9 +1102,11 @@
 				C8293A7B208F8255007822C6 /* AccionMejora.swift in Sources */,
 				C8293A77208E98F9007822C6 /* EstadDetalleVC.swift in Sources */,
 				C89CFA9B2006D21400DD3EAD /* UpsertObsPVC.swift in Sources */,
+				B82DDB0021068E45004140BE /* CapCursoDetalle.swift in Sources */,
 				C88B644A20BF428D00E325D1 /* ObfDetalleVC.swift in Sources */,
 				C89CFA721FEC1C2700DD3EAD /* MuroVC.swift in Sources */,
 				C87CA8C9203B936A00D36A99 /* ComentariosVC.swift in Sources */,
+				B8A819E221276208007EF67A /* PopUpAsistenteVC.swift in Sources */,
 				C8C9F9FA20ACE3A100BDAB96 /* FiltroPersonasVC.swift in Sources */,
 				C8FA6FF02011422600D00219 /* FiltroPersonaVC.swift in Sources */,
 				C8C01152207EC9C600F0FA25 /* FichaFiltroVC.swift in Sources */,
@@ -1072,6 +1118,7 @@
 				C8C2CC37206C527100E385E4 /* UserData.swift in Sources */,
 				C8755A3E20B5D2B600575EF8 /* FacilitosVC.swift in Sources */,
 				C8C2CC2E206ADC6F00E385E4 /* OpcAvanzadasVC.swift in Sources */,
+				B8203CE3212E107B005FBB38 /* ScannerVC.swift in Sources */,
 				C8D0B70F20810DB00071D5CA /* MenuVC.swift in Sources */,
 				C88B644420BF067500E325D1 /* NoticiasVC.swift in Sources */,
 				C8FA6FE02008074400D00219 /* ImageSliderPVCItem.swift in Sources */,
@@ -1094,6 +1141,7 @@
 				C87CA8CB20407CBE00D36A99 /* InsObservacion.swift in Sources */,
 				C8C95ACC208802C300D2D5D9 /* ObsDetalleTVC.swift in Sources */,
 				C87CA8B320323FCD00D36A99 /* InsDetalleVC.swift in Sources */,
+				B835B067210F6CE400839C9D /* NotasVC.swift in Sources */,
 				C8293A7D208F89A2007822C6 /* PlanAccionTVC.swift in Sources */,
 				C89CFA811FF6A12A00DD3EAD /* ObsDetallePVCTab1.swift in Sources */,
 				C8BC72EC209BBEBF00D16285 /* ImageSliderVC.swift in Sources */,

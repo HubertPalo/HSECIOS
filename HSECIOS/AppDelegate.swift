@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Images.initImages()
         
         UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.white], for: .normal)
-        UINavigationBar.appearance().tintColor = UIColor.lightGray
+        //UINavigationBar.appearance().tintColor = UIColor.lightGray
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.foregroundColor: Colores.blancoTabBarNoSelected], for: UIControlState.normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.foregroundColor: Colores.blancoTabBarSelected], for: .selected)
         return true

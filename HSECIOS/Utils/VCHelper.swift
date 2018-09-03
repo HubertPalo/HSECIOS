@@ -22,6 +22,7 @@ class VCHelper {
     static var upsertFacilito = UIViewController()
     static var upsertObsPlan = UIViewController()
     static var upsertObservacion = UIViewController()
+    //static var capCursoDetalle = UIViewController()
     
     static func initVCs() {
         self.filtroMuro = Utils.mainSB.instantiateViewController(withIdentifier: "muroFiltro")
@@ -45,6 +46,7 @@ class VCHelper {
         self.upsertFacilito = Utils.facDetalleSB.instantiateViewController(withIdentifier: "upsertFacilito")
         self.upsertObsPlan = Utils.addObservacionSB.instantiateViewController(withIdentifier: "upsertObsPlan")
         self.upsertObservacion = Utils.addObservacionSB.instantiateViewController(withIdentifier: "upsertObservacion")
+        //self.capCursoDetalle =
     }
     
     static func openUpsertObservacion(_ viewcontroller: UIViewController, _ modo: String, _ codigo: String) {
@@ -164,6 +166,7 @@ class VCHelper {
     static func openNotDetalle(_ viewcontroller: UIViewController, _ noticia: MuroElement) {
         let vc = self.notDetalle as! NotDetalleVC
         vc.loadNoticia(noticia)
+        
         viewcontroller.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -187,6 +190,18 @@ class VCHelper {
         vc.loadData(plan)
         viewcontroller.navigationController?.pushViewController(vc, animated: true)
     }
+    /*
+    static func openCapacitacionDetalle(_ viewcontroller: UIViewController, _ codCurso: String){
+        //let vc = viewcontroller
+        //vc.cleanData
+        //vc.loadData(codCurso)
+        viewcontroller.navigationController?.pushViewController(vc, animated: true)
+
+        
+    }*/
+    
+    
+    
     static func openPlanAccionDetalle(_ viewcontroller: UIViewController, _ plan: PlanAccionDetalle) {
         let vc = self.planAccionDetalle as! PlanAccionDetalleTVC
         vc.cleanData()
@@ -221,5 +236,8 @@ class VCHelper {
         vc.loadData(tipo, accion, [])
         viewcontroller.navigationController?.pushViewController(vc, animated: true)
     }*/
+    
+    
+    
     
 }

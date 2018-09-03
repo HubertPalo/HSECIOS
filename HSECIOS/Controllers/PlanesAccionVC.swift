@@ -23,6 +23,8 @@ class PlanesAccionVC: UIViewController, UITabBarDelegate {
         super.viewDidLoad()
         Utils.menuPlanesPendientes = self
         self.tabla = self.childViewControllers[0] as! PlanesAccionPendTVC
+        
+        
         self.tabla.alScrollLimiteTop = {
             let cantidad = self.tabla.planes.count > 10 ? self.tabla.planes.count : 10
             Rest.getDataGeneral(Routes.forPlanesAccionPendientes(Utils.userData.CodPersona ?? "", self.anho, self.mes, 1, cantidad), true, success: {(resultValue:Any?,data:Data?) in

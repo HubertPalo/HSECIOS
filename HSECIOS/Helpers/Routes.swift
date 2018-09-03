@@ -151,6 +151,53 @@ class Routes {
         return "\(Config.urlBase)/PlanAccion/GetPlanes?CodPersonaF=\(code)&Fecha=P\(year)%7C\(month)&Pagenumber=\(pageNo)&Elemperpage=\(elemsPP)"
     }
     // Ficha Personal
+
+    // Capacitaciones
+    static func forCapacitacionGeneral(_ code: String, _ year: String, _ month: String, _ pageNo: Int, _ elemsPP: Int) -> String{
+        return "\(Config.urlBase)/Capacitacion/GetCursos?CodPersonaF=\(code)&Fecha=\(year)%7C\(month)&Pagenumber=\(pageNo)&Elemperpage=\(elemsPP)"
+        
+        //url = GlobalVariables.Url_base + "Capacitacion/GetCursos?CodPersonaF=*&Fecha=" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + Elemperpage;
+    }
+    
+    static func forCapCursoDetalle(_ code: String) -> String{
+        return "\(Config.urlBase)/Capacitacion/GetCursoId/\(code)"
+    }
+    //Capacitaciones/cursos/notas
+    static func forCapCursoNotas(_ code: String, _ pageNo: Int, _ elemsPP: Int) -> String{
+        print("\(Config.urlBase)/Capacitacion/GetParticipantesCurso?CodCurso=\(code)&Pagenumber=\(pageNo)&Elemperpage=\(elemsPP)")
+        return "\(Config.urlBase)/Capacitacion/GetParticipantesCurso?CodCurso=\(code)&Pagenumber=\(pageNo)&Elemperpage=\(elemsPP)"
+        
+        // Capacitacion/GetParticipantesCurso?CodCurso=006849&Pagenumber=1&Elemperpage=14
+    }
+    
+    //notas update
+    static func forNotasUpdate() -> String{
+        return "\(Config.urlBase)/Capacitacion/UpdateParticipante"
+    }
+    // notas delete
+    static func forUserDelete(_ codeP: String, _ codCurso: String) -> String{
+        return "\(Config.urlBase)/Capacitacion/DeleteParticipante?CodpersonaP=\(codeP)&CodCurso=\(codCurso)"
+    }
+    // total de asistentes
+    static func forAsistentesT(_ codeC: String, _ fecha: String, _ pageNo: Int, _ elemsPP: Int) -> String{
+        return "\(Config.urlBase)/Capacitacion/GetAsistentesCurso?CodCurso=\(codeC)&Fecha=\(fecha)&Pagenumber=\(pageNo)&Elemperpage=\(elemsPP)"
+    }
+    
+    //eliminar asistente
+    static func forDeleteA(_ codeP: String, _ codeC: String, _ fecha: String) -> String{
+        return "\(Config.urlBase)/Capacitacion/DeleteAsistentente?CodPersonaA=\(codeP)&CodCurso=\(codeC)&Fecha=\(fecha)"
+          }
+    //add asistente
+    static func forAddAsistente() -> String{
+            return "\(Config.urlBase)/Capacitacion/InsertAsistentente"
+        }
+
+
+    static func forAddParticipante() -> String{
+        return "\(Config.urlBase)/Capacitacion/InsertParticipante"
+    }
+    
+  
     
     // Varios
     static func forMaestroALL() -> String{

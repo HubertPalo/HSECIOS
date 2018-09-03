@@ -4,7 +4,7 @@ import Alamofire
 class Rest {
     
     static func getDataGeneral(_ route: String, _ shouldBlock: Bool, success: @escaping (_  resultValue: Any?, _ data: Data?) -> Void, error: ((_ error: String) -> Void)? ) {
-        print(route)
+        //print(route)
         if shouldBlock {
             Utils.bloquearPantalla()
         }
