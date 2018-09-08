@@ -15,6 +15,7 @@ class PlanAccionDetalleTVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.setTitleAndImage("Plan de acción", UIImage.init(named: "editar"))
     }
     
     func cleanData() {
@@ -81,6 +82,7 @@ class PlanAccionDetalleTVC: UITableViewController {
     }
     
     func loadData(_ nuevo: PlanAccionDetalle) {
+        self.setTitleAndImage("Obs/Plan de acción", Images.observacion)
         self.codPlanAccion = nuevo.CodAccion ?? ""
         self.section2ShouldShow = false
         self.section3ShouldShow = false
@@ -120,7 +122,7 @@ class PlanAccionDetalleTVC: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
         case 0:
-            return 35
+            return CGFloat.leastNonzeroMagnitude
         case 1:
             return 30
         case 2:
@@ -141,9 +143,10 @@ class PlanAccionDetalleTVC: UITableViewController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         switch section {
         case 0:
-            let header = tableView.dequeueReusableCell(withIdentifier: "celda1") as! Celda1Texto
+            /*let header = tableView.dequeueReusableCell(withIdentifier: "celda1") as! Celda1Texto
             header.texto.attributedText = Utils.generateAttributedString(["Plan de acción"], ["HelveticaNeue-Bold"], [16], [UIColor.white])
-            return header.contentView
+            return header.contentView*/
+            return nil
         case 1:
             let header = tableView.dequeueReusableCell(withIdentifier: "celda1") as! Celda1Texto
             header.texto.attributedText = Utils.generateAttributedString(["Responsables"], ["HelveticaNeue"], [14], [UIColor.white])
@@ -201,19 +204,20 @@ class PlanAccionDetalleTVC: UITableViewController {
             let celda = tableView.dequeueReusableCell(withIdentifier: "celda6") as! PlanAccionDetalleTVCell
             let unit = self.mejoras[indexPath.row]
             celda.autor.text = unit.Persona
-            celda.fecha.text = Utils.str2date2str(unit.Fecha)
+            celda.fecha.text = Utils.str2date2str(unit.Fecha ?? "")
             celda.contenido.text = unit.Descripcion
-            let porcent: CGFloat = CGFloat(Int(unit.PorcentajeAvance) ?? 0) / CGFloat(100)
+            let porcent: CGFloat = CGFloat(Int(unit.PorcentajeAvance ?? "") ?? 0) / CGFloat(100)
             
-            celda.porcentaje.text = "\(unit.PorcentajeAvance)%"
+            
+            celda.porcentaje.text = "\(unit.PorcentajeAvance ?? "-")%"
             celda.progreso.progress = Float(porcent)
             celda.progreso.progressTintColor = porcent < 0.5 ? UIColor.red : UIColor.green
+            celda.editableView.isHidden = unit.Editable != "1" && unit.Editable != "3"
+            celda.editableBoton.tag = indexPath.row
             celda.limiteView.isHidden = indexPath.row == self.mejoras.count - 1
-            // Images.loadAvatarFromDNI(unit.UrlObs, celda.avatar, true, tableView, indexPath)
             if (unit.UrlObs ?? "") != "" {
                 celda.avatar.image = Images.getImageFor("A-\(unit.UrlObs ?? "")")
             }
-            
             return celda
         default:
             return UITableViewCell()
@@ -223,28 +227,49 @@ class PlanAccionDetalleTVC: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 2 {
             let unit = self.mejoras[indexPath.row]
-            VCHelper.openGetPlanAccionMejora(self, unit, self.codPlanAccion, self.responsables[0])
-            // VCHelper.openPlanAccionMejora(self, unit, "GET")
+            
+            VCHelper.openUpsertPlanAccionMejora(self, "GET", unit.Correlativo, self.codPlanAccion, self.responsables, nil)
+            // VCHelper.openGetPlanAccionMejora(self, unit, self.codPlanAccion, self.responsables[0])
         }
     }
     
     @IBAction func clickAddAccionMejora(_ sender: Any) {
-        VCHelper.openAddPlanAccionMejora(self, self.codPlanAccion, self.responsables)
-        // VCHelper.openAddPlanAccionMejora(self, <#T##accion: AccionMejora##AccionMejora#>, <#T##tipo: String##String#>)
-        // VCHelper.openPlanAccionMejora(self, AccionMejora(), "ADD")
+        VCHelper.openUpsertPlanAccionMejora(self, "ADD", nil, self.codPlanAccion, self.responsables, {(atencion) in
+            Rest.getDataGeneral(Routes.forAccionMejora(self.codPlanAccion), false, success: {(resultValue:Any?,data:Data?) in
+                self.mejoras = Dict.dataToArray(data!).Data
+                self.tableView.reloadData()
+            }, error: nil)
+        })
     }
     
     @IBAction func clickEditAccionMejora(_ sender: Any) {
-        var superV = (sender as! UIButton).superview
-        while !(superV is PlanAccionDetalleTVCell) {
-            superV = superV?.superview
-        }
+        let indice = (sender as! UIButton).tag
+        let unit = self.mejoras[indice]
         
-        
-        
-        let unit = self.mejoras[self.tableView.indexPath(for: superV as! PlanAccionDetalleTVCell)!.row]
-        // VCHelper.openPlanAccionMejora(self, unit, "PUT")
-        VCHelper.openPutPlanAccionMejora(self, self.codPlanAccion, unit, "PUT")
+        self.presentAlert("Opciones", nil, .actionSheet, nil, nil, ["Editar", "Eliminar", "Cancelar"], [.default, .destructive, .cancel], actionHandlers: [{(actionEditar) in
+            VCHelper.openUpsertPlanAccionMejora(self, "PUT", unit.Correlativo, self.codPlanAccion, self.responsables, {(accion) in
+                Rest.getDataGeneral(Routes.forAccionMejora(self.codPlanAccion), false, success: {(resultValue:Any?,data:Data?) in
+                    self.mejoras = Dict.dataToArray(data!).Data
+                    self.tableView.reloadData()
+                }, error: nil)
+            })
+            }, {(actionEliminar) in
+                self.presentAlert("¿Desea eliminar item?", "Accion Mejora \(unit.Correlativo!)", .alert, nil, nil, ["Aceptar", "Cancelar"], [.default, .cancel], actionHandlers: [{(alert) in
+                    Rest.getDataGeneral(Routes.forAccionMejoraDelete("\(unit.Correlativo!)"), true, success: {(resultValue:Any?,data:Data?) in
+                        let respuesta = resultValue as! String
+                        if respuesta == "1" {
+                            self.presentAlert("Item eliminado", nil, .alert, 1, nil, [], [], actionHandlers: [])
+                            Rest.getDataGeneral(Routes.forAccionMejora(self.codPlanAccion), false, success: {(resultValue:Any?,data:Data?) in
+                                self.mejoras = Dict.dataToArray(data!).Data
+                                self.tableView.reloadData()
+                            }, error: nil)
+                        } else {
+                            self.presentAlert("Error", "Ocurrió un error al intentar eliminar el item", .alert, 2, nil, [], [], actionHandlers: [])
+                        }
+                    }, error: nil)
+                    }, nil])
+                print("click eliminar")
+            }, nil])
     }
     
     
@@ -252,9 +277,9 @@ class PlanAccionDetalleTVC: UITableViewController {
         var unit = MuroElement()
         unit.Codigo = self.rightLabels[1]
         if self.rightLabels[1].starts(with: "INS") {
-            VCHelper.openInsDetalle(self, unit)
+            VCHelper.openInsDetalle(self, unit, false)
         } else {
-            VCHelper.openObsDetalle(self, unit)
+            VCHelper.openObsDetalle(self, unit.Codigo!, unit.Tipo!, false)
         }
     }
     
@@ -268,5 +293,6 @@ class PlanAccionDetalleTVCell: UITableViewCell {
     @IBOutlet weak var editableView: UIView!
     @IBOutlet weak var porcentaje: UILabel!
     @IBOutlet weak var contenido: UILabel!
+    @IBOutlet weak var editableBoton: UIButton!
     @IBOutlet weak var limiteView: UIView!
 }

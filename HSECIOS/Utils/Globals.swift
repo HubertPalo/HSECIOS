@@ -3,9 +3,13 @@ import UIKit
 class Globals {
     
     // GET Observacion
-    static var GODataLeft = ["Codigo", "Area", "Nivel de riesgo", "Observado Por", "Fecha", "Hora", "Gerencia", "Superintendencia"]
-    static var GODataRight = ["-", "-", "-", "-", "-", "-", "-", "-"]
+    // static var GOData = [["Codigo", "-"], ["Area", "-"], ["Nivel de riesgo", "-"], ["Observado Por", "-"], ["Fecha", "-"], ["Hora", "-"], ["Gerencia", "-"], ["Superintendencia", "-"]]
+    
     // GET Observacion
+    static var rightLabels: [String] = ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"]
+    static var splitExpositor = [String]()
+    
+    static var isScaning = true
     
     
     // Variables Galeria
@@ -16,6 +20,36 @@ class Globals {
     static var GaleriaDocumentos = [DocumentoGeneral]()
     static var GaleriaNombres = Set<String>()
     static var GaleriaCorrelativosABorrar = Set<Int>()
+    static var GaleriaDocIdRequests = [Int]()
+    static var GaleriaDocPorcentajes = [Int]()
+    
+    static func GaleriaGetData() -> (data: [Data], names: [String], fileNames: [String], mimeTypes: [String], toDel: String) {
+        var arrayData = [Data]()
+        var arrayNames = [String]()
+        var arrayFileNames = [String]()
+        var arrayMimeTypes = [String]()
+        for i in 0..<Globals.GaleriaMultimedia.count {
+            let unit = Globals.GaleriaMultimedia[i]
+            if unit.Correlativo == nil && unit.multimediaData != nil && unit.Descripcion != nil {
+                arrayData.append(unit.multimediaData!)
+                arrayNames.append("multimedia\(i)")
+                arrayFileNames.append(unit.Descripcion!)
+                arrayMimeTypes.append(unit.mimeType!)
+            }
+        }
+        for i in 0..<Globals.GaleriaDocumentos.count {
+            let unit = Globals.GaleriaDocumentos[i]
+            if unit.Correlativo == nil && unit.multimediaData != nil && unit.Descripcion != nil {
+                arrayData.append(unit.multimediaData!)
+                arrayNames.append("documento\(i)")
+                arrayFileNames.append(unit.Descripcion!)
+                arrayMimeTypes.append(unit.mimeType!)
+            }
+        }
+        var toDel = (Globals.GaleriaCorrelativosABorrar.map{String($0)}).joined(separator: ";")
+        toDel = toDel == "" ? "-" : toDel
+        return (arrayData, arrayNames, arrayFileNames, arrayMimeTypes, toDel)
+    }
     
     // Cambiar para usar en Todo Galeria
     //No olvidar enviar NroDetInspeccion en el Key de cada archivo (no nombre de archivo, sino lo que va a la izq)
@@ -29,6 +63,7 @@ class Globals {
     // Upsert Observación
     static var UOCodigo = ""
     static var UOModo = ""
+    static var UOTipo = "" // Usado solo en GET
     
     static var UOTab1ObsGD = ObservacionGD()
     static var UOTab1CodUbicacion = ""
@@ -39,6 +74,17 @@ class Globals {
     
     static var UOTab2ObsDetalle = ObsDetalle()
     static var UOTab2String = ""
+    static var UOTab2ObsSubDetalle = [ObsSubDetalle]() // Usado solo en GET
+    static var UOTab2Involucrados = [Persona]() // Usado solo en GET
+    static var UOTab2AspectosPrevios = [String]() // Usado solo en GET
+    static var UOTab2EtapaDesviacion = [[String]]() // Usado solo en GET
+    static var UOTab2Comentarios = [[String]]() // Usado solo en GET
+    static var UOTab2Metodologia = [String]() // Usado solo en GET
+    static var UOTab2ActividadAltoRiesgo = [String]() // Usado solo en GET
+    static var UOTab2ActividadAltoRiesgoExt = [[String]]() // Usado solo en GET
+    static var UOTab2Clasificacion = [String]() // Usado solo en GET
+    static var UOTab2ComportamientoCondicion = [String]() // Usado solo en GET
+    static var UOTab2ComportamientoCondicionExt = [[String]]() // Usado solo en GET
     
     static var UOTab4Planes: [PlanAccionDetalle] = []
     static var UOTab4CodAccionABorrar = Set<String>()
@@ -48,6 +94,11 @@ class Globals {
         UOModo = modo
         UOCodigo = codigo
         GaleriaModo = modo
+        UOTab1ObsGD = ObservacionGD()
+        UOTab4Planes = []
+        GaleriaDocIdRequests = []
+        GaleriaDocPorcentajes = []
+        
         switch modo {
         case "ADD":
             // Tab1
@@ -111,12 +162,19 @@ class Globals {
                 for multimedia in arrayMultimedia.Data {
                     switch multimedia.TipoArchivo ?? "" {
                     case "TP01":
-                        arrayFotoVideo.append(multimedia.toFotoVideo())
-                        Images.downloadImage("\(multimedia.Correlativo ?? 0)")
+                        let fotovideo = multimedia.toFotoVideo()
+                        arrayFotoVideo.append(fotovideo)
+                        Images.downloadImage("\(multimedia.Correlativo ?? 0)", {() in
+                            fotovideo.imagen = Images.imagenes["P-\(multimedia.Correlativo ?? 0)"]
+                        })
+                        // Images.downloadImage()
                         break
                     case "TP02":
-                        arrayFotoVideo.append(multimedia.toFotoVideo())
-                        Images.downloadImage("\(multimedia.Correlativo ?? 0)")
+                        let fotovideo = multimedia.toFotoVideo()
+                        arrayFotoVideo.append(fotovideo)
+                        Images.downloadImage("\(multimedia.Correlativo ?? 0)", {() in
+                            fotovideo.imagen = Images.imagenes["P-\(multimedia.Correlativo ?? 0)"]
+                        })
                         break
                     default:
                         arrayDocumentos.append(multimedia.toDocumentoGeneral())
@@ -125,56 +183,149 @@ class Globals {
                 }
                 GaleriaMultimedia = arrayFotoVideo
                 GaleriaDocumentos = arrayDocumentos
+                GaleriaDocIdRequests = [Int].init(repeating: -1, count: GaleriaDocumentos.count)
+                GaleriaDocPorcentajes = [Int].init(repeating: 0, count: GaleriaDocumentos.count)
                 (Tabs.forAddObs[2] as! UpsertObsPVCTab3).galeriaVC.galeria.tableView.reloadData()
                 // (Tabs.forAddObs[2] as! UpsertObsPVCTab3).galeriaVC.loadModo("PUT")
             }, error: nil)
             Rest.getDataGeneral(Routes.forPlanAccion(codigo), true, success: {(resultValue:Any?,data:Data?) in
                 let arrayPlanes: ArrayGeneral<PlanAccionDetalle> = Dict.dataToArray(data!)
                 UOTab4Planes = arrayPlanes.Data
+                /*for plan in UOTab4Planes {
+                    plan.NroDocReferencia = UOCodigo
+                }*/
                 (Tabs.forAddObs[3] as! UpsertObsPVCTab4).tableView.reloadData()
             }, error: nil)
             break
         case "GET":
-            GODataLeft = ["Codigo", "Area", "Nivel de riesgo", "Observado Por", "Fecha", "Hora", "Gerencia", "Superintendencia"]
-            GODataRight = ["-", "-", "-", "-", "-", "-", "-", "-"]
+            // Tab1
+            (Tabs.forObsDetalle[0] as! ObsDetallePVCTab1).hijo.data = [["Codigo", "-"], ["Area", "-"], ["Nivel de riesgo", "-"], ["Observado Por", "-"], ["Fecha", "-"], ["Hora", "-"], ["Gerencia", "-"], ["Superintendencia", "-"]]
             (Tabs.forObsDetalle[0] as! ObsDetallePVCTab1).hijo.tableView.reloadData()
-            print(Routes.forObservaciones(UOCodigo))
             Rest.getDataGeneral(Routes.forObservaciones(UOCodigo), true, success: {(resultValue:Any?,data:Data?) in
-                let data: ObservacionGD = Dict.dataToUnit(data!)!
-                let splits = (data.CodUbicacion ?? "").split(separator: ".")
-                var labels = ["Codigo", "Area", "Nivel de riesgo", "Observado Por", "Fecha", "Hora", "Gerencia", "Superintendencia"]
-                var values = [
-                    data.CodObservacion ?? "",
-                    Utils.searchMaestroDescripcion("AREA", data.CodAreaHSEC ?? ""),
-                    Utils.searchMaestroStatic("NIVELRIESGO", data.CodNivelRiesgo ?? ""),
-                    data.ObservadoPor ?? "",
-                    Utils.str2date2str(data.Fecha ?? ""),
-                    Utils.str2hour2str(data.Fecha ?? ""),
-                    Utils.searchMaestroDescripcion("GERE", data.Gerencia ?? ""),
-                    Utils.searchMaestroDescripcion("SUPE.\(data.Gerencia ?? "")", data.Superint ?? "")
-                ]
-                if splits.count > 0 {
-                    labels.append("Ubicación")
-                    values.append(Utils.searchMaestroDescripcion("UBIC", String(splits[0])))
-                }
-                
-                if splits.count > 1 {
-                    labels.append("Sub Ubicación")
-                    values.append(Utils.searchMaestroDescripcion("UBIC.\(String(splits[0]))", String(splits[1])))
-                }
-                if splits.count > 2 {
-                    labels.append("Ubicación Específica")
-                    values.append(Utils.searchMaestroDescripcion("UBIC.\(String(splits[0])).\(String(splits[1]))", String(splits[2])))
-                }
-                labels.append(contentsOf: ["Lugar", "Tipo"])
-                values.append(contentsOf: [data.Lugar ?? "", Utils.searchMaestroDescripcion("TPOB", data.CodTipo ?? "")])
-                GODataRight = values
-                GODataLeft = labels
+                UOTab1ObsGD = Dict.dataToUnit(data!)!
                 (Tabs.forObsDetalle[0] as! ObsDetallePVCTab1).reloadData()
-                /*let hijo = self.childViewControllers[0] as! InfoDetalleTVC
-                hijo.dataLeft = labels
-                hijo.dataRight = values
-                hijo.tableView.reloadData()*/
+            }, error: nil)
+            Rest.getDataGeneral(Routes.forObsDetalle(UOCodigo), true, success: {(resultValue:Any?,data:Data?) in
+                UOTab2ObsDetalle = Dict.dataToUnit(data!)!
+                print(resultValue)
+                if UOTipo == "TO03" {
+                    UOTab2Comentarios = [[String]]()
+                    let splits = (UOTab2ObsDetalle.CodSubEstandar ?? "").components(separatedBy: ";")
+                    if splits[0] != "" {
+                        UOTab2Comentarios.append(["Se cumple el PET", splits[0]])
+                        // valuesForComentarios.append(["Se Cumple el PET", String(splits[0])])
+                    }
+                    if splits.count > 1 && splits[1] != "" {
+                        UOTab2Comentarios.append(["El trabajador requiere feedback", splits[1]])
+                        // valuesForComentarios.append(["El trabajador requiere feedback", String(splits[1])])
+                    }
+                    if splits.count > 2 && splits[2] != "" {
+                        UOTab2Comentarios.append(["El procedimiento debe modificarse", splits[2]])
+                        // valuesForComentarios.append(["El procedimiento debe modificarse", String(splits[2])])
+                    }
+                    if splits.count > 3 && splits[3] != "" {
+                        UOTab2Comentarios.append(["Reconocimientos/Oportunidades", splits[3]])
+                        // valuesForComentarios.append(["Reconocimientos/Oportunidades", String(splits[3])])
+                    }
+                    Rest.getDataGeneral(Routes.forObsSubDetalle(UOCodigo), true, success: {(resultValue:Any?,data:Data?) in
+                        print(resultValue)
+                        let arrayObsSubDetalle: ArrayGeneral<ObsSubDetalle> = Dict.dataToArray(data!)
+                        UOTab2ObsSubDetalle = arrayObsSubDetalle.Data
+                        UOTab2AspectosPrevios = []
+                        for subDetalle in UOTab2ObsSubDetalle {
+                            switch subDetalle.CodTipo ?? "" {
+                            case "PREA":
+                                UOTab2AspectosPrevios.append(Utils.searchMaestroStatic("ASPECTOSOBS", subDetalle.CodSubtipo ?? ""))
+                            case "PETO":
+                                UOTab2EtapaDesviacion.append([subDetalle.CodSubtipo ?? "", subDetalle.Descripcion ?? ""])
+                            default:
+                                break
+                            }
+                        }
+                        (Tabs.forObsDetalle[1] as! ObsDetallePVCTab2).reloadData()
+                    }, error: nil)
+                    Rest.getDataGeneral(Routes.forObsInvolucrados(UOCodigo), true, success: {(resultValue:Any?,data:Data?) in
+                        print(resultValue)
+                        let arrayInvolucrados: ArrayGeneral<Persona> = Dict.dataToArray(data!)
+                        UOTab2Involucrados = arrayInvolucrados.Data
+                        
+                        (Tabs.forObsDetalle[1] as! ObsDetallePVCTab2).reloadData()
+                    }, error: nil)
+                }
+                if UOTipo == "TO04" {
+                    Rest.getDataGeneral(Routes.forObsSubDetalle(UOCodigo), true, success: {(resultValue:Any?,data:Data?) in
+                        print(resultValue)
+                        let arrayObsSubDetalle: ArrayGeneral<ObsSubDetalle> = Dict.dataToArray(data!)
+                        UOTab2ObsSubDetalle = arrayObsSubDetalle.Data
+                        UOTab2Metodologia = []
+                        UOTab2ActividadAltoRiesgo = []
+                        UOTab2ActividadAltoRiesgoExt = [["Interacción de Seguridad", UOTab2ObsDetalle.CodSubEstandar ?? ""]]
+                        UOTab2Clasificacion = []
+                        UOTab2ComportamientoCondicion = []
+                        UOTab2ComportamientoCondicionExt = [["Detalle de los comportamientos/condiciones no seguras", UOTab2ObsDetalle.CodActiRel ?? ""], ["Acciones inmediatas (si es aplicable):", UOTab2ObsDetalle.Accion ?? ""]]
+                        for subDetalle in UOTab2ObsSubDetalle {
+                            switch subDetalle.CodTipo ?? "" {
+                            case "OBSR":
+                                UOTab2Metodologia.append(subDetalle.Descripcion ?? "")
+                            case "HHA":
+                                UOTab2ActividadAltoRiesgo.append(subDetalle.Descripcion ?? "")
+                                if subDetalle.Descripcion == "19" {
+                                    UOTab2ActividadAltoRiesgoExt.insert(["Otras actividades de alto riesgo", UOTab2ObsDetalle.CodObservacion ?? ""], at: 0)
+                                }
+                            case "OBSC":
+                                UOTab2Clasificacion.append(subDetalle.Descripcion ?? "")
+                            case "OBCC":
+                                UOTab2ComportamientoCondicion.append(subDetalle.Descripcion ?? "")
+                                if subDetalle.Descripcion == "COMCON11" {
+                                    UOTab2ComportamientoCondicionExt.insert(["Otro comportamiento/condición", UOTab2ObsDetalle.CodTipo ?? ""], at: 0)
+                                }
+                            default:
+                                break
+                            }
+                        }
+                        (Tabs.forObsDetalle[1] as! ObsDetallePVCTab2).reloadData()
+                    }, error: nil)
+                    Rest.getDataGeneral(Routes.forObsInvolucrados(UOCodigo), true, success: {(resultValue:Any?,data:Data?) in
+                        print(resultValue)
+                        let arrayInvolucrados: ArrayGeneral<Persona> = Dict.dataToArray(data!)
+                        // UOTab2Involucrados = arrayInvolucrados.Data
+                        let codLider = UOTab2ObsDetalle.CodEstado ?? ""
+                        var lider = Persona()
+                        var newInvolucrados = [Persona]()
+                        for involucrado in arrayInvolucrados.Data {
+                            if involucrado.CodPersona ?? "" == codLider {
+                                lider = involucrado
+                            } else {
+                                newInvolucrados.append(involucrado)
+                            }
+                        }
+                        newInvolucrados.insert(lider, at: 0)
+                        UOTab2Involucrados = newInvolucrados
+                        (Tabs.forObsDetalle[1] as! ObsDetallePVCTab2).reloadData()
+                    }, error: nil)
+                }
+                (Tabs.forObsDetalle[1] as! ObsDetallePVCTab2).reloadData()
+            }, error: nil)
+            Rest.getDataGeneral(Routes.forMultimedia(UOCodigo), true, success: {(resultValue:Any?,data:Data?) in
+                let arrayMultimedia: ArrayGeneral<Multimedia> = Dict.dataToArray(data!)
+                let separados = Utils.separateMultimedia(arrayMultimedia.Data)
+                GaleriaDocumentos = separados.documentos
+                GaleriaMultimedia = separados.fotovideos
+                GaleriaDocIdRequests = [Int].init(repeating: -1, count: GaleriaDocumentos.count)
+                GaleriaDocPorcentajes = [Int].init(repeating: 0, count: GaleriaDocumentos.count)
+                GaleriaVCViewContainerIsHidden = GaleriaMultimedia.count > 0 || GaleriaDocumentos.count > 0
+                GaleriaVCGaleriaContainerIsHidden = !GaleriaVCViewContainerIsHidden
+                for media in GaleriaMultimedia {
+                    Images.downloadImage("\(media.Correlativo!)", {() in
+                        media.imagen = Images.imagenes["P-\(media.Correlativo!)"]
+                        (Tabs.forObsDetalle[2] as! ObsDetallePVCTab3).galeria.galeria.tableView.reloadData()
+                    })
+                }
+                Rest.getDataGeneral(Routes.forPlanAccion(UOCodigo), true, success: {(resultValue:Any?,data:Data?) in
+                    let arrayPlanes: ArrayGeneral<PlanAccionDetalle> = Dict.dataToArray(data!)
+                    UOTab4Planes = arrayPlanes.Data
+                    (Tabs.forObsDetalle[3] as! ObsDetallePVCTab4).tabla?.reloadData()
+                }, error: nil)
             }, error: nil)
             break
         default:
@@ -286,7 +437,7 @@ class Globals {
         var arrayMimeTypes = [String]()
         for i in 0..<Globals.GaleriaMultimedia.count {
             let unit = Globals.GaleriaMultimedia[i]
-            if unit.multimediaData != nil && unit.Descripcion != nil {
+            if unit.Correlativo == nil && unit.multimediaData != nil && unit.Descripcion != nil {
                 arrayData.append(unit.multimediaData!)
                 arrayNames.append("multimedia\(i)")
                 arrayFileNames.append(unit.getFileName())
@@ -295,7 +446,7 @@ class Globals {
         }
         for i in 0..<Globals.GaleriaDocumentos.count {
             let unit = Globals.GaleriaDocumentos[i]
-            if unit.multimediaData != nil && unit.Descripcion != nil {
+            if unit.Correlativo == nil && unit.multimediaData != nil && unit.Descripcion != nil {
                 arrayData.append(unit.multimediaData!)
                 arrayNames.append("documento\(i)")
                 arrayFileNames.append(unit.getFileName())
@@ -314,8 +465,8 @@ class Globals {
                 plan.CodAccion = "\(cont)"
                 plan.NroDocReferencia = plan.NroDocReferencia ?? ""
                 plan.CodReferencia = plan.CodReferencia ?? ""
-                plan.CodResponsable = plan.CodResponsables ?? ""
-                plan.CodTablaRef = plan.CodTabla ?? ""
+                //plan.CodResponsable = plan.CodResponsables ?? ""
+                // plan.CodTablaRef = plan.CodTabla ?? ""
                 cont = cont - 1
             }
         }
@@ -357,6 +508,7 @@ class Globals {
         UICodigo = codigo
         switch modo {
         case "ADD":
+            UICodigo = "INS0000000XYZ"
             // Tab1
             UITab1InsGD = InspeccionGD()
             UITab1Hora = nil
@@ -507,6 +659,7 @@ class Globals {
             for persona in UITab2Atendieron {
                 let nuevaPersona = Persona()
                 nuevaPersona.CodPersona = persona.CodPersona
+                nuevaPersona.Lider = "0"
                 atendieron.append(nuevaPersona)
             }
             strResponsables = String.init(data: Dict.unitToData(responsables)!, encoding: .utf8) ?? "-"
@@ -567,7 +720,7 @@ class Globals {
                 // Tab1 - UIO
                 UITab3ObsGeneral[i].Correlativo = i+1
                 UITab3LocalObsDetalle[i].Correlativo = nil
-                UITab3LocalObsDetalle[i].CodInspeccion = "INSP000000XYZ"
+                UITab3LocalObsDetalle[i].CodInspeccion = ""//"INSP000000XYZ"
                 UITab3LocalObsDetalle[i].NroDetInspeccion = i+1
                 UITab3LocalObsDetalle[i].Lugar = UITab3LocalObsDetalle[i].Lugar ?? ""
                 UITab3LocalObsDetalle[i].Observacion = UITab3LocalObsDetalle[i].Observacion ?? ""
@@ -641,6 +794,8 @@ class Globals {
             // Tab2
             GaleriaModo = "ADD"
             GaleriaNombres.removeAll()
+            GaleriaDocIdRequests = []
+            GaleriaDocPorcentajes = []
             GaleriaDocumentos = []
             GaleriaMultimedia = []
             GaleriaCorrelativosABorrar.removeAll()
@@ -655,6 +810,7 @@ class Globals {
                 Rest.getDataGeneral(Routes.forInsObservacionGD("\(correlativo!)"), true, success: {(resultValue:Any?,data:Data?) in
                     let insObservacionGD: InsObservacionGD = Dict.dataToUnit(data!)!
                     Globals.UIOTab1ObsDetalle = insObservacionGD
+                    Globals.UIOTab1ObsDetalle.Correlativo = correlativo
                     (Tabs.forAddInsObs[0] as! UpsertInsObsPVCTab1).tableView.reloadData()
                 }, error: nil)
                 // Tab2
@@ -667,10 +823,16 @@ class Globals {
                     let arrayMultimedia: ArrayGeneral<Multimedia> = Dict.dataToArray(data!)
                     let separados = Utils.separateMultimedia(arrayMultimedia.Data)
                     for fotovideo in separados.fotovideos {
-                        Images.downloadImage("\(fotovideo.Correlativo!)")
+                        print("\(fotovideo.Descripcion) - \(fotovideo.Correlativo)")
+                        Images.downloadImage("\(fotovideo.Correlativo!)", {() in
+                            fotovideo.imagen = Images.imagenes["P-\(fotovideo.Correlativo!)"]
+                        })
+                        // Images.downloadImage("\(fotovideo.Correlativo!)")
                     }
                     GaleriaMultimedia = separados.fotovideos
                     GaleriaDocumentos = separados.documentos
+                    GaleriaDocIdRequests = [Int].init(repeating: -1, count: GaleriaDocumentos.count)
+                    GaleriaDocPorcentajes = [Int].init(repeating: 0, count: GaleriaDocumentos.count)
                     (Tabs.forAddInsObs[1] as! UpsertInsObsPVCTab2).galeria.tableView.reloadData()
                 }, error: nil)
                 Rest.getDataGeneral(Routes.forPlanAccion(codigoInspeccion), true, success: {(resultValue:Any?,data:Data?) in
@@ -686,6 +848,8 @@ class Globals {
                 // Tab2
                 GaleriaModo = "PUT"
                 GaleriaNombres.removeAll()
+                GaleriaDocIdRequests = []
+                GaleriaDocPorcentajes = []
                 GaleriaDocumentos = []
                 GaleriaMultimedia = []
                 GaleriaCorrelativosABorrar.removeAll()
@@ -748,9 +912,34 @@ class Globals {
         }
     }
     
-    static func UIOTab3GetData() -> (toAdd: String, todel: String) {
+    static func UIOTab2GetData() -> () {
+        var arrayData = [Data]()
+        var arrayNames = [String]()
+        var arrayFileNames = [String]()
+        var arrayMimeTypes = [String]()
+        var arrayPlanes = [PlanAccionDetalle]()
+        for unit in GaleriaMultimedia {
+            if unit.multimediaData != nil && unit.Descripcion != nil {
+                arrayData.append(unit.multimediaData!)
+                arrayNames.append("nombre")
+                arrayFileNames.append(unit.getFileName())
+                arrayMimeTypes.append(unit.getMimeType())
+            }
+        }
+        for unit in GaleriaDocumentos {
+            if unit.multimediaData != nil && unit.Descripcion != nil {
+                arrayData.append(unit.multimediaData!)
+                arrayNames.append("nombre")
+                arrayFileNames.append(unit.getFileName())
+                arrayMimeTypes.append(unit.getMimeType())
+            }
+        }
+    }
+    
+    static func UIOTab3GetData() -> (toAdd: String, toDel: String) {
         var arrayPlanes = [PlanAccionDetalle]()
         var toAdd = ""
+        var toDel = ""
         for unit in UIOTab3Planes {
             let copia = unit.copy()
             copia.CodAccion = "-1"
@@ -764,33 +953,52 @@ class Globals {
             arrayPlanes.append(copia)
         }
         toAdd = String.init(data: Dict.unitToData(arrayPlanes)!, encoding: .utf8) ?? "[]"
-        return (toAdd,"")
+        toDel = UIOTab3PlanesToDel.joined(separator: ";")
+        toDel = toDel == "" ? "-" : toDel
+        return (toAdd, toDel)
     }
     // Upsert InsObservacion
     
     // Upsert Facilito
-    static var UFViewController = FacilitoUpsertTVC()
+    static var UFViewController = UpsertFacilitoVC()
     static var UFModo = ""
     static var UFCodigo = ""
-    static var UFDetalle = FacilitoDetalle()
+    static var UFDetalle = FacilitoGD()
     
     static func UFLoadModo(_ modo: String, _ codigo: String) {
         UFModo = modo
         UFCodigo = codigo
-        UFDetalle = FacilitoDetalle()
+        UFDetalle = FacilitoGD()
         UFDetalle.Tipo = "A"
+        Globals.GaleriaModo = modo
+        Globals.GaleriaDocumentos = []
+        Globals.GaleriaMultimedia = []
+        Globals.GaleriaNombres.removeAll()
+        Globals.GaleriaCorrelativosABorrar.removeAll()
         switch modo {
         case "ADD":
-            UFViewController.tableView.reloadData()
+            UFViewController.tabla?.reloadData()
             break
         case "PUT":
             Rest.getDataGeneral(Routes.forFacilitoDetalle(codigo), true, success: {(resultValue:Any?,data:Data?) in
                 UFDetalle = Dict.dataToUnit(data!)!
-                
+                UFViewController.tabla?.reloadData()
                 print(resultValue)
             }, error: {(error) in
                 print(error)
             })
+            Rest.getDataGeneral(Routes.forMultimedia("\(codigo)-1"), true, success: {(resultValue:Any?,data:Data?) in
+                var arrayMultimedia: ArrayGeneral<Multimedia> = Dict.dataToArray(data!)
+                // var separado = Utils.separateMultimedia(arrayMultimedia.Data)
+                Globals.GaleriaMultimedia = Utils.separateMultimedia(arrayMultimedia.Data).fotovideos
+                for media in Globals.GaleriaMultimedia {
+                    Images.downloadImage("\(media.Correlativo!)", {() in
+                        media.imagen = Images.imagenes["P-\(media.Correlativo!)"]
+                        UFViewController.tabla?.reloadSections([2], with: .none)
+                    })
+                }
+                // UFViewController.tabla?.reloadData()
+            }, error: nil)
             break
         default:
             break
@@ -824,20 +1032,49 @@ class Globals {
     // Upsert Facilito
     
     static func loadGlobals() {
+        
+        Utils.maestroStatic1["VIGENCIA"] = ["1", "2", "3", "4", "5"]
+        Utils.maestroStatic2["VIGENCIA"] = ["Dias", "Semanas", "Meses", "Años", "Nunca"]
+        
+        Utils.maestroStatic1["ASPECTOSOBS"] = ["P001", "P002", "P003", "P004", "P005", "P006", "P007", "P008"]
+        Utils.maestroStatic2["ASPECTOSOBS"] = ["EPP completos para la tarea", "Orden y Limpieza", "Estado de Herramientas", "Materiales necesarios para la tarea", "Estado de las instalaciones y/o estructuras", "Análisis de Seguridad en el trabajo / Peligros identificados y controles existentes", "Permiso(s) de Trabajo", "Se cumplen las  restricciones o condiciones generales del PET"]
+        
+        Utils.maestroStatic1["GESTIONRIESGO"] = ["GESRIES1", "GESRIES2", "GESRIES3"]
+        Utils.maestroStatic2["GESTIONRIESGO"] = ["Permiso de trabajo", "PET(Procedimiento escrito de trabajo)", "AST(Análisis de Seguridad en el trabajo)"]
+        
+        Utils.maestroStatic1["CLASIFICACIONOBS"] = ["CLASOBS1", "CLASOBS2", "CLASOBS3", "CLASOBS4"]
+        Utils.maestroStatic2["CLASIFICACIONOBS"] = ["Comportamiento seguro", "Comportamiento de riesgo", "Condición segura", "Condición insegura"]
+        
+        Utils.maestroStatic1["CONDICIONCOMPORTAMIENTO"] = ["COMCON1", "COMCON2", "COMCON3", "COMCON4", "COMCON5", "COMCON6", "COMCON7", "COMCON8", "COMCON10", "COMCON11"]
+        Utils.maestroStatic2["CONDICIONCOMPORTAMIENTO"] = ["Competencias", "Salud e Higiene", "Posición de las Personas", "Valores de Glencore", "Medio Ambiente", "Orden y Limpieza", "Herramientas y Equipos", "Aptitud para el Trabajo", "Condiciones de Trabajo", "Otro"]
+        
         Utils.maestroStatic1["REFERENCIAPLAN"] = ["01", "02", "03", "04", "05", "06", "07", "08", "09"]
         Utils.maestroStatic2["REFERENCIAPLAN"] = ["Observaciones", "Inspecciones", "Incidentes", "IPERC", "Auditorias", "Simulacros", "Reuniones", "Comites", "Capacitaciones"]
+        
         Utils.maestroStatic1["ESTADOPLAN"] = ["01", "02", "03", "04", "05"]
         Utils.maestroStatic2["ESTADOPLAN"] = ["Pendiente", "Atendido", "En Proceso", "Observado", "Cerrado"]
+        
+        Utils.maestroStatic1["NIVELRIESGO"] = ["BA", "ME", "AL"]
+        Utils.maestroStatic2["NIVELRIESGO"] = ["Baja", "Media", "Alta"]
+        
         Utils.maestroStatic1["TABLAS"] = ["TCOM", "THIG", "TINC", "TINS", "TIPE", "TOBS", "TREU", "TSIM", "TYOS", "TCAP", "TDETAINSP", "TDIPEAFEC", "TEAU", "TEIN", "THALL", "TINVEAFEC", "TSEC", "TSIM", "TTES", "OTROS"]
         Utils.maestroStatic2["TABLAS"] = ["Comites", "Higiene", "Incidentes", "Inspecciones", "IPERC", "Observaciones", "Reuniones", "Simulacro", "Yo Aseguro", "ActaAsistencia", "DetalleInspeccion", "DiasPerdidosAfectado", "EquipoAuditor", "EquipoInvestigacion", "Hallazgos", "InvestigaAfectado", "SecuenciaEvento", "Simulacro", "TestigoInvolucrado", "Otros"]
         
         Utils.maestroStatic1["TIPOFACILITO"] = ["A", "C"]
         Utils.maestroStatic2["TIPOFACILITO"] = ["Acción", "Condición"]
+        
+        Utils.maestroStatic1["SEXO"] = ["01", "02"]
+        Utils.maestroStatic2["SEXO"] = ["Masculino", "Femenino"]
+        
         Utils.maestroStatic1["ESTADOFACILITO"] = ["A", "O", "P", "S"]
         Utils.maestroStatic2["ESTADOFACILITO"] = ["Atendido", "Observado", "Pendiente", "Espera"]
         
-        Utils.maestroStatic1["NIVELRIESGO"] = ["BA", "ME", "AL"]
-        Utils.maestroStatic2["NIVELRIESGO"] = ["Baja", "Media", "Alta"]
+        Utils.maestroStatic1["ROLUSUARIO"] = ["1", "2", "3", "4"]
+        Utils.maestroStatic2["ROLUSUARIO"] = ["Rol 1", "Rol 2", "Rol 3", "Usuario HSEC"]
+        
+        Utils.maestroStatic1["TIPOAUTENTICACION"] = ["B", "W"]
+        Utils.maestroStatic2["TIPOAUTENTICACION"] = ["Básico", "Windows"]
+        
         Utils.maestroStatic1["ACTOSUBESTANDAR"] = ["0001","0002","0003","0004","0005","0006","0007","0008","0009","0010","0011","0012","0013","0014","0015","0016","0017","0018","0019","0020","0021","0022","0023","0024","0025"]
         Utils.maestroStatic2["ACTOSUBESTANDAR"] = ["Operar equipos sin autorización","Operar  equipo a velocidad inadecuada","No Avisar","No Advertir","No Asegurar","Desactivar Dispositivos de Seguridad","Usar Equipos y Herramientas Defectuosos","Uso inadecuado o no uso de EPP","Cargar Incorrectamente","Ubicación Incorrecta","Levantar Incorrectamente","Posición Inadecuada para el Trabajo o la Tarea","Dar mantenimiento a equipo en operación","Jugar en el trabajo","Usar equipo inadecuadamente","Trabajo bajo la Influencia del Alcohol y/u otras Drogas","Maniobra incorrecta","Uso inapropiado de herramientas","Evaluación de riesgos deficiente por parte del personal","Control inadecuado de energía (bloqueo/etiquetado)","Instrumentos mal interpretados / mal leídos","Hechos de violencia","Exponerse a la línea de fuego","No uso de los 3 puntos de apoyo","Intento por realizar tareas múltiples en forma simultánea"]
         Utils.maestroStatic1["CONDICIONSUBESTANDAR"] = ["0027","0028","0029","0030","0031","0032","0033","0034","0035","0036","0037","0038","0039","0040","0041","0042","0043","0044","0045","0046","0047"]

@@ -9,6 +9,8 @@ class PlanesAccionPendTVC: UITableViewController {
     var alScrollLimiteTop: (() -> Void)?
     var alScrollLimiteBot: (() -> Void)?
     
+    var forceUpdateFromFather: (() -> Void)?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -18,16 +20,23 @@ class PlanesAccionPendTVC: UITableViewController {
     }
     
     func addMoreData(array:[PlanAccionGeneral]) {
-        // var nuevaData: [PlanAccionPendiente] = []
         var codigos: [String] = []
-        for i in 0..<self.planes.count {
+        for plan in self.planes {
+            codigos.append(plan.CodAccion ?? "")
+        }
+        for unit in array {
+            if !codigos.contains(unit.CodAccion ?? "") {
+                self.planes.append(unit)
+            }
+        }
+        /*for i in 0..<self.planes.count {
             codigos.append(self.planes[i].CodAccion ?? "")
         }
         for i in 0..<array.count {
             if !codigos.contains(array[i].CodAccion ?? "") {
                 self.planes.append(array[i])
             }
-        }
+        }*/
         self.tableView.reloadData()
     }
     
@@ -38,15 +47,18 @@ class PlanesAccionPendTVC: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let celda = tableView.dequeueReusableCell(withIdentifier: "celda") as! PlanesAccionPendientesTVCell
         let unit = self.planes[indexPath.row]
-        // Images.loadAvatarFromDNI(unit.CodSolicitadoPor ?? "", celda.avatar, true, tableView, indexPath)
-        Images.loadIcon("NIVELRIESGO.\(unit.CodNivelRiesgo)", celda.icono)
+        Images.loadIcon("NIVELRIESGO.\(unit.CodNivelRiesgo ?? "")", celda.icono)
         celda.editableView.isHidden = unit.Editable != nil && unit.Editable != 1 && unit.Editable != 3
+        celda.editableBoton.tag = indexPath.row
         celda.autor.text = unit.SolicitadoPor
         celda.fecha.text = Utils.str2date2str(unit.FechaSolicitud ?? "")
+        celda.empresa.text = unit.Empresa
         celda.tipo.text = Utils.searchMaestroStatic("TABLAS", unit.CodTabla ?? "")
         celda.estado.text = Utils.searchMaestroStatic("ESTADOPLAN", unit.CodEstadoAccion ?? "")
         celda.contenido.text = unit.DesPlanAccion
         celda.limiteView.isHidden = indexPath.row == self.planes.count - 1
+        celda.avatar.layer.cornerRadius = celda.avatar.frame.height/2
+        celda.avatar.layer.masksToBounds = true
         if (unit.CodSolicitadoPor ?? "") != "" {
             celda.avatar.image = Images.getImageFor("A-\(unit.CodSolicitadoPor ?? "")")
         }
@@ -71,7 +83,43 @@ class PlanesAccionPendTVC: UITableViewController {
     }
     
     @IBAction func click3Puntos(_ sender: Any) {
-        Utils.openSheetMenu(self, "OPCIONES", nil, ["Editar plan de acción", "Eliminar plan de acción", "Cancelar"], [.default, .destructive, .cancel], [nil, nil, nil])
+        let indice = (sender as! UIButton).tag
+        let unit = self.planes[indice]
+        self.presentAlert("OPCIONES", nil, .actionSheet, nil, nil, ["Editar", "Eliminar", "Cancelar"], [.default, .destructive, .cancel], actionHandlers: [{(editarAlert) in
+            VCHelper.openUpsertPlanAccion(self.parent!, "PUT", unit.CodAccion!, {(planAccion) in
+                var copia = planAccion.copy()
+                copia.Responsables = nil
+                copia.SolicitadoPor = nil
+                Rest.postDataGeneral(Routes.forPostPlanAccion(), Dict.unitToParams(copia), true, success: {(resultValue:Any?,data:Data?) in
+                    var strResult = resultValue as! String
+                    if strResult == "-1" {
+                        self.presentAlert("Error", "Ocurrió un error al ingresar el plan de acción", .alert, 2, nil, [], [], actionHandlers: [])
+                    } else {
+                        self.presentAlert("Operación exitosa", "Se editó el Plan de Acción correctamente", .alert, 2, nil, [], [], actionHandlers: [])
+                        self.forceUpdateFromFather?()
+                    }
+                }, error: {(error) in
+                    print(error)
+                })
+            })
+            }, {(eliminarAlert) in
+                self.presentAlert("¿Desea eliminar item?", "Plan Acción \(unit.CodAccion!)", .alert, nil, nil, ["Aceptar", "Cancelar"], [.default, .cancel], actionHandlers: [{(actionAceptar) in
+                    Rest.getDataGeneral(Routes.forPlanAccionDelete(unit.CodAccion!), true, success: {(resultValue:Any?,data:Data?) in
+                        let respuesta = resultValue as! String
+                        if respuesta == "1" {
+                            self.presentAlert("Item eliminado", nil, .alert, 1, nil, [], [], actionHandlers: [])
+                            self.forceUpdateFromFather?()
+                        } else {
+                            self.presentAlert("Error", "Ocurrió un error al intentar eliminar el item", .alert, 2, nil, [], [], actionHandlers: [])
+                        }
+                    }, error: nil)
+                    }, nil])
+            }, nil])
+        /*self.presentAlert("OPCIONES", nil, .actionSheet, nil, nil, ["Editar plan de acción", "Eliminar plan de acción", "Cancelar"], [.default, .destructive, .cancel], actionHandlers: [{(actionEditar) in
+            
+            }, {(actionEliminar) in
+                
+            }, nil])*/
     }
     
 }
@@ -84,6 +132,8 @@ class PlanesAccionPendientesTVCell: UITableViewCell {
     @IBOutlet weak var estado: UILabel!
     @IBOutlet weak var contenido: UILabel!
     @IBOutlet weak var editableView: UIView!
+    @IBOutlet weak var editableBoton: UIButton!
     @IBOutlet weak var limiteView: UIView!
     @IBOutlet weak var icono: UIImageView!
+    @IBOutlet weak var empresa: UILabel!
 }

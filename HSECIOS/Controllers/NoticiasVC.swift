@@ -6,30 +6,82 @@ class NoticiasVC: UIViewController, UITabBarDelegate {
     
     var muro = MuroTVC()
     var params = ["Elemperpage":"10", "Pagenumber": "1"]
+    var shouldReload = false
     
     override func viewDidAppear(_ animated: Bool) {
-        Rest.postDataGeneral(Routes.forMuroSearchN(), params, false, success: {(resultValue:Any?,data:Data?) in
+        if shouldReload {
+            Rest.postDataGeneral(Routes.forMuroSearchN(), params, true, success: {(resultValue:Any?,data:Data?) in
+                let arrayMuroElement: ArrayGeneral<MuroElement> = Dict.dataToArray(data!)
+                self.muro.addMoreData(arrayMuroElement.Data)
+                var contador = 0
+                for unit in arrayMuroElement.Data {
+                    Images.downloadAvatar(unit.UrlObs ?? "", {() in
+                        contador = contador + 1
+                        if contador == arrayMuroElement.Data.count * 2 {
+                            self.muro.tableView.reloadData()
+                        }
+                    })
+                    Images.downloadImage(unit.UrlPrew ?? "", {() in
+                        contador = contador + 1
+                        if contador == arrayMuroElement.Data.count * 2 {
+                            self.muro.tableView.reloadData()
+                        }
+                    })
+                }
+            }, error: nil)
+        }
+    }
+    
+    func loadNoticias() {
+        Rest.postDataGeneral(Routes.forMuroSearchN(), params, true, success: {(resultValue:Any?,data:Data?) in
             let arrayMuroElement: ArrayGeneral<MuroElement> = Dict.dataToArray(data!)
             self.muro.addMoreData(arrayMuroElement.Data)
+            var contador = 0
+            for unit in arrayMuroElement.Data {
+                Images.downloadAvatar(unit.UrlObs ?? "", {() in
+                    contador = contador + 1
+                    if contador == arrayMuroElement.Data.count * 2 {
+                        self.muro.tableView.reloadData()
+                    }
+                })
+                Images.downloadImage(unit.UrlPrew ?? "", {() in
+                    contador = contador + 1
+                    if contador == arrayMuroElement.Data.count * 2 {
+                        self.muro.tableView.reloadData()
+                    }
+                })
+            }
         }, error: nil)
-        /*Rest.postData(Routes.forMuroSearchN(), params, false, vcontroller: self, success: {(dict:NSDictionary) in
-            self.muro.addMoreData(Dict.toArrayMuroElement(dict))
-        })*/
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         Utils.setTitleAndImage(self, "Noticias", Images.minero)
         self.muro = self.childViewControllers[0] as! MuroTVC
-        self.muro.alClickCelda = {(unit:MuroElement) in
+        /*self.muro.alClickCelda = {(unit:MuroElement) in
             VCHelper.openNotDetalle(self, unit)
-        }
+        }*/
         self.muro.alScrollLimiteTop = {() in
             let cantidad = self.muro.data.count > 10 ? self.muro.data.count : 10
             var params = ["Elemperpage":"\(cantidad)", "Pagenumber": "1"]
             Rest.postDataGeneral(Routes.forMuroSearchN(), self.params, true, success: {(resultValue:Any?,data:Data?) in
                 let arrayMuroElement: ArrayGeneral<MuroElement> = Dict.dataToArray(data!)
                 self.muro.addMoreData(arrayMuroElement.Data)
+                var contador = 0
+                for unit in arrayMuroElement.Data {
+                    Images.downloadAvatar(unit.UrlObs ?? "", {() in
+                        contador = contador + 1
+                        if contador == arrayMuroElement.Data.count * 2 {
+                            self.muro.tableView.reloadData()
+                        }
+                    })
+                    Images.downloadImage(unit.UrlPrew ?? "", {() in
+                        contador = contador + 1
+                        if contador == arrayMuroElement.Data.count * 2 {
+                            self.muro.tableView.reloadData()
+                        }
+                    })
+                }
             }, error: nil)
             /*Rest.postData(Routes.forMuroSearchN(), self.params, true, vcontroller: self, success: {(dict:NSDictionary) in
                 self.muro.addMoreData(Dict.toArrayMuroElement(dict))
@@ -44,6 +96,21 @@ class NoticiasVC: UIViewController, UITabBarDelegate {
             Rest.postDataGeneral(Routes.forMuroSearchN(), self.params, true, success: {(resultValue:Any?,data:Data?) in
                 let arrayMuroElement: ArrayGeneral<MuroElement> = Dict.dataToArray(data!)
                 self.muro.addMoreData(arrayMuroElement.Data)
+                var contador = 0
+                for unit in arrayMuroElement.Data {
+                    Images.downloadAvatar(unit.UrlObs ?? "", {() in
+                        contador = contador + 1
+                        if contador == arrayMuroElement.Data.count * 2 {
+                            self.muro.tableView.reloadData()
+                        }
+                    })
+                    Images.downloadImage(unit.UrlPrew ?? "", {() in
+                        contador = contador + 1
+                        if contador == arrayMuroElement.Data.count * 2 {
+                            self.muro.tableView.reloadData()
+                        }
+                    })
+                }
             }, error: nil)
             /*Rest.postData(Routes.forMuroSearchN(), self.params, true, vcontroller: self, success: {(dict:NSDictionary) in
                 self.muro.addMoreData(Dict.toArrayMuroElement(dict))

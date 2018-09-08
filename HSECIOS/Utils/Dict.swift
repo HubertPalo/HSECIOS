@@ -10,6 +10,7 @@ class Dict {
             let result: ArrayGeneral<Class> = try decoder.decode(ArrayGeneral<Class>.self, from: data)
             return result
         } catch {
+            print("Error\n\(error)")
             return ArrayGeneral<Class>()
         }
     }
@@ -19,6 +20,7 @@ class Dict {
             let result: Class = try decoder.decode(Class.self, from: data)
             return result
         } catch {
+            print("Error\n\(error)")
             return nil
         }
     }
@@ -40,6 +42,13 @@ class Dict {
             respuesta["NroAccionOrigen"] = temp == nil ? nil : "\(temp!)"
             return respuesta
         }
-        return [:]
+        if let unit = objeto as? AccionMejoraAtencion {
+            let temp: Int? = unit.Correlativo
+            unit.Correlativo = nil
+            var respuesta: [String:String] = Dict.dataToUnit(Dict.unitToData(unit)!)!
+            respuesta["Correlativo"] = temp == nil ? nil : "\(temp!)"
+            return respuesta
+        }
+        return Dict.dataToUnit(Dict.unitToData(objeto)!)!
     }
 }

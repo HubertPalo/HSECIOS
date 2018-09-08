@@ -7,25 +7,19 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var rightView: UIView!
     
-    @IBOutlet weak var tabContainer: UIView!
-    
-    @IBOutlet weak var contactenosContainer: UIView!
-    
     @IBOutlet weak var menuDistanceToLeft: NSLayoutConstraint!
     
+    @IBOutlet weak var tabContainer: UIView!
+    @IBOutlet weak var contactenosContainer: UIView!
     @IBOutlet weak var tabla: UITableView!
-    
-    @IBOutlet weak var agregarFacilitoContainer: UIView!
-    
+    @IBOutlet weak var upsertFacilitoContainer: UIView!
     @IBOutlet weak var agregarObservacionContainer: UIView!
-    
     @IBOutlet weak var agregarInspeccionContainer: UIView!
-    
     @IBOutlet weak var noticiasContainer: UIView!
-    
     @IBOutlet weak var planesAccionContainer: UIView!
-    
     @IBOutlet weak var feedbackContainer: UIView!
+    @IBOutlet weak var configuracionContainer: UIView!
+    @IBOutlet weak var capacitacionesContainer: UIView!
     
     @IBOutlet weak var botonCerrarSesion: UIButton!
     
@@ -38,15 +32,25 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var progressHUD: MBProgressHUD?
     
     let menuHeaders = ["General", "Más Opciones"]
-    let menuLabels = [["Ingresar reporte facilito", "Sisap", "Ingresar observación", "Ingresar inspección", "Noticias", "Planes de acción pendientes"], ["Feedback", "Contáctenos"]]
-    let menuIconNames = [["facilito", "sisap", "observacion", "inspeccion", "noticia", "planesPendientes"], ["feedback", "contactenos"]]
+    let menuLabels = [["Ingresar reporte facilito", "Ingresar observación", "Ingresar inspección", "Control de Capacitaciones", "Noticias", "Planes de acción pendientes", "Aprobación (SISAP)"], ["Feedback", "Contáctenos", "Configuración"]]
+    let menuIconNames = [["facilito", "observacion", "inspeccion", "cursos", "noticia", "planesPendientes", "sisap"], ["feedback", "contactenos", "configuracion"]]
     
     let maxWidth = Utils.widthDevice * 0.75
     let midWidth = Utils.widthDevice * 0.75 * 0.5
     let minWidth = 0
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        Utils.actualView = self
         self.progressIndicator.transform = self.progressIndicator.transform.scaledBy(x: 2.0, y: 2.0)
         self.progressIndicator.isHidden = true
         Utils.progressIndicator = self.progressIndicator
@@ -60,13 +64,15 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.tabla.rowHeight = 40
         self.rightView.isHidden = true
         self.tabContainer.isHidden = false
-        self.agregarFacilitoContainer.isHidden = true
+        self.upsertFacilitoContainer.isHidden = true
         self.contactenosContainer.isHidden = true
         self.agregarObservacionContainer.isHidden = true
         self.agregarInspeccionContainer.isHidden = true
         self.noticiasContainer.isHidden = true
         self.planesAccionContainer.isHidden = true
         self.feedbackContainer.isHidden = true
+        self.configuracionContainer.isHidden = true
+        self.capacitacionesContainer.isHidden = true
         let recognizer = UIPanGestureRecognizer(target: self, action: #selector(self.handleDragging(recognizer:)))
         self.view.addGestureRecognizer(recognizer)
         
@@ -76,7 +82,7 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func navigateTo(_ to: Int){
         tabContainer.isHidden = to != 0
-        agregarFacilitoContainer.isHidden = to != 1
+        upsertFacilitoContainer.isHidden = to != 1
         contactenosContainer.isHidden = to != 2
         self.menuDistanceToLeft.constant = -1 * maxWidth
         self.rightView.isHidden = true
@@ -86,7 +92,7 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func handleDragging(recognizer: UIPanGestureRecognizer) {
-        if (recognizer.state == .changed) {
+        if (recognizer.state == .changed) && Utils.InteraccionHabilitada {
             let point = recognizer.velocity(in: recognizer.view?.superview)
             if point.x > 0 &&  self.menuDistanceToLeft.constant < 0 {
                 self.menuDistanceToLeft.constant = self.menuDistanceToLeft.constant + midWidth
@@ -102,7 +108,7 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 }
             }
         }
-        if recognizer.state == .ended {
+        if recognizer.state == .ended && Utils.InteraccionHabilitada {
             if -1 * self.menuDistanceToLeft.constant > maxWidth/2 {
                 self.menuDistanceToLeft.constant = -1 * maxWidth
                 self.rightView.isHidden = true
@@ -137,54 +143,211 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let celda = tableView.dequeueReusableCell(withIdentifier: "celda") as! MenuVCell
-        celda.icono.image = UIImage.init(named: menuIconNames[indexPath.section][indexPath.row])
+        celda.icono.image = UIImage.init(named: menuIconNames[indexPath.section][indexPath.row])?.withRenderingMode(.alwaysTemplate)
+        celda.icono.tintColor = UIColor.lightGray
         celda.titulo.text = menuLabels[indexPath.section][indexPath.row]
         return celda
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tabContainer.isHidden = true
-        agregarFacilitoContainer.isHidden = !(indexPath.section == 0 && indexPath.row == 0)
-        agregarObservacionContainer.isHidden = !(indexPath.section == 0 && indexPath.row == 2)
+        switch indexPath.section {
+        case 0:
+            switch indexPath.row {
+            case 0:
+                Globals.UFLoadModo("ADD", "")
+                Globals.UFModo = "ADD"
+                Globals.UFCodigo = ""
+                Globals.UFDetalle = FacilitoGD()
+                upsertFacilitoContainer.isHidden = false
+                agregarObservacionContainer.isHidden = true
+                agregarInspeccionContainer.isHidden = true
+                capacitacionesContainer.isHidden = true
+                noticiasContainer.isHidden = true
+                planesAccionContainer.isHidden = true
+                
+                feedbackContainer.isHidden = true
+                contactenosContainer.isHidden = true
+                configuracionContainer.isHidden = true
+                break
+            case 1:
+                upsertFacilitoContainer.isHidden = true
+                agregarObservacionContainer.isHidden = false
+                agregarInspeccionContainer.isHidden = true
+                capacitacionesContainer.isHidden = true
+                noticiasContainer.isHidden = true
+                planesAccionContainer.isHidden = true
+                
+                feedbackContainer.isHidden = true
+                contactenosContainer.isHidden = true
+                configuracionContainer.isHidden = true
+                break
+            case 2:
+                upsertFacilitoContainer.isHidden = true
+                agregarObservacionContainer.isHidden = true
+                agregarInspeccionContainer.isHidden = false
+                capacitacionesContainer.isHidden = true
+                noticiasContainer.isHidden = true
+                planesAccionContainer.isHidden = true
+                
+                feedbackContainer.isHidden = true
+                contactenosContainer.isHidden = true
+                configuracionContainer.isHidden = true
+            case 3:
+                upsertFacilitoContainer.isHidden = true
+                agregarObservacionContainer.isHidden = true
+                agregarInspeccionContainer.isHidden = true
+                capacitacionesContainer.isHidden = false
+                noticiasContainer.isHidden = true
+                planesAccionContainer.isHidden = true
+                
+                feedbackContainer.isHidden = true
+                contactenosContainer.isHidden = true
+                configuracionContainer.isHidden = true
+                Utils.menuCapRecibidas.initialLoad()
+            case 4:
+                let noticiasNC = self.childViewControllers[5] as! UINavigationController
+                noticiasNC.popToRootViewController(animated: true)
+                let noticiasVC = noticiasNC.childViewControllers[0] as! NoticiasVC
+                noticiasVC.loadNoticias()
+                upsertFacilitoContainer.isHidden = true
+                agregarObservacionContainer.isHidden = true
+                agregarInspeccionContainer.isHidden = true
+                capacitacionesContainer.isHidden = true
+                noticiasContainer.isHidden = false
+                planesAccionContainer.isHidden = true
+                
+                feedbackContainer.isHidden = true
+                contactenosContainer.isHidden = true
+                configuracionContainer.isHidden = true
+            case 5:
+                let planesNC = self.childViewControllers[6] as! UINavigationController
+                planesNC.popToRootViewController(animated: true)
+                let planesVC = planesNC.childViewControllers[0] as! PlanesAccionVC
+                planesVC.initialLoad()
+                Utils.menuPlanesPendientes.initialLoad()
+                upsertFacilitoContainer.isHidden = true
+                agregarObservacionContainer.isHidden = true
+                agregarInspeccionContainer.isHidden = true
+                capacitacionesContainer.isHidden = true
+                noticiasContainer.isHidden = true
+                planesAccionContainer.isHidden = false
+                
+                feedbackContainer.isHidden = true
+                contactenosContainer.isHidden = true
+                configuracionContainer.isHidden = true
+            case 6:
+                let sisapApp = "Sisap://true"
+                let appUrl = URL(string:sisapApp)!
+                UIApplication.shared.open(appUrl, options: [:], completionHandler: nil)
+                tabContainer.isHidden = false
+                upsertFacilitoContainer.isHidden = true
+                agregarObservacionContainer.isHidden = true
+                agregarInspeccionContainer.isHidden = true
+                capacitacionesContainer.isHidden = true
+                noticiasContainer.isHidden = true
+                planesAccionContainer.isHidden = true
+                
+                feedbackContainer.isHidden = true
+                contactenosContainer.isHidden = true
+                configuracionContainer.isHidden = true
+            default:
+                break
+            }
+        case 1:
+            switch indexPath.row {
+            case 0:
+                tabContainer.isHidden = true
+                
+                upsertFacilitoContainer.isHidden = true
+                agregarObservacionContainer.isHidden = true
+                agregarInspeccionContainer.isHidden = true
+                capacitacionesContainer.isHidden = true
+                noticiasContainer.isHidden = true
+                planesAccionContainer.isHidden = true
+                
+                feedbackContainer.isHidden = false
+                contactenosContainer.isHidden = true
+                configuracionContainer.isHidden = true
+            case 1:
+                tabContainer.isHidden = true
+                
+                upsertFacilitoContainer.isHidden = true
+                agregarObservacionContainer.isHidden = true
+                agregarInspeccionContainer.isHidden = true
+                capacitacionesContainer.isHidden = true
+                noticiasContainer.isHidden = true
+                planesAccionContainer.isHidden = true
+                
+                feedbackContainer.isHidden = true
+                contactenosContainer.isHidden = false
+                configuracionContainer.isHidden = true
+            case 2:
+                tabContainer.isHidden = true
+                
+                upsertFacilitoContainer.isHidden = true
+                agregarObservacionContainer.isHidden = true
+                agregarInspeccionContainer.isHidden = true
+                capacitacionesContainer.isHidden = true
+                noticiasContainer.isHidden = true
+                planesAccionContainer.isHidden = true
+                
+                feedbackContainer.isHidden = true
+                contactenosContainer.isHidden = true
+                configuracionContainer.isHidden = false
+            default:
+                break
+            }
+        default:
+            break
+        }
+        
+        
+        
+        /*agregarObservacionContainer.isHidden = !(indexPath.section == 0 && indexPath.row == 2)
         agregarInspeccionContainer.isHidden = !(indexPath.section == 0 && indexPath.row == 3)
-            // = !(indexPath.section == 0 && indexPath.row == 3)
         noticiasContainer.isHidden = !(indexPath.section == 0 && indexPath.row == 4)
         planesAccionContainer.isHidden = !(indexPath.section == 0 && indexPath.row == 5)
+        capacitacionesContainer.isHidden = !(indexPath.section == 0 && indexPath.row == 6)
         
         feedbackContainer.isHidden = !(indexPath.section == 1 && indexPath.row == 0)
         contactenosContainer.isHidden = !(indexPath.section == 1 && indexPath.row == 1)
-        
+        configuracionContainer.isHidden = !(indexPath.section == 1 && indexPath.row == 2)
+        */
         self.menuDistanceToLeft.constant = -1 * maxWidth
         self.rightView.isHidden = true
         UIView.animate(withDuration: 0.5) {
             self.view.layoutIfNeeded()
         }
-        if indexPath.section == 0 && indexPath.row == 1 {
-            Alerts.presentAlert("Alerta", "Funcionalidad en desarrollo", imagen: nil, viewController: self)
-        }
-        if indexPath.section == 0 && indexPath.row == 5 {
-            Utils.menuPlanesPendientes.initialLoad()
+        /*if indexPath.section == 0 && indexPath.row == 1 {
+            self.presentAlert("Alerta", "Funcionalidad en desarrollo", .alert, 2, nil, [], [], actionHandlers: [])
+            // Alerts.presentAlert("Alerta", "Funcionalidad en desarrollo", imagen: nil, viewController: self)
+        }*/
+        /*if indexPath.section == 0 && indexPath.row == 5 {
+            
         }
         if indexPath.section == 0 && indexPath.row == 0 {
-            Globals.UFLoadModo("ADD", "")
-        }
+            
+        }*/
     }
     // Tabla
     
     func showTabIndexAt(_ index: Int) {
         tabContainer.isHidden = false
-        agregarFacilitoContainer.isHidden = true
+        upsertFacilitoContainer.isHidden = true
         agregarObservacionContainer.isHidden = true
         agregarInspeccionContainer.isHidden = true
         noticiasContainer.isHidden = true
         planesAccionContainer.isHidden = true
         feedbackContainer.isHidden = true
         contactenosContainer.isHidden = true
+        configuracionContainer.isHidden = true
+        capacitacionesContainer.isHidden = true
         let tabBC = self.childViewControllers[0] as! UITabBarController
         tabBC.selectedIndex = (index < 0 || index > 4) ? 0 : index
     }
     
-    func bloquear() {
+    /*func bloquear() {
         // progressHUD?.show(animated: true)
         self.progressIndicator.isHidden = false
         UIApplication.shared.beginIgnoringInteractionEvents()
@@ -194,11 +357,11 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         // progressHUD?.hide(animated: true)
         self.progressIndicator.isHidden = true
         UIApplication.shared.endIgnoringInteractionEvents()
-    }
+    }*/
     
     func showMenuTab() {
         tabContainer.isHidden = false
-        agregarFacilitoContainer.isHidden = true
+        upsertFacilitoContainer.isHidden = true
         agregarObservacionContainer.isHidden = true
         agregarInspeccionContainer.isHidden = true
         noticiasContainer.isHidden = true
@@ -226,7 +389,7 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func showFichaFor(_ dni: String) {
         tabContainer.isHidden = false
-        agregarFacilitoContainer.isHidden = true
+        upsertFacilitoContainer.isHidden = true
         agregarObservacionContainer.isHidden = true
         agregarInspeccionContainer.isHidden = true
         noticiasContainer.isHidden = true
@@ -242,9 +405,10 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         switch (sender as! UIButton).tag {
         case 1:
             Config.loginSaveFlag = false
+            self.navigationController?.popViewController(animated: true)
             self.dismiss(animated: true, completion: nil)
         case 2:
-            agregarFacilitoContainer.isHidden = true
+            upsertFacilitoContainer.isHidden = true
             agregarObservacionContainer.isHidden = true
             agregarInspeccionContainer.isHidden = true
             tabContainer.isHidden = false
@@ -254,6 +418,7 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             planesAccionContainer.isHidden = true
             feedbackContainer.isHidden = true
             contactenosContainer.isHidden = true
+            configuracionContainer.isHidden = true
             hideMenu()
         default:
             break

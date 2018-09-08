@@ -8,7 +8,56 @@ class Multimedia: Codable{
     var TipoArchivo: String?
     var Descripcion: String?
     
-    var multimediaData: Data? // Solo usado para upload
+    var multimediaData: Data? // Solo usado para UPLOAD
+    var mimeType: String? // Solo usado para UPLOAD
+    
+    
+    
+    func setMimeType() {
+        if let nombre = self.Descripcion {
+            let nombreSplits = nombre.components(separatedBy: ".")
+            if nombreSplits.count > 1 {
+                switch nombreSplits[nombreSplits.count - 1].lowercased() {
+                case "pdf":
+                    self.mimeType = "application/pdf"
+                    break
+                case "doc":
+                    self.mimeType = "application/msword"
+                    break
+                case "docx":
+                    self.mimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    break
+                case "xls":
+                    self.mimeType = "application/vnd.ms-excel"
+                    break
+                case "xlsx":
+                    self.mimeType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    break
+                case "ppt":
+                    self.mimeType = "application/vnd.ms-powerpoint"
+                    break
+                case "pptx":
+                    self.mimeType = "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+                    break
+                case "mp4":
+                    self.mimeType = "video/mp4"
+                    break
+                case "mov":
+                    self.mimeType = "video/mp4"
+                    break
+                case "jpg":
+                    self.mimeType = "image/jpg"
+                    break
+                case "png":
+                    self.mimeType = "image/jpg"
+                    break
+                default:
+                    self.mimeType = "application/octet-stream"
+                    break
+                }
+            }
+        }
+    }
     
     func getMimeType() -> String { // Solo usado para upload
         if let nombre = self.Descripcion {
@@ -105,7 +154,6 @@ class Multimedia: Codable{
         resultado.Tamanio = self.Tamanio
         resultado.TipoArchivo = self.TipoArchivo
         resultado.Descripcion = self.Descripcion
-        resultado.esVideo = self.TipoArchivo == "TP02"
         return resultado
     }
 }
@@ -113,14 +161,45 @@ class Multimedia: Codable{
 class DocumentoGeneral: Multimedia {
     var data: NSData = NSData()
     var tamanho: String = ""
-    var url: URL? = nil
-    // var multimedia = Multimedia()
+    var url: URL?
+    
+    func getIcon() -> UIImage {
+        let nombre = (self.Descripcion ?? "").uppercased().trimmingCharacters(in: .whitespacesAndNewlines)
+        if nombre.hasSuffix(".PDF") {
+            return UIImage.init(named: "pdf") ?? Images.blank
+        }
+        if nombre.hasSuffix(".DOC") || nombre.hasSuffix(".DOCX") {
+            return UIImage.init(named: "doc") ?? Images.blank
+        }
+        if nombre.hasSuffix(".XLS") || nombre.hasSuffix(".XLSX") {
+            return UIImage.init(named: "xlsx") ?? Images.blank
+        }
+        if nombre.hasSuffix(".PPT") || nombre.hasSuffix(".PPTX") {
+            return UIImage.init(named: "ppt") ?? Images.blank
+        }
+        return Images.blank
+    }
 }
 
 class FotoVideo: Multimedia {
-    var esVideo = false
     var asset: DKAsset? = nil
     var imagen: UIImage? = nil
     var imagenFull: UIImage? = nil
-    // var multimedia = Multimedia()
+    
+    func copy() -> FotoVideo {
+        let copia = FotoVideo()
+        copia.Correlativo = self.Correlativo
+        copia.Url = self.Url
+        copia.Tamanio = self.Tamanio
+        copia.TipoArchivo = self.TipoArchivo
+        copia.Descripcion = self.Descripcion
+        
+        copia.multimediaData = self.multimediaData
+        copia.mimeType = self.mimeType
+        
+        copia.asset = self.asset
+        copia.imagen = self.imagen
+        copia.imagenFull = self.imagenFull
+        return copia
+    }
 }

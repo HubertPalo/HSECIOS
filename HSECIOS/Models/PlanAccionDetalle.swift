@@ -13,8 +13,8 @@ class PlanAccionDetalle: Codable {
     var FecComprometidaInicial: String?
     var FecComprometidaFinal: String?
     var DesPlanAccion: String?
-    var CodResponsable: String? // Solo se usa en Add Obs Plan
-    var CodTablaRef: String? // Solo se usa en Add Obs Plan
+    //var CodResponsable: String? // Solo se usa en Add Obs Plan
+    //var CodTablaRef: String? // Solo se usa en Add Obs Plan
     var CodResponsables: String?
     var Responsables: String?
     var CodTabla: String?
@@ -38,8 +38,8 @@ class PlanAccionDetalle: Codable {
         duplicado.FecComprometidaInicial = self.FecComprometidaInicial
         duplicado.FecComprometidaFinal = self.FecComprometidaFinal
         duplicado.DesPlanAccion = self.DesPlanAccion
-        duplicado.CodResponsable = self.CodResponsable
-        duplicado.CodTablaRef = self.CodTablaRef
+        //duplicado.CodResponsable = self.CodResponsable
+        //duplicado.CodTablaRef = self.CodTablaRef
         duplicado.CodResponsables = self.CodResponsables
         duplicado.Responsables = self.Responsables
         duplicado.CodTabla = self.CodTabla

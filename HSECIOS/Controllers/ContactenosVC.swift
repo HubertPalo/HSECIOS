@@ -6,7 +6,7 @@ class ContactenosVC: UIViewController, UITabBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        Utils.setTitleAndImage(self, "Contáctenos", Images.minero)
+        self.setTitleAndImage("Contáctenos", Images.minero)
         self.tabBar.delegate = self
     }
     

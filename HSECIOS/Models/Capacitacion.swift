@@ -1,15 +1,15 @@
 class Capacitacion: Codable {
     // Solo Cap Recibidas
-    var Fecha = ""
-    var Duracion = ""
+    var Fecha: String?
+    var Duracion: String?
     
     // Solo Cap Perfil
-    var Cumplido = ""
+    var Cumplido: String?
     
     // Ambos
-    var Tema = ""
-    var Tipo = ""
-    var Nota = ""
-    var Estado = ""
-    var Vencimiento = ""
+    var Tema: String?
+    var Tipo: String?
+    var Nota: Int?
+    var Estado: String?
+    var Vencimiento: String?
 }

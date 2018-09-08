@@ -14,10 +14,15 @@ class LoginVC : UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    
     let iconosPassword = [UIImage(named: "eye"), UIImage(named: "eyelock")]
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        
         Utils.progressIndicator = self.activityIndicator
         print("\(Config.loginUsername) - \(Config.loginPassword)")
         username.text = Config.loginUsername
@@ -30,8 +35,14 @@ class LoginVC : UIViewController, UITextFieldDelegate {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        Utils.actualView = self
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        Utils.actualView = self
         self.activityIndicator.transform = self.activityIndicator.transform.scaledBy(x: 2.0, y: 2.0)
         self.activityIndicator.isHidden = true
         Utils.progressIndicator = self.activityIndicator
@@ -124,20 +135,28 @@ class LoginVC : UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func clickEnLogin(_ sender: Any) {
-        Rest.postDataGeneral(Routes.forLogin(), ["username":username.text!, "password":password.text!, "domain":"anyaccess"], true, success: {(resultValue:Any?,data:Data?) in
+        Utils.loginUsr = username.text!
+        Utils.loginPwd = password.text!
+        Rest.postDataGeneral(Routes.forLogin(), ["username":username.text!, "password":password.text!, "domain":"anyaccess", "token": Utils.FCMToken], true, success: {(resultValue:Any?,data:Data?) in
             let str = resultValue as! String
-            Utils.token = str
-            if Config.loginSaveFlag {
-                Config.saveLogin(self.username.text!, self.password.text!)
-            }
-            Rest.getDataGeneral(Routes.forUserData(), true, success: {(resultValue:Any?,data:Data?) in
-                Utils.userData = Dict.dataToUnit(data!)!
-                Config.getAllMaestro()
-                self.performSegue(withIdentifier: "oklogin", sender: self)
-            }, error: {(error) in
-                print("Error : \(error)")
+            if str == "Contraseña incorrecta" {
+                self.presentError("Contraseña incorrecta")
                 self.inputsStack.isHidden = false
-            })
+            } else {
+                Utils.token = str
+                if Config.loginSaveFlag {
+                    Config.saveLogin(self.username.text!, self.password.text!)
+                }
+                Rest.getDataGeneral(Routes.forUserData(), true, success: {(resultValue:Any?,data:Data?) in
+                    Utils.userData = Dict.dataToUnit(data!)!
+                    // Config.getAllMaestro()
+                    self.performSegue(withIdentifier: "oklogin", sender: self)
+                }, error: {(error) in
+                    print("Error : \(error)")
+                    self.inputsStack.isHidden = false
+                })
+            }
+            
         }, error: {(error) in
             self.inputsStack.isHidden = false
             print(error)

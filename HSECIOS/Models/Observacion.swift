@@ -29,6 +29,6 @@ class ObsDetalle: Codable {
 class ObsSubDetalle: Codable {
     var Codigo: String?
     var CodTipo: String?
-    var CodSubTipo: String?
+    var CodSubtipo: String?
     var Descripcion: String?
 }

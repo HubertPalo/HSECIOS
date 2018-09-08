@@ -4,6 +4,11 @@ class Celda1Texto: UITableViewCell {
     @IBOutlet weak var texto: UILabel!
 }
 
+class Celda1Texto1Imagen: UITableViewCell {
+    @IBOutlet weak var texto: UILabel!
+    @IBOutlet weak var imagen: UIImageView!
+}
+
 class Celda2Texto: UITableViewCell {
     @IBOutlet weak var texto1: UILabel!
     @IBOutlet weak var texto2: UILabel!
@@ -15,11 +20,26 @@ class Celda3Texto: UITableViewCell {
     @IBOutlet weak var texto3: UILabel!
 }
 
+class Celda4Texto: UITableViewCell {
+    @IBOutlet weak var texto1: UILabel!
+    @IBOutlet weak var texto2: UILabel!
+    @IBOutlet weak var texto3: UILabel!
+    @IBOutlet weak var texto4: UILabel!
+}
+
 class Celda3Texto1Boton: UITableViewCell {
     @IBOutlet weak var texto1: UILabel!
     @IBOutlet weak var texto2: UILabel!
     @IBOutlet weak var texto3: UILabel!
     @IBOutlet weak var boton: UIButton!
+}
+
+class Celda4Texto1View: UITableViewCell {
+    @IBOutlet weak var texto1: UILabel!
+    @IBOutlet weak var texto2: UILabel!
+    @IBOutlet weak var texto3: UILabel!
+    @IBOutlet weak var texto4: UILabel!
+    @IBOutlet weak var view: UIView!
 }
 
 class Celda2Texto1View: UITableViewCell {
@@ -54,6 +74,10 @@ class Celda1Texto1InputText: UITableViewCell {
     @IBOutlet weak var inputTexto: UITextField!
 }
 
+class Celda1TextField: UITableViewCell {
+    @IBOutlet weak var cajaTexto: UITextField!
+}
+
 class Celda1Texto1TextView: UITableViewCell {
     @IBOutlet weak var texto: UILabel!
     @IBOutlet weak var textView: UITextView!
@@ -62,6 +86,12 @@ class Celda1Texto1TextView: UITableViewCell {
 class Celda1Texto1View: UITableViewCell {
     @IBOutlet weak var texto: UILabel!
     @IBOutlet weak var view: UIView!
+}
+
+class Celda1Texto1View1Boton: UITableViewCell {
+    @IBOutlet weak var texto: UILabel!
+    @IBOutlet weak var view: UIView!
+    @IBOutlet weak var boton: UIButton!
 }
 
 class Celda1View: UITableViewCell {
@@ -93,7 +123,11 @@ class CeldaDocumento: UITableViewCell {
     @IBOutlet weak var nombre: UILabel!
     @IBOutlet weak var tamanho: UILabel!
     @IBOutlet weak var viewX: UIView!
-    @IBOutlet weak var botonDescargar: UIButton!
+    @IBOutlet weak var botonEliminar: UIButton!
+    @IBOutlet weak var botonDescarga: UIButton!
+    @IBOutlet weak var iconoCancelarDescarga: UIImageView!
+    @IBOutlet weak var procentajeDescarga: UILabel!
+    
 }
 
 class CeldaComentario: UITableViewCell {
@@ -101,4 +135,5 @@ class CeldaComentario: UITableViewCell {
     @IBOutlet weak var autor: UILabel!
     @IBOutlet weak var fecha: UILabel!
     @IBOutlet weak var comentario: UILabel!
+    @IBOutlet weak var limiteView: UIView!
 }

@@ -1,8 +1,8 @@
 class Noticia: Codable {
-    var CodNoticia = ""
-    var Titulo = ""
-    var Tipo = ""
-    var Descripcion = ""
-    var Autor = ""
-    var Fecha = ""
+    var CodNoticia: String?
+    var Titulo: String?
+    var Tipo: String?
+    var Descripcion: String?
+    var Autor: String?
+    var Fecha: String?
 }

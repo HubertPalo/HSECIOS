@@ -19,9 +19,14 @@ class Utils {
     static let insObsDetalleSB = UIStoryboard.init(name: "InsObsDetalle", bundle: nil)
     static let facDetalleSB = UIStoryboard.init(name: "FacDetalle", bundle: nil)
     static let planAccionSB = UIStoryboard.init(name: "PlanAccion", bundle: nil)
+    static let capacitacionSB = UIStoryboard.init(name: "Capacitacion", bundle: nil)
     
+    static var capCursoDetalle = CapCursoDetalle()
+    static var notasVC = NotasVC()
+    static var asistenciaVC = AsistenciaVC()
     static var menuVC = MenuVC()
     static var menuPlanesPendientes = PlanesAccionVC()
+    static var menuCapRecibidas = CapacitacionVC()
     
     static var userData = UserData()
     
@@ -35,10 +40,20 @@ class Utils {
     static let widthDevice = UIScreen.main.bounds.width
     static let heightDevice = UIScreen.main.bounds.height
     
+    static var InteraccionHabilitada = true
+    
+    static var galeriaVCs = [UIViewController]()
+    static var galeriaIndice = 0
+    
     static var currentYear = 0
     static var currentMonth = ""
     
     static var token = ""
+    static var FCMToken = ""
+    static var loginUsr = ""
+    static var loginPwd = ""
+    static var actualView = UIViewController()
+    
     static var progressHUD : MBProgressHUD?
     
     static var openComentarios = false
@@ -48,6 +63,17 @@ class Utils {
     static var progressFlag = 0
     
     static var shouldStopAlamofireRequests = [Int]()
+    
+    static func setButtonImage(_ boton: UIButton, _ imagen: UIImage) {
+        var subview = UIImageView.init(image: imagen)
+        subview.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        subview.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        boton.addSubview(subview)
+        subview.centerXAnchor.anchorWithOffset(to: boton.centerXAnchor).constraint(equalToConstant: 0).isActive = true
+        subview.centerYAnchor.anchorWithOffset(to: boton.centerYAnchor).constraint(equalToConstant: 0).isActive = true
+        boton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        boton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+    }
     
     static func separateMultimedia(_ data: [Multimedia]) -> (fotovideos: [FotoVideo], documentos: [DocumentoGeneral]) {
         var fotovideos: [FotoVideo] = []
@@ -104,9 +130,9 @@ class Utils {
         return ("2014-01-01", Utils.date2str(Date(), "YYYY-MM-dd"))
     }
     
-    static func getYearArray() -> [String] {
-        var anhoActual: Int = Int(Utils.date2str(Date(), "YYYY")) ?? 2018
-        var array: [String] = []
+    static func getYearArray(_ withAsterisk: Bool) -> [String] {
+        let anhoActual: Int = Int(Utils.date2str(Date(), "YYYY")) ?? 2018
+        var array: [String] = withAsterisk ? ["*"] : []
         for i in (2014..<anhoActual + 1).reversed() {
             array.append("\(i)")
         }
@@ -114,14 +140,10 @@ class Utils {
     }
     
     static func bloquearPantalla() {
-        print("ProgessFlag : \(self.progressFlag)")
+        print("ProgressFlag : \(self.progressFlag)+")
         if progressFlag == 0 {
             progressIndicator.isHidden = false
             progressIndicator.startAnimating()
-            // var viewc =
-            /*while !(viewc is UIViewController) {
-                viewc = viewc?.superview
-            }*/
             progressIndicator.superview?.bringSubview(toFront: progressIndicator)
             UIApplication.shared.beginIgnoringInteractionEvents()
         }
@@ -135,9 +157,10 @@ class Utils {
     static func initCeldaGaleria(_ celda: inout CeldaGaleria, _ dataIzq: FotoVideo, _ dataDer: FotoVideo?, _ editable: Bool, _ tableview: UITableView, _ indexPath: IndexPath) {
         celda.viewX1.isHidden = !editable
         celda.viewX2.isHidden = !editable
-        celda.play1.isHidden = !dataIzq.esVideo
-        celda.play2.isHidden = !(dataDer?.esVideo ?? false)
+        celda.play1.isHidden = dataIzq.TipoArchivo != "TP02"
+        celda.play2.isHidden = dataDer != nil && dataDer!.TipoArchivo != "TP02"//  !(dataDer?.esVideo ?? false)
         celda.imagen2.isHidden = dataDer == nil
+        Dict.unitToData(dataIzq)
         if dataIzq.asset == nil {
             /*Images.loadImagePreviewFromCode("\(dataIzq.Correlativo ?? 0)", celda.imagen1, {
                 tableview.reloadRows(at: [indexPath], with: .none)
@@ -157,7 +180,7 @@ class Utils {
     }
     
     static func initCeldaDocumento(_ celda: CeldaDocumento, _ data: DocumentoGeneral, _ editable: Bool, _ downloadable: Bool) -> CeldaDocumento{
-        celda.botonDescargar.isEnabled = downloadable
+        celda.botonEliminar.isEnabled = downloadable
         if let url = data.url {
             
         } else {
@@ -171,36 +194,6 @@ class Utils {
         return celda
     }
     
-    /*static func loadAssets(assets: [DKAsset], originales: [FotoVideo], chandler: ((_:[FotoVideo]) -> Void)?) {
-        var nombres: [String] = []
-        var nuevos = [FotoVideo].init(originales)
-        var finished = [Bool].init(repeating: false, count: assets.count)
-        for i in 0..<originales.count {
-            nombres.append(originales[i].Descripcion)
-        }
-        for i in 0..<assets.count {
-            assets[i].fetchImageWithSize(CGSize.init(width: 200, height: 200), completeBlock: {(image, info) in
-                let unit = FotoVideo()
-                unit.asset = assets[i]
-                unit.esVideo = assets[i].isVideo
-                unit.imagen = image ?? Images.blank
-                unit.nombre = PHAssetResource.assetResources(for: assets[i].originalAsset!).first?.originalFilename ?? ""
-                if !nombres.contains(unit.nombre) {
-                    nuevos.append(unit)
-                    nombres.append(unit.nombre)
-                }
-                finished[i] = true
-                var finishedFlag = true
-                for i in 0..<finished.count {
-                    finishedFlag = finishedFlag && finished[i]
-                }
-                if finishedFlag {
-                    chandler?(nuevos)
-                }
-            })
-        }
-    }*/
-    
     static func loadAssets(assets: [DKAsset], originales: [FotoVideo], chandler: ((_:[FotoVideo]) -> Void)?) {
         var nombres: [String] = []
         var nuevos = originales// [FotoVideo].init(originales)
@@ -213,7 +206,7 @@ class Utils {
             let unit = FotoVideo()
             assets[i].fetchImageWithSize(CGSize.init(width: 200, height: 200), completeBlock: {(image, info) in
                 unit.asset = assets[i]
-                unit.esVideo = assets[i].isVideo
+                unit.TipoArchivo = assets[i].isVideo ? "TP02" : "TP01"
                 unit.imagen = image ?? Images.blank
                 unit.Descripcion = PHAssetResource.assetResources(for: assets[i].originalAsset!).first?.originalFilename ?? ""
                 if !nombres.contains(unit.Descripcion ?? "") {
@@ -294,7 +287,7 @@ class Utils {
         newTitleImage.widthAnchor.constraint(equalToConstant: CGFloat(25)).isActive = true
         newTitleImage.heightAnchor.constraint(equalToConstant: CGFloat(25)).isActive = true
         let newTitleLabel = UILabel.init()
-        newTitleLabel.attributedText = NSAttributedString.init(string: title, attributes: [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont.init(name: "HelveticaNeue", size: title.count > 25 ? 13 : 15)])
+        newTitleLabel.attributedText = NSAttributedString.init(string: title, attributes: [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont.init(name: "HelveticaNeue", size: title.count > 25 ? 13 : 15)!])
         newTitleLabel.textAlignment = .center
         
         
@@ -317,12 +310,49 @@ class Utils {
         viewcontroller.navigationItem.titleView = newTitleView
     }
     
-    static func openSheetMenu(_ viewcontroller: UIViewController, _ titulo: String?, _ mensaje: String?, _ titulos: [String], _ estilos: [UIAlertActionStyle], _ handlers: [((_ alertAction:UIAlertAction) -> Void)?]) {
+    /*static func openSheetMenu(_ viewcontroller: UIViewController, _ titulo: String?, _ mensaje: String?, _ titulos: [String], _ estilos: [UIAlertActionStyle], _ handlers: [((_ alertAction:UIAlertAction) -> Void)?]) {
         let alertaVC = UIAlertController.init(title: titulo, message: nil, preferredStyle: .actionSheet)
         for i in 0..<titulos.count {
             alertaVC.addAction(UIAlertAction.init(title: titulos[i], style: estilos[i], handler: handlers[i]))
         }
         viewcontroller.present(alertaVC, animated: true, completion: nil)
+    }*/
+    
+    static func setTitleAndImage2(_ viewcontroller: UIViewController,_ title: String, _ imagen: UIImage?) {
+        // print(viewcontroller.navigationItem.titleView?.frame)
+        let newStack = UIStackView()
+        newStack.spacing = 5
+        let width = 100
+        let height = 25
+        // var imagennueva = imagen?.withRenderingMode(.alwaysTemplate)
+        // let newTitleView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: width, height: height))
+        // let newTitleImage = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: height, height: height))
+        let newTitleView = UIView()
+        let newTitleImage = UIImageView.init(image: imagen)
+        newTitleImage.widthAnchor.constraint(equalToConstant: CGFloat(22)).isActive = true
+        newTitleImage.heightAnchor.constraint(equalToConstant: CGFloat(22)).isActive = true
+        let newTitleLabel = UILabel.init()
+        newTitleLabel.attributedText = NSAttributedString.init(string: title, attributes: [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont.init(name: "HelveticaNeue", size: title.count > 25 ? 11 : 15)])
+        newTitleLabel.textAlignment = .natural
+        
+        
+        newTitleView.addSubview(newStack)
+        newStack.translatesAutoresizingMaskIntoConstraints = false
+        
+        // newTitleImage.widthAnchor.constraint(equalToConstant: CGFloat(height)).isActive = true
+        
+        newStack.centerXAnchor.constraint(equalTo: newTitleView.centerXAnchor).isActive = true
+        newStack.centerYAnchor.constraint(equalTo: newTitleView.centerYAnchor).isActive = true
+        //newStack.bottomAnchor.anchorWithOffset(to: newTitleView.bottomAnchor).constraint(equalToConstant: 15).isActive = true
+        //newStack.topAnchor.anchorWithOffset(to: newTitleView.topAnchor).constraint(equalToConstant: 15).isActive = true
+        //newStack.heightAnchor.constraint(equalToConstant: 40)
+        newStack.widthAnchor.constraint(greaterThanOrEqualToConstant: 60).isActive = true
+        
+        newStack.distribution = .fill
+        newStack.addArrangedSubview(newTitleImage)
+        newStack.addArrangedSubview(newTitleLabel)
+        // print(viewcontroller.navigationItem.titleView?.frame)
+        viewcontroller.navigationItem.titleView = newTitleView
     }
     
     static func createBarButtonItem(_ imagen: UIImage, _ width: Int, _ height: Int) -> UIBarButtonItem {
@@ -451,16 +481,16 @@ class Utils {
         return ["Authorization": "Bearer \(Utils.token)"]
     }
     
-    static func separate(_ str: String, _ char: Character) -> [String]{
+    /*static func separate(_ str: String, _ char: Character) -> [String]{
         let splits = str.split(separator: char)
         var array: [String] = []
         for i in 0..<splits.count {
             array.append(String(splits[i]))
         }
         return array
-    }
+    }*/
     
-    static func cleanCode(_ str: String) -> String {
+    /*static func cleanCode(_ str: String) -> String {
         if str == "-" {
             return str
         }
@@ -473,14 +503,14 @@ class Utils {
         dropdown.bottomOffset = CGPoint(x: 0, y: boton.bounds.height)
         dropdown.dataSource = data
         dropdown.selectionAction = onClick
-    }
+    }*/
     
     static func setButtonStyle(to: UIButton) {
         to.titleLabel?.lineBreakMode = .byWordWrapping
         to.titleLabel?.numberOfLines = 0
     }
     
-    static func hideStackView(_ stack: UIStackView) {
+    /*static func hideStackView(_ stack: UIStackView) {
         if !stack.isHidden {
             stack.isHidden = true
         }
@@ -490,7 +520,7 @@ class Utils {
         if stack.isHidden {
             stack.isHidden = false
         }
-    }
+    }*/
     
     static func showDropdown(_ boton: UIButton, _ data: [String], _ onClick: @escaping (_ index: Int, _ item: String)-> Void ) {
         dropdown.anchorView = boton
@@ -521,17 +551,6 @@ class Utils {
         })
     }
     
-    /*static func bloquearPantalla(_ viewController: UIViewController) {
-        var view = viewController.view
-        if let viewN = viewController.navigationController {
-            view = viewN.view
-        }
-        progressHUD = MBProgressHUD.showAdded(to: view!, animated: true)
-        progressHUD?.bezelView.backgroundColor = UIColor.clear
-        progressHUD?.mode = .indeterminate
-        progressHUD?.label.text = nil
-    }*/
-    
     static func bloquearPantallaDescarga(_ viewController: UIViewController) {
         var view = viewController.view
         if let viewN = viewController.navigationController {
@@ -547,32 +566,16 @@ class Utils {
         progressHUD?.progress = fraction
     }
     
-    /*static func bloquearPantalla(_ viewController: UIViewController, _ shouldBlock: Bool) {
-        if shouldBlock {
-            bloquearPantalla(viewController)
-        }
-    }*/
-    
     static func desbloquearPantalla() {
-        print("ProgessFlag : \(self.progressFlag)")
+        print("ProgressFlag : \(self.progressFlag)-")
         progressFlag = progressFlag - 1
         if progressFlag == 0 {
             progressIndicator.stopAnimating()
             progressIndicator.isHidden = true
             UIApplication.shared.endIgnoringInteractionEvents()
         }
-        // self.progressIndicator.isHidden = true
-        // UIApplication.shared.endIgnoringInteractionEvents()
-        // self.menuVC.desbloquear()
-        //progressHUD?.hide(animated: true)
-        //UIApplication.shared.endIgnoringInteractionEvents()
     }
     
-    /*static func desbloquearPantalla(_ shouldBlock: Bool) {
-        if shouldBlock {
-            progressHUD?.hide(animated: true)
-        }
-    }*/
     static func str2date(_ date:String, _ inputFormat:String) -> Date? {
         let dateFormatterInput = DateFormatter()
         dateFormatterInput.dateFormat = inputFormat
@@ -581,7 +584,7 @@ class Utils {
     
     static func str2date(_ date:String) -> Date? {
         let dateFormatterInput = DateFormatter()
-        dateFormatterInput.dateFormat = "yyyy-MM-dd"
+        dateFormatterInput.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
         if let temp = dateFormatterInput.date(from: date) {
             return temp
         }
@@ -589,7 +592,7 @@ class Utils {
         if let temp = dateFormatterInput.date(from: date) {
             return temp
         }
-        dateFormatterInput.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+        dateFormatterInput.dateFormat = "yyyy-MM-dd"
         if let temp = dateFormatterInput.date(from: date) {
             return temp
         }
@@ -672,5 +675,112 @@ class Utils {
         underView.rightAnchor.anchorWithOffset(to: segmentedControl.rightAnchor).constraint(equalToConstant: 0).isActive = true
         underView.heightAnchor.constraint(equalToConstant: 5).isActive = true
         return segmentedControl
+    }
+    
+    static func procesarMensajeError(_ error: String) -> (titulo: String, mensaje: String) {
+        switch error {
+        case "400":
+            return ("Error de sintaxis", "Se envió un mensaje erróneo al servidor")
+        case "401":
+            return ("Error de autorización", "Revise que su sesión aún se encuentre activa")
+        case "403":
+            return ("Error de acceso", "Se prohibió el acceso al recurso solicitado")
+        case "404":
+            return ("Error de acceso", "No se encontró el recurso solicitado")
+        case "405":
+            return ("Error de acceso", "Se debe solicitar el recurso de otra forma")
+        case "500":
+            return ("Error interno", "El servidor falló al procesar su solicitud")
+        case "Error":
+            return ("Error desconocido", "Algo interfirió con su solicitud")
+        default:
+            return ("Error", error)
+        }
+    }
+    
+    static func fechaconHora(_ date: String) -> String {
+        if date == "" {
+            return ""
+        }
+        let temp = str2date(date)
+        return date2hora(temp)
+    }
+    
+    static func date2hora(_ date: Date?) -> String {
+        if let newdate = date {
+            let dateFormatterOutput = DateFormatter()
+            dateFormatterOutput.locale = Locale(identifier: "es-ES")
+            dateFormatterOutput.dateFormat = "EEEE, d MMM yyyy, h:mm a"
+            return dateFormatterOutput.string(from: newdate)
+            
+        }
+        return ""
+    }
+    
+    
+    static func dataCombox(_ date: Date?) -> String {
+        if let newdate = date {
+            let dateFormatterOutput = DateFormatter()
+            dateFormatterOutput.locale = Locale(identifier: "es-ES")
+            dateFormatterOutput.dateFormat = "EEE d MMM"
+            return dateFormatterOutput.string(from: newdate)
+            
+        }
+        return ""
+    }
+    
+    static func Duracion_curso(_ input: String) -> String {
+        print("\(input)")
+        if let numero: Int = Int(input) {
+            let minutos = numero.magnitude
+            if minutos == 1 {
+                return "1 minuto"
+            }
+            if minutos < 60 {
+                return "\(minutos) minutos"
+            }
+            
+            let horas = minutos / (60)
+            if horas == 1 {
+                return "1 hora"
+            }
+            if horas < 24 {
+                return "\(horas) horas"
+            }
+            
+            let dias = minutos / (60*24)
+            if dias == 1 {
+                return "1 día"
+            }
+            if dias < 7 {
+                return "\(dias) días"
+            }
+            
+            let semanas = minutos / (60*24*7)
+            if semanas == 1 {
+                return "1 semana"
+            }
+            return "\(semanas) semanas"
+        }
+        return ""
+    }
+    
+    static func dateShort(_ date: Date?) -> String {
+        if let newdate = date {
+            let dateFormatterOutput = DateFormatter()
+            dateFormatterOutput.locale = Locale(identifier: "es-ES")
+            dateFormatterOutput.dateFormat = "EEE d MMM"
+            return dateFormatterOutput.string(from: newdate)
+        }
+        return ""
+    }
+    
+    static func getYearArray() -> [String] {
+        var anhoActual: Int = Int(Utils.date2str(Date(), "YYYY")) ?? 2018
+        var array: [String] = []
+        for i in (2014..<anhoActual + 1).reversed() {
+            array.append("\(i)")
+        }
+        return array
     }
 }

@@ -5,6 +5,7 @@ class Tabs {
     
     //static var menuVC
     
+    
     static var forObsDetalle: [UIViewController] = []
     static var flagsObsDetalle: [Bool] = []
     static var indexObsDetalle: Int = 0

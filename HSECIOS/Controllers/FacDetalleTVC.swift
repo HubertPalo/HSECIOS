@@ -1,15 +1,17 @@
 import UIKit
+import AVKit
 
 class FacDetalleTVC: UITableViewController {
     
-    var facilito = FacilitoElement()
-    
-    var detalles = FacilitoDetalle()
-    var multimedia: [FotoVideo] = []
-    var historialAtencion = ArrayGeneral<HistorialAtencionElement>()
+    var detalles = FacilitoGD()
+    var historialAtencion = [HistorialAtencionElement]()
     
     let sec0TextoIzq = ["Código Obs", "Observado Por", "Tipo Observación", "Estado", "Gerencia", "Superintendencia", "Ubicación Exacta", "Observación", "Acción a tomar", "Fecha Creación"]
     var sec0TextoDer = ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-"]
+    
+    var HAModo = ""
+    var HACodigo = ""
+    var HAUnit = HistorialAtencionElement()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,16 +19,18 @@ class FacDetalleTVC: UITableViewController {
     }
     
     func cleanData() {
-        self.detalles = FacilitoDetalle()
-        self.multimedia = []
-        self.historialAtencion.Count = 0
-        self.historialAtencion.Data = []
+        self.detalles = FacilitoGD()
+        Globals.GaleriaMultimedia = []
+        Globals.GaleriaModo = "GET"
+        self.historialAtencion = []
         self.tableView.reloadData()
     }
     
-    func loadFacilito(_ facilito: FacilitoElement) {
-        self.facilito = facilito
-        Rest.getDataGeneral(Routes.forFacilitoDetalle(facilito.CodObsFacilito ?? ""), false, success: {(resultValue:Any?,data:Data?) in
+    func loadFacilito(_ codigo: String) {
+        Globals.GaleriaModo = "GET"
+        self.HACodigo = codigo
+        // self.facilito = facilito
+        Rest.getDataGeneral(Routes.forFacilitoDetalle(codigo/*facilito.CodObsFacilito ?? ""*/), true, success: {(resultValue:Any?,data:Data?) in
             self.detalles = Dict.dataToUnit(data!)!
             self.sec0TextoDer[0] = self.detalles.CodObsFacilito ?? ""
             self.sec0TextoDer[1] = self.detalles.Persona ?? ""
@@ -38,7 +42,8 @@ class FacDetalleTVC: UITableViewController {
             self.sec0TextoDer[7] = self.detalles.Observacion ?? ""
             self.sec0TextoDer[8] = self.detalles.Accion ?? ""
             self.sec0TextoDer[9] = Utils.str2date2str(self.detalles.FecCreacion ?? "")
-            self.tableView.reloadSections([0], with: .automatic)
+            self.tableView.reloadData()
+            // self.tableView.reloadSections([0], with: .none)
         }, error: nil)
         /*Rest.getData(Routes.forFacilitoDetalle(facilito.CodObsFacilito ?? ""), false, vcontroller: self, success: {(dict:NSDictionary) in
             self.detalles = Dict.toFacilitoDetalle(dict)
@@ -54,19 +59,27 @@ class FacDetalleTVC: UITableViewController {
             self.sec0TextoDer[9] = Utils.str2date2str(self.detalles.FecCreacion)
             self.tableView.reloadSections([0], with: .automatic)
         })*/
-        Rest.getDataGeneral(Routes.forMultimedia("\(facilito.CodObsFacilito)-1"), false, success: {(resultValue:Any?,data:Data?) in
-            let arrayFotovideo: ArrayGeneral<FotoVideo> = Dict.dataToArray(data!)
-            self.multimedia = arrayFotovideo.Data
-            // self.multimedia = Dict.toArrayMultimedia(dict)
-            self.tableView.reloadSections([1], with: .automatic)
+        Rest.getDataGeneral(Routes.forMultimedia("\(/*facilito.CodObsFacilito!*/codigo)-1"), true, success: {(resultValue:Any?,data:Data?) in
+            let arrayMultimedia: ArrayGeneral<Multimedia> = Dict.dataToArray(data!)
+            Globals.GaleriaMultimedia = Utils.separateMultimedia(arrayMultimedia.Data).fotovideos
+            for media in Globals.GaleriaMultimedia {
+                Images.downloadImage("\(media.Correlativo!)", {() in
+                    media.imagen = Images.imagenes["P-\(media.Correlativo!)"]
+                    // self.tableView.reloadSections([1], with: .automatic)
+                    self.tableView.reloadData()
+                })
+            }
         }, error: nil)
         /*Rest.getData(Routes.forMultimedia("\(facilito.CodObsFacilito)-1"), false, vcontroller: self, success: {(dict:NSDictionary) in
             self.multimedia = Dict.toArrayMultimedia(dict)
             self.tableView.reloadSections([1], with: .automatic)
         })*/
-        Rest.getDataGeneral(Routes.forFacilitoHistorialAtencion(facilito.CodObsFacilito ?? ""), false, success: {(resultValue:Any?,data:Data?) in
-            self.historialAtencion = Dict.dataToUnit(data!)!
-            self.tableView.reloadSections([2], with: .automatic)
+        Rest.getDataGeneral(Routes.forFacilitoHistorialAtencion(/*facilito.CodObsFacilito ?? ""*/codigo), true, success: {(resultValue:Any?,data:Data?) in
+            var arrayHistorialAtencion: ArrayGeneral<HistorialAtencionElement> = Dict.dataToArray(data!)
+            self.historialAtencion = arrayHistorialAtencion.Data// Dict.dataToUnit(data!)!
+            print(resultValue)
+            self.tableView.reloadData()
+            // self.tableView.reloadSections([2], with: .automatic)
         }, error: nil)
     }
     
@@ -74,17 +87,9 @@ class FacDetalleTVC: UITableViewController {
         return 3
     }
     
-    @IBAction func clickAbrirMenuAtencion(_ sender: Any) {
-        Utils.openSheetMenu(self, "HISTORIAL DE ATENCIÓN", nil, ["Editar Atención de Observación", "Eliminar Atención de Observación", "Cancelar"], [.default, .destructive, .cancel], [{(alertAction) in
-            
-            }, {(alertAction) in
-                Alerts.presentAlert("esta seguro?", "Esta acción no se podrá deshacer", duration: 2, imagen: nil, viewController: self)
-            }, nil])
-    }
-    
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 {
+        if section == 0 || (section == 1 && Globals.GaleriaMultimedia.count == 0){
             return CGFloat.leastNonzeroMagnitude
         }
         return 50
@@ -102,7 +107,7 @@ class FacDetalleTVC: UITableViewController {
         case 2:
             let header = tableView.dequeueReusableCell(withIdentifier: "celda1") as! FacDetalleTVCell1
             header.titulo.text = "Historial de Atención"
-            header.view.isHidden = self.facilito.Editable == "1"
+            // header.view.isHidden = self.facilito.Editable == "1"
             return header.contentView
         default:
             return nil
@@ -114,9 +119,9 @@ class FacDetalleTVC: UITableViewController {
         case 0:
             return self.sec0TextoIzq.count
         case 1:
-            return self.multimedia.count/2 + self.multimedia.count%2
+            return Globals.GaleriaMultimedia.count/2 + Globals.GaleriaMultimedia.count%2
         case 2:
-            return self.historialAtencion.Data.count
+            return self.historialAtencion.count
         default:
             return 0
         }
@@ -130,23 +135,34 @@ class FacDetalleTVC: UITableViewController {
             celda.textoDer.text = self.sec0TextoDer[indexPath.row]
             return celda
         case 1:
-            var celda = tableView.dequeueReusableCell(withIdentifier: "celda3") as! CeldaGaleria
-            let dataIzq = self.multimedia[indexPath.row * 2]
-            let dataDer: FotoVideo? = indexPath.row * 2 + 1 == self.multimedia.count ? nil : self.multimedia[indexPath.row * 2 + 1]
-            Utils.initCeldaGaleria(&celda, dataIzq, dataDer, false, tableView, indexPath)
+            let celda = tableView.dequeueReusableCell(withIdentifier: "celda3") as! CeldaGaleria
+            let unit1 = Globals.GaleriaMultimedia[indexPath.row * 2]
+            let unit2: FotoVideo? = (indexPath.row * 2 + 1 == Globals.GaleriaMultimedia.count) ? nil : Globals.GaleriaMultimedia[indexPath.row * 2 + 1]
+            celda.imagen1.image = unit1.imagen
+            celda.imagen2.image = unit2 == nil ? nil : unit2!.imagen
+            celda.play1.isHidden = unit1.TipoArchivo != "TP02"
+            celda.play2.isHidden = unit2 == nil || unit2!.TipoArchivo != "TP02"
+            celda.botonX1.tag = indexPath.row * 2
+            celda.botonX2.tag = (indexPath.row * 2) + 1
+            celda.boton1.tag = indexPath.row * 2
+            celda.boton2.tag = (indexPath.row * 2) + 1
+            celda.viewX1.isHidden = Globals.GaleriaModo == "GET"
+            celda.viewX2.isHidden = unit2 == nil || Globals.GaleriaModo == "GET"
+            celda.imagen2.isHidden = unit2 == nil
+            celda.boton2.isEnabled = unit2 != nil
             return celda
         case 2:
             let celda = tableView.dequeueReusableCell(withIdentifier: "celda4") as! FacDetalleTVCell4
-            let unit = self.historialAtencion.Data[indexPath.row]
+            let unit = self.historialAtencion[indexPath.row]
+            celda.botonEditar.tag = indexPath.row
+            celda.viewEditar.isHidden = unit.CodObsFacilito != "1"
             celda.persona.text = unit.Persona
             celda.fecha.text = Utils.str2date2str(unit.Fecha ?? "")
             celda.estado.text = Utils.searchMaestroStatic("ESTADOFACILITO", unit.Estado ?? "")
             celda.comentario.text = unit.Comentario
-            // Images.loadAvatarFromDNI(unit.UrlObs ?? "", celda.avatar, true, tableView, indexPath)
             if (unit.UrlObs ?? "") != "" {
                 celda.avatar.image = Images.getImageFor("A-\(unit.UrlObs ?? "")")
             }
-            
             return celda
         default:
             return UITableViewCell()
@@ -156,17 +172,106 @@ class FacDetalleTVC: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 2:
-            print("-------------")
-            print(self.historialAtencion.Data[indexPath.row])
-            print(self.facilito)
-            self.historialAtencion.Data[indexPath.row].printDescription()
-            self.facilito.printDescription()
-            print("-------------")
-            VCHelper.openFacilitoDetalleAtencion(self, self.historialAtencion.Data[indexPath.row], self.facilito, false)
+            self.HAModo = "GET"
+            self.HACodigo = self.detalles.CodObsFacilito ?? ""
+            self.HAUnit = self.historialAtencion[indexPath.row]
+            self.performSegue(withIdentifier: "toRegistroAtencion", sender: self)
         default:
             break
         }
     }
+    
+    @IBAction func clickAbrirMenuAtencion(_ sender: Any) {
+        let indice = (sender as! UIButton).tag
+        self.presentAlert("HISTORIAL DE ATENCIÓN", nil, .actionSheet, nil, nil, ["Editar Atención de Observación", "Eliminar Atención de Observación", "Cancelar"], [.default, .destructive, .cancel], actionHandlers: [{(alertEditar) in
+            self.HAModo = "PUT"
+            // self.HACodigo = self.detalles.CodObsFacilito ?? ""
+            self.HAUnit = self.historialAtencion[indice].copy()
+            self.HAUnit.CodObsFacilito = self.HACodigo
+            self.HAUnit.Persona = nil
+            self.HAUnit.UrlObs = nil
+            self.HAUnit.Fecha = nil
+            self.performSegue(withIdentifier: "toRegistroAtencion", sender: self)
+            }, {(alertEliminar) in
+                self.presentAlert("¿Desea eliminar el Registro de Atención?", self.historialAtencion[indice].Comentario, .alert, nil, nil, ["Aceptar", "Cancelar"], [.default, .destructive], actionHandlers: [{(alertAceptar) in
+                    Rest.getDataGeneral("\(Config.urlBase)/ObsFacilito/DeleteHistorial/\(self.historialAtencion[indice].Correlativo!)", true, success: {(resultValue:Any?,data:Data?) in
+                        let respuesta = resultValue as! String
+                        if respuesta == "-1" {
+                            self.presentAlert("Ocurrió un error al intentar eliminar el Registro de Atención", nil, .alert, 2, nil, [], [], actionHandlers: [])
+                        } else {
+                            self.presentAlert("Registro de Atención eliminado exitosamente", nil, .alert, 2, nil, [], [], actionHandlers: [])
+                        }
+                        
+                    }, error: {(error) in
+                        
+                    })
+                    }, nil])
+            }, nil])
+        /*Utils.openSheetMenu(self, "HISTORIAL DE ATENCIÓN", nil, ["Editar Atención de Observación", "Eliminar Atención de Observación", "Cancelar"], [.default, .destructive, .cancel], [{(alertAction) in
+            self.HAModo = "PUT"
+            self.HACodigo = self.detalles.CodObsFacilito ?? ""
+            self.HAUnit = self.historialAtencion[indice]
+            self.performSegue(withIdentifier: "toHistorialAtencion", sender: self)
+            }, {(alertAction) in
+                Alerts.presentAlert("esta seguro?", "Esta acción no se podrá deshacer", duration: 2, imagen: nil, viewController: self)
+            }, nil])*/
+    }
+    
+    @IBAction func clickAgregarAtencion(_ sender: Any) {
+        self.HAModo = "ADD"
+        self.HAUnit = HistorialAtencionElement()
+        self.HAUnit.CodObsFacilito = self.HACodigo
+        self.HAUnit.Correlativo = -1 // antes era -1
+        self.performSegue(withIdentifier: "toRegistroAtencion", sender: self)
+    }
+    
+    @IBAction func clickImagen(_ sender: Any) {
+        if !Utils.InteraccionHabilitada {
+            return
+        }
+        let indice = (sender as! UIButton).tag
+        let unit = Globals.GaleriaMultimedia[indice]
+        switch unit.TipoArchivo ?? "" {
+        case "TP01":
+            var imagenes = [FotoVideo]()
+            var indiceGaleria = 0
+            var contador = 0
+            for media in Globals.GaleriaMultimedia {
+                if media.TipoArchivo == "TP01" {
+                    let newMedia = media.copy()
+                    imagenes.append(newMedia)
+                    if media.Descripcion == unit.Descripcion {
+                        indiceGaleria = contador
+                    }
+                    contador = contador + 1
+                }
+            }
+            self.showGaleria(imagenes, indiceGaleria)
+            break
+        case "TP02":
+            unit.asset!.fetchAVAssetWithCompleteBlock({(video, info) in
+                let playerAV = AVPlayer.init(playerItem: AVPlayerItem.init(asset: video!))
+                let playerViewController = AVPlayerViewController()
+                playerViewController.player = playerAV
+                self.present(playerViewController, animated: true) {
+                    playerViewController.player!.play()
+                }
+            })
+            break
+        default:
+            self.presentAlert("Error", "Tipo de archivo desconocido", .alert, 2, nil, [], [], actionHandlers: [])
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is FacDetalleAtencionVC {
+            let destino = segue.destination as! FacDetalleAtencionVC
+            destino.modo = self.HAModo
+            destino.codigo = self.HACodigo
+            destino.atencion = self.HAUnit
+        }
+    }
+    
 }
 
 class FacDetalleTVCell1: UITableViewCell {
@@ -195,4 +300,7 @@ class FacDetalleTVCell4: UITableViewCell {
     
     @IBOutlet weak var avatar: UIImageView!
     
+    @IBOutlet weak var botonEditar: UIButton!
+    
+    @IBOutlet weak var viewEditar: UIView!
 }

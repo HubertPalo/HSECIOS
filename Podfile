@@ -10,4 +10,6 @@ pod 'DropDown', '~> 2.0'
 pod 'ImagePicker', '~> 3.0'
 pod 'Gallery'
 pod 'DKImagePickerController'
+pod 'Firebase/Core'
+pod 'Firebase/Messaging'
 end

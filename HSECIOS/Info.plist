@@ -2,6 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>LSApplicationCategoryType</key>
+	<string>&lt;key&gt;NSCameraUsageDescription&lt;/key&gt;
+&lt;key&gt;NSCameraUsageDescription&lt;/key&gt;</string>
+	<key>Privacy - NFC Scan Usage Description
+&lt;string&gt;Mensaje&lt;/string&gt;
+&lt;/plist&gt;
+Privacy - NFC Scan Usage Description
+&lt;/plist&gt;
+</key>
+	<string>Mensaje</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>

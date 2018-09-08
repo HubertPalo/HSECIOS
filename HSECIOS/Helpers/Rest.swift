@@ -5,6 +5,8 @@ class Rest {
     
     static var requestFlags = Set<Int>()
     
+    static var requests: [Int:Alamofire.Request] = [:]
+    
     static func generateId() -> Int {
         var newId = arc4random_uniform(2000)
         while requestFlags.contains(Int(newId)) {
@@ -26,6 +28,16 @@ class Rest {
                         Utils.desbloquearPantalla()
                     }
                     success(response.result.value, response.data)
+                case 401:
+                    if shouldBlock {
+                        Utils.desbloquearPantalla()
+                    }
+                    Rest.postDataGeneral(Routes.forLogin(), ["username":Utils.loginUsr, "password":Utils.loginPwd, "domain":"anyaccess", "token": Utils.FCMToken], shouldBlock, success: {(resultValueToken:Any?,dataToken:Data?) in
+                        Utils.token = resultValueToken as! String
+                        Rest.getDataGeneral(route, shouldBlock, success: success, error: error)
+                    }, error: {(errorToken) in
+                        error?(errorToken)
+                    })
                 default:
                     if shouldBlock {
                         Utils.desbloquearPantalla()
@@ -55,6 +67,16 @@ class Rest {
                         Utils.desbloquearPantalla()
                     }
                     success(response.result.value, response.data)
+                case 401:
+                    if shouldBlock {
+                        Utils.desbloquearPantalla()
+                    }
+                    Rest.postDataGeneral(Routes.forLogin(), ["username":Utils.loginUsr, "password":Utils.loginPwd, "domain":"anyaccess", "token": Utils.FCMToken], shouldBlock, success: {(resultValueToken:Any?,dataToken:Data?) in
+                        Utils.token = resultValueToken as! String
+                        Rest.postDataGeneral(route, parameters, shouldBlock, success: success, error: error)
+                    }, error: {(errorToken) in
+                        error?(errorToken)
+                    })
                 default:
                     if shouldBlock {
                         Utils.desbloquearPantalla()
@@ -155,6 +177,53 @@ class Rest {
         })*/
     }*/
     
+    static func downloadFileTo(_ filename: String, _ route: String, _ shouldBlock: Bool, _ id: Int, _ progresoHandler: ((_ :Double) -> Void)?, _ success: ((_ :DownloadResponse<Data>) -> Void)?, _ error: ((_ : String) -> Void)?) {
+        let destination: DownloadRequest.DownloadFileDestination = { _, _ in
+            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let fileURL = documentsURL.appendingPathComponent(filename)
+            return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+        }
+        self.requests[id] = Alamofire.download(route, to: destination).downloadProgress(closure: {(progress) in
+            progresoHandler?(progress.fractionCompleted)
+        }).validate().responseData(completionHandler: {(response) in
+            if let status = response.response?.statusCode {
+                switch status {
+                case 200:
+                    if shouldBlock {
+                        Utils.desbloquearPantalla()
+                    }
+                    // response.destinationURL!.path
+                    success?(response)
+                    // success(response.result.value, response.data)
+                default:
+                    if shouldBlock {
+                        Utils.desbloquearPantalla()
+                    }
+                    error?("\(status)")
+                }
+            } else {
+                if shouldBlock {
+                    Utils.desbloquearPantalla()
+                }
+                error?("Error")
+            }
+            
+        })
+        
+        /*Alamofire.download(route, to: destination)
+            .downloadProgress { progress in
+                progresoHandler?(progress.fractionCompleted)
+                
+            }.validate().responseData { ( response ) in
+                print(response)
+                self.docController = UIDocumentInteractionController(url: NSURL.fileURL(withPath: response.destinationURL!.path))
+                
+                self.docController?.delegate = self
+                self.docController?.presentOptionsMenu(from: self.botonDescarga, animated: true)
+                cargaProgreso.hide(animated: true)
+        }*/
+    }
+    
     static func postMultipartFormData(_ route: String, params: [[String]], _ multipartData: [Data], _ name: [String], _ filename: [String], _ mimeType: [String], _ shouldBlock: Bool, _ id: Int, success: @escaping (_ resultValue: Any?, _ data: Data?)-> Void, progress: ((_ progress: Double) -> Void)?, error: ((_ error: String) -> Void)?) {
         print(route)
         print(params)
@@ -186,6 +255,7 @@ class Rest {
             switch encodingResult {
             case .success(request: let uploadRequest, streamingFromDisk: _, streamFileURL: _) :
                 uploadRequest.uploadProgress(closure: {(progreso) in
+                    print(self.requestFlags)
                     if !self.requestFlags.contains(id) {
                         uploadRequest.cancel()
                     }
@@ -208,6 +278,8 @@ class Rest {
                             error?("\(status)")
                         }
                     } else {
+                        print(response.result)
+                        print(response.response?.statusCode)
                         if shouldBlock {
                             Utils.desbloquearPantalla()
                         }
