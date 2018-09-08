@@ -613,14 +613,7 @@
 				C874A3E020CB13DA0030ACA6 /* PlanAccionMejoraVC.swift */,
 				C8755A4520B6092A00575EF8 /* FacDetalleTVC.swift */,
 				C8C7F08B21135F4F0002D2E4 /* FacDetalleAtencionVC.swift */,
-				C8B376FC2144237F0054EEE8 /* CapacitacionVC.swift */,
-				C8B376FE214423BF0054EEE8 /* CapCursoDetalle.swift */,
-				C8B37700214423E10054EEE8 /* NotasVC.swift */,
-				C8B377022144241E0054EEE8 /* AsistenciaVC.swift */,
-				C8B377042144244A0054EEE8 /* NotaEditPopupVC.swift */,
-				C8B37706214424710054EEE8 /* PopUpAsistenteVC.swift */,
-				C8B377082144249C0054EEE8 /* ScannerVC.swift */,
-				C8B3770A214424BB0054EEE8 /* NFCVC.swift */,
+				C8B377122144405E0054EEE8 /* Menu - Control Capacitaciones */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -701,6 +694,21 @@
 				C8755A4920BC927A00575EF8 /* GaleriaFVCVC.swift */,
 			);
 			path = Galeria;
+			sourceTree = "<group>";
+		};
+		C8B377122144405E0054EEE8 /* Menu - Control Capacitaciones */ = {
+			isa = PBXGroup;
+			children = (
+				C8B376FC2144237F0054EEE8 /* CapacitacionVC.swift */,
+				C8B376FE214423BF0054EEE8 /* CapCursoDetalle.swift */,
+				C8B37700214423E10054EEE8 /* NotasVC.swift */,
+				C8B377022144241E0054EEE8 /* AsistenciaVC.swift */,
+				C8B377042144244A0054EEE8 /* NotaEditPopupVC.swift */,
+				C8B37706214424710054EEE8 /* PopUpAsistenteVC.swift */,
+				C8B377082144249C0054EEE8 /* ScannerVC.swift */,
+				C8B3770A214424BB0054EEE8 /* NFCVC.swift */,
+			);
+			path = "Menu - Control Capacitaciones";
 			sourceTree = "<group>";
 		};
 		C8BC72ED209CF3D600D16285 /* UpsertObservacion */ = {
