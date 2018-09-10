@@ -6,6 +6,8 @@ class ComentariosVC: UIViewController, UITableViewDataSource, UITableViewDelegat
     var codigo = ""
     // var shouldReloadTabla = false
     
+    var forzarActualizacionDeComentarios: (() -> Void)?
+    
     @IBOutlet weak var tabla: UITableView!
     @IBOutlet weak var campoComentario: UITextField!
     
@@ -83,7 +85,7 @@ class ComentariosVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         let celda = tableView.dequeueReusableCell(withIdentifier: "celda") as! CeldaComentario
         let unit = comentarios[indexPath.row]
         celda.autor.text = unit.Nombres
-        celda.fecha.text = Utils.str2date2str(unit.Fecha)
+        celda.fecha.text = Utils.str2date2str(unit.Fecha ?? "")
         celda.comentario.text = unit.Comentario
         celda.limiteView.isHidden = indexPath.row == self.comentarios.count - 1
         celda.avatar.layer.cornerRadius = celda.avatar.frame.height/2
@@ -100,6 +102,7 @@ class ComentariosVC: UIViewController, UITableViewDataSource, UITableViewDelegat
                           
         Rest.postDataGeneral(Routes.forPostComentario(), parametros, true, success: {(resultValue:Any?,data:Data?) in
             self.presentAlert("Comentario enviado", nil, .alert, 2, nil, [], [], actionHandlers: [])
+            self.forzarActualizacionDeComentarios?()
             // Alerts.presentAlert("Comentario Enviado", "Enviado", imagen: nil, viewController: self)
         }, error: {(error) in
             self.presentAlert("Error", error, .alert, 2, nil, [], [], actionHandlers: [])

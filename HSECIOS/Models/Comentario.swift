@@ -1,7 +1,7 @@
 class Comentario: Codable {
-    var CodComentario = ""
-    var Nombres = ""
-    var Comentario = ""
-    var Fecha = ""
-    var Estado = ""
+    var CodComentario: String?
+    var Nombres: String?
+    var Comentario: String?
+    var Fecha: String?
+    var Estado: String?
 }

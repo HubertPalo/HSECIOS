@@ -26,6 +26,9 @@ class ObsDetallePVCTab5: UIViewController {
     func loadObservacion(_ codigo: String) {
         self.comentarios.loadComentarios(codigo)
         self.comentarios.codigo = codigo
+        self.comentarios.forzarActualizacionDeComentarios = {
+            self.comentarios.loadComentarios(codigo)
+        }
     }
     
     
