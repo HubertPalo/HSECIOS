@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '184A1650DC0B648BD756068E60BF2C59'
-               BlueprintName = 'DatePickerDialog'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'DatePickerDialog.framework'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "184A1650DC0B648BD756068E60BF2C59"
+               BlueprintName = "DatePickerDialog"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "DatePickerDialog.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
