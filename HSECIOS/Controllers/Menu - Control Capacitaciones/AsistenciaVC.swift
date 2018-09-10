@@ -7,6 +7,7 @@ class AsistenciaVC: UIViewController, UITabBarDelegate, UITableViewDelegate, UIT
     //var nfcSession: NFCNDEFReaderSession?
     var codCurso = ""
     var indiceF = ""
+    //comentario
     //var fechaPart = ""
     var dataFechaCod = [String]()
     var dataFechaDes = [String]()
