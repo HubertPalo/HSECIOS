@@ -49,7 +49,7 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // comment
         Utils.actualView = self
         self.progressIndicator.transform = self.progressIndicator.transform.scaledBy(x: 2.0, y: 2.0)
         self.progressIndicator.isHidden = true
