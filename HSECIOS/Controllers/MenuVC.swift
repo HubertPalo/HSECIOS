@@ -171,6 +171,7 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 configuracionContainer.isHidden = true
                 break
             case 1:
+                Globals.UOloadModo("ADD", "")
                 upsertFacilitoContainer.isHidden = true
                 agregarObservacionContainer.isHidden = false
                 agregarInspeccionContainer.isHidden = true
@@ -183,6 +184,11 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 configuracionContainer.isHidden = true
                 break
             case 2:
+                Globals.UILoadModo("ADD", "")
+                let nc = (self.childViewControllers[4] as! UINavigationController)
+                nc.popToRootViewController(animated: true)
+                (nc.childViewControllers[0] as! UpsertInsVC).cleanData()
+                
                 upsertFacilitoContainer.isHidden = true
                 agregarObservacionContainer.isHidden = true
                 agregarInspeccionContainer.isHidden = false
@@ -398,6 +404,7 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         contactenosContainer.isHidden = true
         let tabBC = self.childViewControllers[0] as! UITabBarController
         tabBC.selectedIndex = 1
+        (tabBC.viewControllers![1] as! UINavigationController).popToRootViewController(animated: true)
         ((tabBC.viewControllers![1] as! UINavigationController).viewControllers[0] as! FichaPersonalVC).loadDataFromDNI(codigo: dni)
     }
     

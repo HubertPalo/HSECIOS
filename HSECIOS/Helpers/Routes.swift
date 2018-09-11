@@ -118,7 +118,7 @@ class Routes {
         return "\(Config.urlBase)/Comentario/insert"
     }
     static func forBuscarPersona(_ apellidos: String, _ nombres: String, _ dni: String, _ gerencia: String, _ superintendencia: String, _ nroitems: Int) -> String{
-        return "\(Config.urlBase)/Usuario/FiltroPersona/\(apellidos)@\(nombres)@\(dni)@\(gerencia)@\(superintendencia)/1/\(nroitems)"
+        return "\(Config.urlBase)/Usuario/FiltroPersona?Filtros=\(apellidos)@\(nombres)@\(dni)@\(gerencia)@\(superintendencia)&Pagenumber=1&Elemperpage=\(nroitems)"
     }
     
     
@@ -185,7 +185,7 @@ class Routes {
     
     // Ficha Personal
     static func forInfGeneral(_ code: String) -> String{
-        return "\(Config.urlBase)/FichaPersonal/InformacionGeneral/\(code)"
+        return "\(Config.urlBase)/FichaPersonal/InformacionGeneral?id=\(code)"
     }
     static func forCapRecibidas(_ code: String) -> String{
         return "\(Config.urlBase)/FichaPersonal/CapacitacionesRecibidas/\(code)"

@@ -55,6 +55,7 @@ class PlanesAccionPendTVC: UITableViewController {
         celda.empresa.text = unit.Empresa
         celda.tipo.text = Utils.searchMaestroStatic("TABLAS", unit.CodTabla ?? "")
         celda.estado.text = Utils.searchMaestroStatic("ESTADOPLAN", unit.CodEstadoAccion ?? "")
+        celda.avatarBoton.tag = indexPath.row
         celda.contenido.text = unit.DesPlanAccion
         celda.limiteView.isHidden = indexPath.row == self.planes.count - 1
         celda.avatar.layer.cornerRadius = celda.avatar.frame.height/2
@@ -122,10 +123,16 @@ class PlanesAccionPendTVC: UITableViewController {
             }, nil])*/
     }
     
+    @IBAction func clickAvatar(_ sender: Any) {
+        let boton = sender as! UIButton
+        Utils.showFichaFor(self.planes[boton.tag].CodSolicitadoPor ?? "")
+    }
 }
 
 class PlanesAccionPendientesTVCell: UITableViewCell {
     @IBOutlet weak var avatar: UIImageView!
+    
+    @IBOutlet weak var avatarBoton: UIButton!
     @IBOutlet weak var autor: UILabel!
     @IBOutlet weak var fecha: UILabel!
     @IBOutlet weak var tipo: UILabel!

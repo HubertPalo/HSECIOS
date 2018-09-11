@@ -4,6 +4,7 @@ class NotasVC: UIViewController, UITabBarDelegate, UITableViewDelegate, UITableV
     var cursoNotas: [Persona] = []
     
     var codCurso = ""
+    var elempp = 14
     @IBOutlet weak var tabNotas: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +22,7 @@ class NotasVC: UIViewController, UITabBarDelegate, UITableViewDelegate, UITableV
     func loadDatanoticia(_ codigo: String,_ verpopup: String)
     {
         
-        Rest.getDataGeneral(Routes.forCapCursoNotas(codigo, 1, 14), true, success: {(resultValue:Any?,data:Data?) in
+        Rest.getDataGeneral(Routes.forCapCursoNotas(codigo, 1, elempp), true, success: {(resultValue:Any?,data:Data?) in
             let Notas: ArrayGeneral<Persona> = Dict.dataToArray(data!)
             
             if Notas.Data.count > 0 {
@@ -69,10 +70,10 @@ class NotasVC: UIViewController, UITabBarDelegate, UITableViewDelegate, UITableV
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let currentOffset = scrollView.contentOffset.y
-        if currentOffset <= -14 {
+        if currentOffset <= -10 {
             //self.alScrollLimiteTop?()
-            let cantidad = self.cursoNotas.count > 14 ? self.cursoNotas.count : 14
-            Rest.getDataGeneral(Routes.forCapCursoNotas(self.codCurso, 1, 14), true, success: {(resultValue:Any?,data:Data?) in
+            let cantidad = self.cursoNotas.count > elempp ? self.cursoNotas.count : elempp
+            Rest.getDataGeneral(Routes.forCapCursoNotas(self.codCurso, 1, cantidad), true, success: {(resultValue:Any?,data:Data?) in
                 
                 let Notas: ArrayGeneral<Persona> = Dict.dataToArray(data!)
                 //self.TablaCap.isHidden = cursos.Data.count <= 0
@@ -83,13 +84,13 @@ class NotasVC: UIViewController, UITabBarDelegate, UITableViewDelegate, UITableV
             }, error: nil)
         } else {
             let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
-            if maximumOffset - currentOffset <= -14 {
+            if maximumOffset - currentOffset <= -10 {
                 //self.alScrollLimiteBot?()
-                var pagina = self.cursoNotas.count / 14
-                if self.cursoNotas.count % 14 == 0 {
+                var pagina = self.cursoNotas.count / elempp
+                if self.cursoNotas.count % elempp == 0 {
                     pagina = pagina + 1
                 }
-                Rest.getDataGeneral(Routes.forCapCursoNotas(self.codCurso, pagina, 14), true, success: {(resultValue:Any?,data:Data?) in
+                Rest.getDataGeneral(Routes.forCapCursoNotas(self.codCurso, pagina, elempp), true, success: {(resultValue:Any?,data:Data?) in
                     // let planes = Dict.toArrayPlanAccionPendiente(dict)
                     let Notas: ArrayGeneral<Persona> = Dict.dataToArray(data!)
                     

@@ -20,7 +20,7 @@ class CameraView: UIView {
 
 class ScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     var qrCodeFrameView:UIView?
-    
+    var linternaOn = false
     var cameraView: CameraView!
     let session = AVCaptureSession()
     let sessionQueue = DispatchQueue(label: AVCaptureSession.self.description(), attributes: [], target: nil)
@@ -144,6 +144,10 @@ class ScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     func startCam(){
         sessionQueue.async {
             self.session.startRunning()
+            if((self.parent as! AsistenciaVC).StatusLinterna()){
+                (self.parent as! AsistenciaVC).toggleTorch(on: true)
+            }
+            
         }
     }
     
@@ -202,6 +206,7 @@ class ScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
             
         }
     }
+    
     
 }
 

@@ -107,7 +107,7 @@ class FacDetalleTVC: UITableViewController {
         case 2:
             let header = tableView.dequeueReusableCell(withIdentifier: "celda1") as! FacDetalleTVCell1
             header.titulo.text = "Historial de Atención"
-            // header.view.isHidden = self.facilito.Editable == "1"
+            header.view.isHidden = !Globals.agregarHistorialFacilito//self.facilito.Editable == "1"
             return header.contentView
         default:
             return nil
@@ -249,14 +249,19 @@ class FacDetalleTVC: UITableViewController {
             self.showGaleria(imagenes, indiceGaleria)
             break
         case "TP02":
-            unit.asset!.fetchAVAssetWithCompleteBlock({(video, info) in
-                let playerAV = AVPlayer.init(playerItem: AVPlayerItem.init(asset: video!))
-                let playerViewController = AVPlayerViewController()
-                playerViewController.player = playerAV
-                self.present(playerViewController, animated: true) {
-                    playerViewController.player!.play()
-                }
-            })
+            /*if unit.asset == nil {
+                
+            } else {
+                unit.asset!.fetchAVAssetWithCompleteBlock({(video, info) in
+                    let playerAV = AVPlayer.init(playerItem: AVPlayerItem.init(asset: video!))
+                    let playerViewController = AVPlayerViewController()
+                    playerViewController.player = playerAV
+                    self.present(playerViewController, animated: true) {
+                        playerViewController.player!.play()
+                    }
+                })
+            }*/
+            self.showVideo(unit)
             break
         default:
             self.presentAlert("Error", "Tipo de archivo desconocido", .alert, 2, nil, [], [], actionHandlers: [])

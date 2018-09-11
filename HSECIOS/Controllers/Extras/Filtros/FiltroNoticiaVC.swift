@@ -70,6 +70,7 @@ class FiltroNoticiaVC: UIViewController, UITextFieldDelegate {
     
     
     @IBAction func clickOk(_ sender: Any) {
+        self.view.endEditing(true)
         self.alClickOK?(self.data)
         self.navigationController?.popViewController(animated: true)
         self.dismiss(animated: true, completion: nil)

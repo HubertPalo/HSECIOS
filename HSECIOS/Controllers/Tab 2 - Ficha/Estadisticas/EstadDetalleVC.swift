@@ -61,8 +61,8 @@ class EstadDetalleVC: UIViewController {
     }
     
     func buscar(_ pageNo: Int, _ elemsPP: Int ) {
-        let hijo = self.childViewControllers[0] as! EstadDetalleTVC
-        hijo.categoria = estadistica.Codigo ?? ""
+        /*let hijo = self.childViewControllers[0] as! EstadDetalleTVC
+        hijo.categoria = estadistica.Codigo ?? ""*/
         switch estadistica.Codigo ?? "" {
         case "-1":
             Rest.getDataGeneral(Routes.forFiltroFacilitoEstadistica(codPersona, anho == "*" ? "-" : anho, mes, pageNo, elemsPP), true, success: {(resultValue:Any?,data:Data?) in
@@ -93,6 +93,8 @@ class EstadDetalleVC: UIViewController {
         case "00":
             Rest.getDataGeneral(Routes.forPlanAccionGeneral(self.codPersona, anho, mes, pageNo, elemsPP), true, success: {(resultValue:Any?,data:Data?) in
                 let planes: ArrayGeneral<PlanAccionGeneral> = Dict.dataToArray(data!)
+                let hijo = self.childViewControllers[0] as! EstadDetalleTVC
+                hijo.categoria = self.estadistica.Codigo ?? ""
                 hijo.planesAccion = planes.Data
                 hijo.tableView.reloadData()
                 // self.viewNoData.isHidden = planes.Data.count > 0

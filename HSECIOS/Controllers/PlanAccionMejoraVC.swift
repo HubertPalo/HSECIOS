@@ -154,7 +154,7 @@ class PlanAccionMejoraVC: UIViewController, UITableViewDelegate, UITableViewData
             documento.TipoArchivo = "TP03"
             documento.multimediaData = try Data.init(contentsOf: url)
             let fileSize = documento.multimediaData?.count ?? 1024*1024*8
-            documento.tamanho = Utils.getSizeFromFile(size: fileSize)
+            documento.Tamanio = "\(fileSize)"
             if fileSize < 1024*1024*8 {
                 self.documentos.append(documento)
                 self.docIdRequests.append(-1)
@@ -369,7 +369,7 @@ class PlanAccionMejoraVC: UIViewController, UITableViewDelegate, UITableViewData
             }
             celda.botonDescarga.tag = indexPath.row
             celda.nombre.text = unit.Descripcion
-            celda.tamanho.text = unit.tamanho
+            celda.tamanho.text = Utils.getSizeFromFile(size: Int(unit.Tamanio ?? ""))
             celda.viewX.isHidden = self.modo == "GET"
             return celda
         default:
@@ -722,7 +722,7 @@ class PlanAccionMejoraVC: UIViewController, UITableViewDelegate, UITableViewData
                 }
             }
         })
-        PHImageManager.default().requestAVAsset(forVideo: asset.originalAsset!, options: nil, resultHandler: {(avasset,mix,info) in
+        /*PHImageManager.default().requestAVAsset(forVideo: asset.originalAsset!, options: nil, resultHandler: {(avasset,mix,info) in
             flagVideoData = true
             // asset.originalAsset?.value(forKey: "fileName")
             do {
@@ -740,6 +740,33 @@ class PlanAccionMejoraVC: UIViewController, UITableViewDelegate, UITableViewData
                     self.multimedia.append(fotovideo)
                     self.nombres.insert(fotovideo.Descripcion ?? "")
                     self.tabla.reloadData()
+                }
+            }
+        })*/
+        let options = PHVideoRequestOptions()
+        options.version = .original
+        options.deliveryMode = .automatic
+        options.isNetworkAccessAllowed = true
+        
+        PHCachingImageManager.default().requestAVAsset(forVideo: asset.originalAsset!, options: options, resultHandler:{ (avAsset, audioMix, info) in
+            DispatchQueue.main.async {
+                let theAsset = avAsset as! AVURLAsset
+                let videoURL = theAsset.url
+                print(videoURL)
+                flagVideoData = true
+                do {
+                    fotovideo.multimediaData = try Data(contentsOf: theAsset.url)
+                } catch {
+                    fotovideo.multimediaData = nil
+                }
+                if flagImage && flagVideoData {
+                    Utils.desbloquearPantalla()
+                    Dict.unitToData(fotovideo)
+                    if fotovideo.imagen != nil && fotovideo.multimediaData != nil && !self.nombres.contains(fotovideo.Descripcion ?? "") {
+                        self.multimedia.append(fotovideo)
+                        self.nombres.insert(fotovideo.Descripcion ?? "")
+                        self.tabla.reloadData()
+                    }
                 }
             }
         })

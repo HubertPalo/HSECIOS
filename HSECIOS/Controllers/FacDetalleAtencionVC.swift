@@ -239,7 +239,34 @@ class FacDetalleAtencionVC: UIViewController, UITableViewDelegate, UITableViewDa
                 }
             }
         })
-        PHImageManager.default().requestAVAsset(forVideo: asset.originalAsset!, options: nil, resultHandler: {(avasset,mix,info) in
+        let options = PHVideoRequestOptions()
+        options.version = .original
+        options.deliveryMode = .automatic
+        options.isNetworkAccessAllowed = true
+        
+        PHCachingImageManager.default().requestAVAsset(forVideo: asset.originalAsset!, options: options, resultHandler:{ (avAsset, audioMix, info) in
+            DispatchQueue.main.async {
+                let theAsset = avAsset as! AVURLAsset
+                let videoURL = theAsset.url
+                print(videoURL)
+                flagVideoData = true
+                do {
+                    multimediaVideo.multimediaData = try Data(contentsOf: theAsset.url)
+                } catch {
+                    multimediaVideo.multimediaData = nil
+                }
+                if flagImage && flagVideoData {
+                    Utils.desbloquearPantalla()
+                    Dict.unitToData(multimediaVideo)
+                    if multimediaVideo.imagen != nil && multimediaVideo.multimediaData != nil && !self.multimediaNombres.contains(multimediaVideo.Descripcion ?? "") {
+                        self.multimedia.append(multimediaVideo)
+                        self.multimediaNombres.insert(multimediaVideo.Descripcion ?? "")
+                        self.tabla.reloadData()
+                    }
+                }
+            }
+        })
+        /*PHImageManager.default().requestAVAsset(forVideo: asset.originalAsset!, options: nil, resultHandler: {(avasset,mix,info) in
             flagVideoData = true
             do {
                 let myAsset = avasset as? AVURLAsset
@@ -256,7 +283,7 @@ class FacDetalleAtencionVC: UIViewController, UITableViewDelegate, UITableViewDa
                     self.tabla.reloadData()
                 }
             }
-        })
+        })*/
     }
     
     func loadAssetImagen(asset: DKAsset) {

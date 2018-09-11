@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="HelveticaNeue.ttc">
-            <string>HelveticaNeue</string>
-            <string>HelveticaNeue-Bold</string>
-        </array>
-        <array key="HelveticaNeueLights.ttc">
-            <string>HelveticaNeue-Thin</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Upsert InsVC-->
         <scene sceneID="nam-nt-YQS">
@@ -393,6 +384,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="MD9-SC-hug" firstAttribute="width" secondItem="t81-ZF-pfJ" secondAttribute="width" multiplier="0.3" id="HeP-Lh-Tmh"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="WQL-F1-vld"/>
                                             </constraints>
                                         </stackView>
                                     </subviews>
@@ -438,10 +430,12 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6NH-WY-Vta">
                                                     <rect key="frame" x="112.5" y="0.0" width="262.5" height="44"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YTE-tz-b01">
-                                                            <rect key="frame" x="0.0" y="0.0" width="262.5" height="44"/>
-                                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                                                            <state key="normal" title="Boton Der"/>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YTE-tz-b01">
+                                                            <rect key="frame" x="5" y="5" width="252.5" height="34"/>
+                                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                                            <state key="normal" title="Boton Der">
+                                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            </state>
                                                             <connections>
                                                                 <action selector="clickBotonDer:" destination="F9a-1e-4Kw" eventType="touchUpInside" id="wfJ-5c-wPI"/>
                                                             </connections>
@@ -449,15 +443,16 @@
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
-                                                        <constraint firstItem="YTE-tz-b01" firstAttribute="leading" secondItem="6NH-WY-Vta" secondAttribute="leading" id="0AI-3O-zfn"/>
-                                                        <constraint firstAttribute="bottom" secondItem="YTE-tz-b01" secondAttribute="bottom" id="3jO-4V-KuW"/>
-                                                        <constraint firstItem="YTE-tz-b01" firstAttribute="top" secondItem="6NH-WY-Vta" secondAttribute="top" id="iVW-Sl-iJj"/>
-                                                        <constraint firstAttribute="trailing" secondItem="YTE-tz-b01" secondAttribute="trailing" id="zyO-3X-4rF"/>
+                                                        <constraint firstItem="YTE-tz-b01" firstAttribute="leading" secondItem="6NH-WY-Vta" secondAttribute="leading" constant="5" id="0AI-3O-zfn"/>
+                                                        <constraint firstAttribute="bottom" secondItem="YTE-tz-b01" secondAttribute="bottom" constant="5" id="3jO-4V-KuW"/>
+                                                        <constraint firstItem="YTE-tz-b01" firstAttribute="top" secondItem="6NH-WY-Vta" secondAttribute="top" constant="5" id="iVW-Sl-iJj"/>
+                                                        <constraint firstAttribute="trailing" secondItem="YTE-tz-b01" secondAttribute="trailing" constant="5" id="zyO-3X-4rF"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="4k6-t9-m2j" firstAttribute="width" secondItem="DC3-Za-yb3" secondAttribute="width" multiplier="0.3" id="Yh0-p9-INI"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="ib9-9x-bJP"/>
                                             </constraints>
                                         </stackView>
                                     </subviews>
@@ -549,6 +544,7 @@
                                                 </view>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="aXW-uG-ggo"/>
                                                 <constraint firstItem="4s3-sz-zLG" firstAttribute="width" secondItem="wxt-Rv-ps4" secondAttribute="width" multiplier="0.3" id="uy0-1q-WEZ"/>
                                             </constraints>
                                         </stackView>

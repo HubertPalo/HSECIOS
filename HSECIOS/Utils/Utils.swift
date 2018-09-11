@@ -151,10 +151,11 @@ class Utils {
     }
     
     static func showFichaFor(_ dni: String){
+        // ((self.menuVC.childViewControllers[0] as! UITabBarController).childViewControllers[0] as! UINavigationController).popToRootViewController(animated: true)
         self.menuVC.showFichaFor(dni)
     }
     
-    static func initCeldaGaleria(_ celda: inout CeldaGaleria, _ dataIzq: FotoVideo, _ dataDer: FotoVideo?, _ editable: Bool, _ tableview: UITableView, _ indexPath: IndexPath) {
+    /*static func initCeldaGaleria(_ celda: inout CeldaGaleria, _ dataIzq: FotoVideo, _ dataDer: FotoVideo?, _ editable: Bool, _ tableview: UITableView, _ indexPath: IndexPath) {
         celda.viewX1.isHidden = !editable
         celda.viewX2.isHidden = !editable
         celda.play1.isHidden = dataIzq.TipoArchivo != "TP02"
@@ -192,7 +193,7 @@ class Utils {
             Images.loadIcon("FILES.\(fileExtension)", celda.icono)
         }
         return celda
-    }
+    }*/
     
     static func loadAssets(assets: [DKAsset], originales: [FotoVideo], chandler: ((_:[FotoVideo]) -> Void)?) {
         var nombres: [String] = []
@@ -459,17 +460,22 @@ class Utils {
         return "\(String(format: "%.2f", megabytes)) MB"
     }
     
-    static func getSizeFromFile(size: Int) -> String {
-        let bytes = size
-        if bytes < 1024 {
-            return "\(bytes) B"
+    
+    
+    static func getSizeFromFile(size: Int?) -> String {
+        if let noNil = size {
+            let bytes = noNil
+            if bytes < 1024 {
+                return "\(bytes) B"
+            }
+            let kilobytes: Float = Float(bytes/1024)
+            if kilobytes < 1024 {
+                return "\(String(format: "%.2f", kilobytes)) KB"
+            }
+            let megabytes: Float = Float(kilobytes/1024)
+            return "\(String(format: "%.2f", megabytes)) MB"
         }
-        let kilobytes: Float = Float(bytes/1024)
-        if kilobytes < 1024 {
-            return "\(String(format: "%.2f", kilobytes)) KB"
-        }
-        let megabytes: Float = Float(kilobytes/1024)
-        return "\(String(format: "%.2f", megabytes)) MB"
+        return "-"
     }
     
     static func setImageCircle(_ imageview: UIImageView) {

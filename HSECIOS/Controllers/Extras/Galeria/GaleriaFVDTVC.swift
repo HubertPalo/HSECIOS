@@ -53,9 +53,11 @@ class GaleriaFVDTVC: UITableViewController, UIDocumentMenuDelegate, UIDocumentPi
             documento.Descripcion = url.lastPathComponent
             documento.multimediaData = try Data.init(contentsOf: url)
             let fileSize = documento.multimediaData?.count ?? 1024*1024*8
-            documento.tamanho = Utils.getSizeFromFile(size: fileSize)
+            documento.Tamanio = "\(fileSize)"
             if fileSize < 1024*1024*8 {
                 Globals.GaleriaDocumentos.append(documento)
+                Globals.GaleriaDocIdRequests.append(-1)
+                Globals.GaleriaDocPorcentajes.append(-1)
                 self.tableView.reloadData()
             } else {
                 self.presentAlert("Archivo muy pesado", "No es posible subir archivos con un peso mayor a 8 MB", .alert, 2, nil, [], [], actionHandlers: [])
@@ -169,7 +171,7 @@ class GaleriaFVDTVC: UITableViewController, UIDocumentMenuDelegate, UIDocumentPi
             }
             celda.botonDescarga.tag = indexPath.row
             celda.nombre.text = unit.Descripcion
-            celda.tamanho.text = unit.tamanho
+            celda.tamanho.text = Utils.getSizeFromFile(size: Int(unit.Tamanio ?? "0"))
             celda.viewX.isHidden = Globals.GaleriaModo == "GET"
             return celda
         default:
@@ -349,7 +351,36 @@ class GaleriaFVDTVC: UITableViewController, UIDocumentMenuDelegate, UIDocumentPi
                 }
             }
         })
-        PHImageManager.default().requestAVAsset(forVideo: asset.originalAsset!, options: nil, resultHandler: {(avasset,mix,info) in
+        
+        let options = PHVideoRequestOptions()
+        options.version = .original
+        options.deliveryMode = .automatic
+        options.isNetworkAccessAllowed = true
+        
+        PHCachingImageManager.default().requestAVAsset(forVideo: asset.originalAsset!, options: options, resultHandler:{ (avAsset, audioMix, info) in
+            DispatchQueue.main.async {
+                let theAsset = avAsset as! AVURLAsset
+                let videoURL = theAsset.url
+                print(videoURL)
+                flagVideoData = true
+                do {
+                    fotovideo.multimediaData = try Data(contentsOf: theAsset.url)
+                } catch {
+                    fotovideo.multimediaData = nil
+                }
+                if flagImage && flagVideoData {
+                    Utils.desbloquearPantalla()
+                    Dict.unitToData(fotovideo)
+                    if fotovideo.imagen != nil && fotovideo.multimediaData != nil && !Globals.GaleriaNombres.contains(fotovideo.Descripcion ?? "") {
+                        Globals.GaleriaMultimedia.append(fotovideo)
+                        Globals.GaleriaNombres.insert(fotovideo.Descripcion ?? "")
+                        self.tableView.reloadData()
+                    }
+                }
+            }
+        })
+        
+        /*PHImageManager.default().requestAVAsset(forVideo: asset.originalAsset!, options: nil, resultHandler: {(avasset,mix,info) in
             flagVideoData = true
             // asset.originalAsset?.value(forKey: "fileName")
             do {
@@ -369,7 +400,7 @@ class GaleriaFVDTVC: UITableViewController, UIDocumentMenuDelegate, UIDocumentPi
                     self.tableView.reloadData()
                 }
             }
-        })
+        })*/
     }
     
     func loadAssetImagen(asset: DKAsset) {

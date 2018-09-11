@@ -214,6 +214,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="rzM-n0-Gh5" firstAttribute="width" secondItem="IXE-j3-RxA" secondAttribute="width" multiplier="0.3" id="qGh-9O-9WX"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="rGd-Vl-08k"/>
                                             </constraints>
                                         </stackView>
                                     </subviews>
@@ -292,6 +293,7 @@
                                                 </view>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="GK9-eF-AbI"/>
                                                 <constraint firstItem="m0o-bE-q3z" firstAttribute="width" secondItem="cYJ-KI-EgE" secondAttribute="width" multiplier="0.3" id="aD6-zs-ZHu"/>
                                             </constraints>
                                         </stackView>
@@ -335,7 +337,7 @@
                                                         <constraint firstItem="V1y-bq-ZO0" firstAttribute="top" secondItem="xNZ-3G-1sY" secondAttribute="top" constant="5" id="cpZ-3Y-nqK"/>
                                                     </constraints>
                                                 </view>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Vkn-yg-Eky">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Vkn-yg-Eky">
                                                     <rect key="frame" x="117.5" y="0.0" width="257.5" height="44"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                                     <state key="normal" title="Button">
@@ -348,6 +350,7 @@
                                                 </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="98z-cN-xyl"/>
                                                 <constraint firstItem="xNZ-3G-1sY" firstAttribute="width" secondItem="JWI-jc-D2n" secondAttribute="width" multiplier="0.3" id="b47-fI-tKq"/>
                                             </constraints>
                                         </stackView>
@@ -412,6 +415,7 @@
                                                 </view>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="ZAp-dv-ly8"/>
                                                 <constraint firstItem="7iH-cc-K4D" firstAttribute="width" secondItem="OMK-Sp-NQm" secondAttribute="width" multiplier="0.3" id="tEX-bn-WNr"/>
                                             </constraints>
                                         </stackView>
@@ -557,7 +561,7 @@
                                                         <constraint firstItem="lSG-hW-WNK" firstAttribute="leading" secondItem="OTw-la-ano" secondAttribute="leading" constant="5" id="mpt-pt-bws"/>
                                                     </constraints>
                                                 </view>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Pyw-G8-jnb">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Pyw-G8-jnb">
                                                     <rect key="frame" x="117.5" y="0.0" width="257.5" height="44"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                                     <state key="normal" title="Button">
@@ -634,10 +638,10 @@
             </objects>
             <point key="canvasLocation" x="7102" y="4286"/>
         </scene>
-        <!--galeria-->
+        <!--PhotoVideoDoc-->
         <scene sceneID="3sf-u7-hzE">
             <objects>
-                <viewControllerPlaceholder storyboardName="Utils" referencedIdentifier="galeria" id="JS8-ME-NIH" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Utils" referencedIdentifier="PhotoVideoDoc" id="JS8-ME-NIH" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QYb-Am-qri" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="7101" y="4796"/>
@@ -735,6 +739,9 @@
                                                     </constraints>
                                                 </view>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="wTq-jO-GBq"/>
+                                            </constraints>
                                         </stackView>
                                     </subviews>
                                     <color key="backgroundColor" red="0.83741801979999997" green="0.83743780850000005" blue="0.83742713930000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

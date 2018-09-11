@@ -15,6 +15,7 @@ class UpsertInsVC: UIViewController {
     var oldSegmentIndex = 0
     var idPost = -1
     var data: [String:String] = [:]
+    var afterSuccess: (() -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +29,17 @@ class UpsertInsVC: UIViewController {
             Utils.setTitleAndImage(self, "Editar inspección", Images.inspeccion)
         }
         
+    }
+    
+    func cleanData() {
+        switch Globals.UIModo {
+        case "ADD":
+            Utils.setTitleAndImage(self, "Nueva inspección", Images.inspeccion)
+        case "PUT":
+            Utils.setTitleAndImage(self, "Editar inspección", Images.inspeccion)
+        default:
+            break
+        }
     }
     
     func selectTab(_ index: Int) {
@@ -93,6 +105,7 @@ class UpsertInsVC: UIViewController {
                     return
                 }
                 self.presentarAlertaDeseaFinalizar({(aceptarAction) in
+                    self.afterSuccess?()
                     self.navigationController?.popViewController(animated: true)
                     self.dismiss(animated: true, completion: nil)
                 }, {(cancelarAction) in

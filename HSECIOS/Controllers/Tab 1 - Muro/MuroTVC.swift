@@ -12,6 +12,7 @@ class MuroTVC: UITableViewController {
     // var alClickComentarios: ((_ elemento: MuroElement) -> Void)?
     var alScrollLimiteTop: (() -> Void)?
     var alScrollLimiteBot: (() -> Void)?
+    var forzarActualizacion: (() -> Void)?
     
     override func viewDidAppear(_ animated: Bool) {
         // self.presentAlert("Token", Utils.FCMToken, .alert, 1, nil, [], [], actionHandlers: [])
@@ -51,16 +52,14 @@ class MuroTVC: UITableViewController {
             let celda = tableView.dequeueReusableCell(withIdentifier: "observacion") as! MuroTVCell1
             celda.avatar.layer.cornerRadius = celda.avatar.frame.height/2
             celda.avatar.layer.masksToBounds = true
-            if unit.UrlObs != "" {
-                celda.avatar.image = Images.getImageFor("A-\(unit.UrlObs ?? "")")
-            }
+            celda.avatar.image = Images.getImageFor("A-\(unit.UrlObs ?? "")")
             celda.avatarBoton.tag = indexPath.row
             celda.autor.text = unit.ObsPor
             celda.fecha.text = Utils.str2date2str(unit.Fecha ?? "")
             celda.detalle.attributedText = Utils.generateAttributedString(["Observación", " / \(Utils.searchMaestroDescripcion("TPOB", unit.Tipo ?? "")) / \(Utils.searchMaestroDescripcion("AREA", unit.Area ?? ""))"], ["HelveticaNeue-Bold", "HelveticaNeue"], [12,12], [UIColor.darkGray, UIColor.darkGray])
             celda.empresa.text = unit.Empresa
             celda.contenido.text = unit.Obs
-            
+            celda.editableView.isHidden = unit.Editable != "1" || unit.Tipo == "TO03" || unit.Tipo == "TO04"
             
             celda.imagenView.isHidden = (unit.UrlPrew ?? "").isEmpty
             celda.imagenBoton.tag = indexPath.row
@@ -77,9 +76,7 @@ class MuroTVC: UITableViewController {
             let celda = tableView.dequeueReusableCell(withIdentifier: "inspeccion") as! MuroTVCell2
             celda.avatar.layer.cornerRadius = celda.avatar.frame.height/2
             celda.avatar.layer.masksToBounds = true
-            if (unit.UrlObs ?? "") != "" {
-                celda.avatar.image = Images.getImageFor("A-\(unit.UrlObs ?? "")")
-            }
+            celda.avatar.image = Images.getImageFor("A-\(unit.UrlObs ?? "")")
             celda.avatarBoton.tag = indexPath.row
             celda.autor.text = unit.ObsPor
             celda.fecha.text = Utils.str2date2str(unit.Fecha ?? "")
@@ -119,7 +116,7 @@ class MuroTVC: UITableViewController {
                 celda.stack3.isHidden = false
             }
             
-            
+            celda.editableView.isHidden = unit.Editable != "1"
             celda.imagenView.isHidden = (unit.UrlPrew ?? "").isEmpty
             celda.imagenBoton.tag = indexPath.row
             if unit.UrlPrew != "" {
@@ -134,9 +131,7 @@ class MuroTVC: UITableViewController {
             let celda = tableView.dequeueReusableCell(withIdentifier: "noticia") as! MuroTVCell3
             celda.avatar.layer.cornerRadius = celda.avatar.frame.height/2
             celda.avatar.layer.masksToBounds = true
-            if unit.UrlObs != "" {
-                celda.avatar.image = Images.getImageFor("A-\(unit.UrlObs ?? "")")
-            }
+            celda.avatar.image = Images.getImageFor("A-\(unit.UrlObs ?? "")")
             celda.avatarBoton.tag = indexPath.row
             celda.autor.text = unit.ObsPor
             celda.fecha.text = Utils.str2date2str(unit.Fecha ?? "")
@@ -160,24 +155,19 @@ class MuroTVC: UITableViewController {
             let celda = tableView.dequeueReusableCell(withIdentifier: "facilito") as! MuroTVCell4
             celda.avatar.layer.cornerRadius = celda.avatar.frame.height/2
             celda.avatar.layer.masksToBounds = true
-            if unit.UrlObs != "" {
-                celda.avatar.image = Images.getImageFor("A-\(unit.UrlObs ?? "")")
-            }
+            celda.avatar.image = Images.getImageFor("A-\(unit.UrlObs ?? "")")
             celda.avatarBoton.tag = indexPath.row
             celda.autor.text = unit.ObsPor
-            
+            celda.editableView.isHidden = unit.Editable != "1"
             celda.contenido.text = unit.Obs
             celda.fecha.text = Utils.str2date2str(unit.Fecha ?? "")
-            celda.detalle.text = Utils.searchMaestroStatic("TIPOFACILITO", unit.Tipo ?? "")
+            celda.detalle.attributedText = Utils.generateAttributedString(["Reporte Facilito", " / Acto"], ["HelveticaNeue-Bold", "HelveticaNeue"], [12.0, 12.0], [UIColor.darkGray, UIColor.darkGray])
             
             celda.imagenView.isHidden = (unit.UrlPrew ?? "").isEmpty
             celda.imagenBoton.tag = indexPath.row
             if unit.UrlPrew != "" {
                 celda.imagen.image = Images.getImageFor("P-\(unit.UrlPrew ?? "")")
             }
-            celda.comentarios.isHidden = (unit.Comentarios ?? 0) == -10
-            celda.comentarios.setTitle("\(unit.Comentarios ?? 0) comentarios", for: .normal)
-            celda.comentarios.tag = indexPath.row
             celda.limiteView.isHidden = indexPath.row == self.data.count - 1
             return celda
         default:
@@ -261,9 +251,13 @@ class MuroTVC: UITableViewController {
             case "OBS":
                 VCHelper.upsertObservacion(self, "PUT", unit.Codigo!)
             case "INS":
-                VCHelper.upsertInspeccion(self, "PUT", unit.Codigo!)
+                VCHelper.upsertInspeccion(self, "PUT", unit.Codigo!, {
+                    self.forzarActualizacion?()
+                })
             case "OBF":
-                VCHelper.openUpsertFacilito(self, "PUT", unit.Codigo!)
+                VCHelper.openUpsertFacilito(self, "PUT", unit.Codigo!, {
+                    self.forzarActualizacion?()
+                })
             default:
                 break
             }
@@ -291,6 +285,7 @@ class MuroTVC: UITableViewController {
                         let respuesta = resultValue as! String
                         if respuesta == "1" {
                             self.presentAlert("Item eliminado", nil, .alert, 1, nil, [], [], actionHandlers: [])
+                            self.forzarActualizacion?()
                         } else {
                             self.presentAlert("Error", "Ocurrió un error al intentar eliminar el item", .alert, 2, nil, [], [], actionHandlers: [])
                         }
@@ -371,6 +366,5 @@ class MuroTVCell4: UITableViewCell {
     @IBOutlet weak var imagen: UIImageView!
     @IBOutlet weak var imagenBoton: UIButton!
     @IBOutlet weak var imagenView: UIView!
-    @IBOutlet weak var comentarios: UIButton!
     @IBOutlet weak var limiteView: UIView!
 }

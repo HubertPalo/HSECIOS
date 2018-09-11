@@ -15,6 +15,7 @@ class CapacitacionVC: UIViewController, UITabBarDelegate, UITableViewDelegate, U
     //
     var datainfo = ""
     var cursosCap: [CapCursoGeneral] = []
+    var externalCount = -1
     //var capacitacion = CapacitacionVC()
     
     var anho = Utils.date2str(Date(), "YYYY")
@@ -54,7 +55,7 @@ class CapacitacionVC: UIViewController, UITabBarDelegate, UITableViewDelegate, U
     }
     
     func initialLoad() {
-        
+        self.externalCount = -1
         self.anho = Utils.date2str(Date(), "YYYY")
         self.mes = Utils.date2str(Date(), "MM")
         self.Cursos.text = "Cursos"
@@ -66,6 +67,7 @@ class CapacitacionVC: UIViewController, UITabBarDelegate, UITableViewDelegate, U
         Rest.getDataGeneral(Routes.forCapacitacionGeneral("*", self.anho, self.mes, 1, 10), true, success: {(resultValue:Any?,data:Data?) in
             // let planes = Dict.toArrayPlanAccionPendiente(dict)
             let cursos: ArrayGeneral<CapCursoGeneral> = Dict.dataToArray(data!)
+            self.externalCount = cursos.Count
             self.Cursos.text = "(\(cursos.Count)) Cursos"
             self.textoSinOcurrencias.isHidden = cursos.Data.count > 0
             self.textoSinOcurrencias.text = "No hubo ocurrencias"
@@ -112,8 +114,9 @@ class CapacitacionVC: UIViewController, UITabBarDelegate, UITableViewDelegate, U
             Rest.getDataGeneral(Routes.forCapacitacionGeneral("*", self.anho, self.mes, 1, cantidad), true, success: {(resultValue:Any?,data:Data?) in
                 // let planes = Dict.toArrayPlanAccionPendiente(dict)
                 let cursos: ArrayGeneral<CapCursoGeneral> = Dict.dataToArray(data!)
+                self.externalCount = cursos.Count
                 self.Cursos.text = "(\(cursos.Count)) Cursos"
-                self.textoSinOcurrencias.isHidden = cursos.Data.count > 0
+                self.textoSinOcurrencias.isHidden = self.cursosCap.count > 0
                 self.textoSinOcurrencias.text = "No hubo ocurrencias"
                 self.TablaCap.isHidden = cursos.Data.count <= 0
                 
@@ -127,21 +130,26 @@ class CapacitacionVC: UIViewController, UITabBarDelegate, UITableViewDelegate, U
             if maximumOffset - currentOffset <= -10 {
                 //self.alScrollLimiteBot?()
                 var pagina = self.cursosCap.count / 10
-                if self.cursosCap.count % 10 == 0 {
-                    pagina = pagina + 1
+                pagina = pagina + 1
+                if self.externalCount != -1 && self.cursosCap.count == self.externalCount {
+                    return
                 }
+                /*if self.cursosCap.count % 10 == 0 {
+                    pagina = pagina + 1
+                }*/
                 Rest.getDataGeneral(Routes.forCapacitacionGeneral("*", self.anho, self.mes, pagina, 10), true, success: {(resultValue:Any?,data:Data?) in
                     // let planes = Dict.toArrayPlanAccionPendiente(dict)
                     let cursos: ArrayGeneral<CapCursoGeneral> = Dict.dataToArray(data!)
-                    
+                    self.externalCount = cursos.Count
                     self.Cursos.text = "(\(cursos.Count)) Cursos"
-                    self.textoSinOcurrencias.isHidden = cursos.Data.count > 0
+                    self.textoSinOcurrencias.isHidden = self.cursosCap.count > 0
                     self.textoSinOcurrencias.text = "No hubo ocurrencias"
-                    self.TablaCap.isHidden = cursos.Data.count <= 0
-                    
-                    if cursos.Data.count > 0 {
+                    self.TablaCap.isHidden = self.cursosCap.count <= 0
+                    self.cursosCap.append(contentsOf: cursos.Data)
+                    self.TablaCap.reloadData()
+                    /*if cursos.Data.count > 0 {
                         self.addMoreData(array: cursos.Data)
-                    }
+                    }*/
                 }, error: nil)
             }
         }
@@ -203,6 +211,7 @@ class CapacitacionVC: UIViewController, UITabBarDelegate, UITableViewDelegate, U
         Rest.getDataGeneral(Routes.forCapacitacionGeneral("*", self.anho, self.mes, 1, 10), true, success: {(resultValue:Any?,data:Data?) in
             // let planes = Dict.toArrayPlanAccionPendiente(dict)
             let cursos: ArrayGeneral<CapCursoGeneral> = Dict.dataToArray(data!)
+            self.externalCount = cursos.Count
             self.Cursos.text = "(\(cursos.Count)) Cursos"
             self.textoSinOcurrencias.isHidden = cursos.Data.count > 0
             self.textoSinOcurrencias.text = "No hubo ocurrencias"

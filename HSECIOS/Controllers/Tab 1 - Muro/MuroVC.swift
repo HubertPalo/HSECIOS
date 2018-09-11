@@ -94,6 +94,9 @@ class MuroVC: UIViewController, UISearchBarDelegate {
                 }, error: nil)*/
             }
         }
+        self.muro.forzarActualizacion = {
+            self.muro.alScrollLimiteTop?()
+        }
         self.muro.alScrollLimiteBot = {
             self.pagina = self.pagina + 1
             if self.searchedText {
@@ -304,7 +307,7 @@ class MuroVC: UIViewController, UISearchBarDelegate {
     
     
     @IBAction func clickAddFacilito(_ sender: Any) {
-        VCHelper.openUpsertFacilito(self, "ADD", "")
+        VCHelper.openUpsertFacilito(self, "ADD", "", nil)
     }
     
     @IBAction func clickAddObservacion(_ sender: Any) {
@@ -312,6 +315,6 @@ class MuroVC: UIViewController, UISearchBarDelegate {
     }
     
     @IBAction func clickAddInspeccion(_ sender: Any) {
-        VCHelper.upsertInspeccion(self, "ADD", "")
+        VCHelper.upsertInspeccion(self, "ADD", "", nil)
     }
 }

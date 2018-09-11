@@ -160,7 +160,7 @@ class Multimedia: Codable{
 
 class DocumentoGeneral: Multimedia {
     var data: NSData = NSData()
-    var tamanho: String = ""
+    // var tamanho: String = ""
     var url: URL?
     
     func getIcon() -> UIImage {

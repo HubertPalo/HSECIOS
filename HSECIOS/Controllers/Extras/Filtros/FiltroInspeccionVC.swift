@@ -16,8 +16,8 @@ class FiltroInspeccionVC: UIViewController, UITableViewDelegate, UITableViewData
         if shouldReset {
             self.shouldReset = false
             self.dataAFiltrar = InspeccionGD()
-            self.dataAFiltrar.Elemperpage = 1
-            self.dataAFiltrar.Pagenumber = 10
+            self.dataAFiltrar.Elemperpage = 10
+            self.dataAFiltrar.Pagenumber = 1
             self.chosenFechaInicio = nil
             self.chosenFechaFin = nil
             self.tabla.reloadData()
@@ -29,8 +29,8 @@ class FiltroInspeccionVC: UIViewController, UITableViewDelegate, UITableViewData
         self.tabla.delegate = self
         self.tabla.dataSource = self
         self.setTitleAndImage("Inspecciones/Filtro", Images.inspeccion)
-        self.dataAFiltrar.Elemperpage = 1
-        self.dataAFiltrar.Pagenumber = 10
+        self.dataAFiltrar.Elemperpage = 10
+        self.dataAFiltrar.Pagenumber = 1
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -47,7 +47,7 @@ class FiltroInspeccionVC: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 9
+        return Utils.userData.Rol == "1" || Utils.userData.Rol == "4" ? 9 : 8
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -105,7 +105,9 @@ class FiltroInspeccionVC: UIViewController, UITableViewDelegate, UITableViewData
         case 6:
             let celda = tableView.dequeueReusableCell(withIdentifier: "celda2") as! Celda1Texto1Boton
             celda.texto.text = "Sub Ubicación"
-            celda.boton.setTitle("asd", for: .normal)
+            var data = Utils.searchMaestroDescripcion("UBIC.\(self.dataAFiltrar.CodUbicacion ?? "")", self.dataAFiltrar.CodSubUbicacion ?? "")
+            data = data == "" ? "- SELECCIONE -" : data
+            celda.boton.setTitle(data, for: .normal)
             celda.boton.tag = indexPath.row
             celda.boton.titleLabel?.lineBreakMode = .byWordWrapping
             celda.boton.titleLabel?.numberOfLines = 2
@@ -113,7 +115,9 @@ class FiltroInspeccionVC: UIViewController, UITableViewDelegate, UITableViewData
         case 7:
             let celda = tableView.dequeueReusableCell(withIdentifier: "celda3") as! Celda2Texto1Boton
             celda.texto1.text = "Contrata"
-            celda.texto2.text = "XXXXXXXX"
+            var data = Utils.searchMaestroDescripcion("PROV", self.dataAFiltrar.CodContrata ?? "")
+            data = data == "" ? "- SELECCIONE -" : data
+            celda.texto2.text = data
             celda.boton.tag = 0
             return celda
         case 8:
@@ -182,11 +186,12 @@ class FiltroInspeccionVC: UIViewController, UITableViewDelegate, UITableViewData
         switch boton.tag {
         case 0:
             VCHelper.openFiltroContrata(self, {(data1,data2) in
-                
+                self.dataAFiltrar.CodContrata = data1
             })
         case 1:
             VCHelper.openFiltroPersona(self, {(persona) in
-                
+                self.dataAFiltrar.CodTipo = persona.CodPersona
+                boton.setTitle(persona.Nombres, for: .normal)
             })
         default:
             break

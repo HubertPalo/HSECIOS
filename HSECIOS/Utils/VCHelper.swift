@@ -61,9 +61,10 @@ class VCHelper {
         viewcontroller.navigationController?.pushViewController(vc, animated: true)
     }
     
-    static func upsertInspeccion(_ viewcontroller: UIViewController, _ modo: String, _ codigo: String)-> Void {
+    static func upsertInspeccion(_ viewcontroller: UIViewController, _ modo: String, _ codigo: String, _ afterSuccess: (() -> Void)?)-> Void {
         Globals.UILoadModo(modo, codigo)
         let vc = self.agregarInspeccion as! UpsertInsVC
+        vc.afterSuccess = afterSuccess
         viewcontroller.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -98,9 +99,10 @@ class VCHelper {
         viewcontroller.navigationController?.pushViewController(vc, animated: true)
     }
     
-    static func openUpsertFacilito(_ viewcontroller: UIViewController, _ modo: String, _ codigo: String) {
+    static func openUpsertFacilito(_ viewcontroller: UIViewController, _ modo: String, _ codigo: String, _ afterSucces: (() -> Void)?) {
         let vc = self.upsertFacilito as! UpsertFacilitoVC
         Globals.UFLoadModo(modo, codigo)
+        vc.afterSuccess = afterSucces
         // vc.loadModo(modo, codigo)
         viewcontroller.navigationController?.pushViewController(vc, animated: true)
     }
@@ -134,12 +136,14 @@ class VCHelper {
     
     static func openFiltroInspeccion(_ viewcontroller: UIViewController, _ alBuscarInspeccion: @escaping (_ data:[String:String])-> Void) {
         let filtroVC = self.filtroInspeccion as! FiltroInspeccionVC
+        filtroVC.shouldReset = true
         filtroVC.alFiltrar = alBuscarInspeccion
         viewcontroller.navigationController?.pushViewController(filtroVC, animated: true)
     }
     
     static func openFiltroFacilito(_ viewcontroller: UIViewController, _ alBuscarFacilito: @escaping (_ data:[String:String])-> Void) {
         let filtroVC = self.filtroFacilito as! FiltroFacilitoVC
+        filtroVC.shouldReset = true
         filtroVC.alFiltrar = alBuscarFacilito
         viewcontroller.navigationController?.pushViewController(filtroVC, animated: true)
     }

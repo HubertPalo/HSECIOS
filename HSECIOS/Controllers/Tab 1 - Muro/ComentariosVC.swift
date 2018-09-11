@@ -11,6 +11,8 @@ class ComentariosVC: UIViewController, UITableViewDataSource, UITableViewDelegat
     @IBOutlet weak var tabla: UITableView!
     @IBOutlet weak var campoComentario: UITextField!
     
+    @IBOutlet weak var scroll: UIScrollView!
+    
     override func viewDidAppear(_ animated: Bool) {
         self.tabla.reloadData()
     }
@@ -20,6 +22,7 @@ class ComentariosVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         tabla.delegate = self
         tabla.dataSource = self
         tabla.allowsSelection = false
+        self.campoComentario.delegate = self
         /*if shouldReloadTabla {
             tabla.reloadData()
         }*/
@@ -57,19 +60,39 @@ class ComentariosVC: UIViewController, UITableViewDataSource, UITableViewDelegat
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+        var info = notification.userInfo
+        // NSDictionary* info = [aNotification userInfo];
+        var kbSize = (info![UIKeyboardFrameEndUserInfoKey] as! CGRect).size
+        // CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+        var contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0)
+        
+        // UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
+        scroll.contentInset = contentInsets;
+        scroll.scrollIndicatorInsets = contentInsets;
+        
+        var aRect = self.view.frame;
+        aRect.size.height -= kbSize.height;
+        if (!aRect.contains(campoComentario.frame.origin) ) {
+            scroll.scrollRectToVisible(campoComentario.frame, animated: true)
+            // [self.scrollView scrollRectToVisible:activeField.frame animated:YES];
+        }
+        // scroll.scrollRectToVisible(campoComentario.frame, animated: true)
+        /*if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0{
                 self.view.frame.origin.y -= keyboardSize.height
             }
-        }
+        }*/
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+        var contentInsets = UIEdgeInsets.zero;
+        scroll.contentInset = contentInsets;
+        scroll.scrollIndicatorInsets = contentInsets;
+        /*if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y != 0{
                 self.view.frame.origin.y += keyboardSize.height
             }
-        }
+        }*/
     }
     
     // tabla
@@ -98,11 +121,13 @@ class ComentariosVC: UIViewController, UITableViewDataSource, UITableViewDelegat
     // tabla
     
     @IBAction func clickEnEnviar(_ sender: Any) {
+        self.view.endEditing(true)
         let parametros = ["CodComentario":codigo,"Comentario": campoComentario.text!]
                           
         Rest.postDataGeneral(Routes.forPostComentario(), parametros, true, success: {(resultValue:Any?,data:Data?) in
             self.presentAlert("Comentario enviado", nil, .alert, 2, nil, [], [], actionHandlers: [])
             self.forzarActualizacionDeComentarios?()
+            self.campoComentario.text = nil
             // Alerts.presentAlert("Comentario Enviado", "Enviado", imagen: nil, viewController: self)
         }, error: {(error) in
             self.presentAlert("Error", error, .alert, 2, nil, [], [], actionHandlers: [])

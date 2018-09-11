@@ -49,6 +49,16 @@ class Dict {
             respuesta["Correlativo"] = temp == nil ? nil : "\(temp!)"
             return respuesta
         }
+        if let unit = objeto as? InspeccionGD {
+            var temp: Int? = unit.Elemperpage
+            var temp2: Int? = unit.Pagenumber
+            unit.Elemperpage = nil
+            unit.Pagenumber = nil
+            var respuesta: [String:String] = Dict.dataToUnit(Dict.unitToData(unit)!)!
+            respuesta["Elemperpage"] = temp == nil ? nil : "\(temp!)"
+            respuesta["Pagenumber"] = temp2 == nil ? nil : "\(temp2!)"
+            return respuesta
+        }
         return Dict.dataToUnit(Dict.unitToData(objeto)!)!
     }
 }

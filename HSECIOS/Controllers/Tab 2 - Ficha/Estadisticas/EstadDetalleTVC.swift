@@ -80,6 +80,7 @@ class EstadDetalleTVC: UITableViewController {
             let unit = self.planesAccion[indexPath.row]
             celda.avatar.layer.cornerRadius = celda.avatar.frame.height/2
             celda.avatar.layer.masksToBounds = true
+            celda.avatarBoton.tag = indexPath.row
             if (unit.CodSolicitadoPor ?? "") != "" {
                 celda.avatar.image = Images.getImageFor("A-\(unit.CodSolicitadoPor ?? "")")
             }
@@ -331,6 +332,34 @@ class EstadDetalleTVC: UITableViewController {
             }, nil])
     }
     
+    @IBAction func clickAvatar(_ sender: Any) {
+        let indice = (sender as! UIButton).tag
+        switch categoria {
+        case "00":
+            let unit = self.planesAccion[indice]
+            Utils.showFichaFor(unit.CodSolicitadoPor ?? "")
+        case "03":
+            let unit = self.incidentes[indice]
+            Utils.showFichaFor(unit.ResponsableDNI ?? "")
+        case "04":
+            let unit = self.iperc[indice]
+            Utils.showFichaFor(unit.ResponsableDNI ?? "")
+        case "05":
+            let unit = self.auditorias[indice]
+            Utils.showFichaFor(unit.ResponsableDNI ?? "")
+        case "06":
+            let unit = self.simulacros[indice]
+            Utils.showFichaFor(unit.ResponsableDNI ?? "")
+        case "07":
+            let unit = self.reuniones[indice]
+            Utils.showFichaFor(unit.ResponsableDNI ?? "")
+        case "08":
+            let unit = self.comites[indice]
+            Utils.showFichaFor(unit.ResponsableDNI ?? "")
+        default:
+            break
+        }
+    }
 }
 
 /*class EstadDetalleTVCellPlan: UITableViewCell {

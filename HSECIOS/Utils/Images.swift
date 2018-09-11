@@ -78,7 +78,7 @@ class Images {
     }
     
     static func getImageFor(_ code: String) -> UIImage {
-        return self.imagenes[code] ?? Images.blank
+        return self.imagenes[code] ?? UIImage.init(named: "Carnet")!
     }
     
     static func downloadImage(_ correlativo: String) {
@@ -186,7 +186,10 @@ class Images {
     }
     
     static func downloadAvatar(_ codPersona: String) {
-        let route = "\(Config.urlBase)/media/getAvatar/\(codPersona.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)/Carnet.jpg"
+        var newCodPersona = codPersona
+        newCodPersona = newCodPersona.replacingOccurrences(of: "*", with: "")
+        newCodPersona = newCodPersona.replacingOccurrences(of: ".", with: "")
+        let route = "\(Config.urlBase)/media/getAvatar/\(newCodPersona.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)/Carnet.jpg"
         print(route)
         if codPersona == "" {
             return
@@ -199,7 +202,7 @@ class Images {
                     if let imagen = UIImage(data: imagenData) {
                         self.imagenes["A-\(codPersona)"] = imagen
                     } else {
-                        self.imagenes["A-\(codPersona)"] = Images.blank
+                        self.imagenes["A-\(codPersona)"] = UIImage.init(named: "Carnet")
                         flags.remove(codPersona)
                     }
                 }
@@ -209,7 +212,10 @@ class Images {
     }
     
     static func downloadAvatar(_ codPersona: String, _ completionHandler: @escaping () -> Void) {
-        let route = "\(Config.urlBase)/media/getAvatar/\(codPersona.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)/Carnet.jpg"
+        var newCodPersona = codPersona
+        newCodPersona = newCodPersona.replacingOccurrences(of: "*", with: "")
+        newCodPersona = newCodPersona.replacingOccurrences(of: ".", with: "")
+        let route = "\(Config.urlBase)/media/getAvatar/\(newCodPersona.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)/Carnet.jpg"
         print(route)
         if codPersona == "" {
             completionHandler()
@@ -223,7 +229,7 @@ class Images {
                     if let imagen = UIImage(data: imagenData) {
                         self.imagenes["A-\(codPersona)"] = imagen
                     } else {
-                        self.imagenes["A-\(codPersona)"] = Images.blank
+                        self.imagenes["A-\(codPersona)"] = UIImage.init(named: "Carnet")
                         flags.remove(codPersona)
                     }
                 }

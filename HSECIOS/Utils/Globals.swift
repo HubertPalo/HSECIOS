@@ -5,6 +5,8 @@ class Globals {
     // GET Observacion
     // static var GOData = [["Codigo", "-"], ["Area", "-"], ["Nivel de riesgo", "-"], ["Observado Por", "-"], ["Fecha", "-"], ["Hora", "-"], ["Gerencia", "-"], ["Superintendencia", "-"]]
     
+    static var agregarHistorialFacilito = false
+    
     // GET Observacion
     static var rightLabels: [String] = ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"]
     static var splitExpositor = [String]()
@@ -96,6 +98,8 @@ class Globals {
         GaleriaModo = modo
         UOTab1ObsGD = ObservacionGD()
         UOTab4Planes = []
+        GaleriaMultimedia = []
+        GaleriaDocumentos = []
         GaleriaDocIdRequests = []
         GaleriaDocPorcentajes = []
         
@@ -128,7 +132,7 @@ class Globals {
             GaleriaCorrelativosABorrar.removeAll()
             GaleriaVCViewContainerIsHidden = true
             GaleriaVCGaleriaContainerIsHidden = false
-            (Tabs.forAddObs[2] as! UpsertObsPVCTab3).galeriaVC.galeria.tableView.reloadData()// self.galeria.tableView.reloadData()
+            (Tabs.forAddObs[2] as! UpsertObsPVCTab3).galeriaTVC.tableView.reloadData()// self.galeria.tableView.reloadData()
         case "PUT":
             Rest.getDataGeneral(Routes.forObservaciones(codigo), true, success: {(resultValue:Any?,data:Data?) in
                 UOTab1ObsGD = Dict.dataToUnit(data!)!
@@ -157,7 +161,15 @@ class Globals {
                 let arrayMultimedia: ArrayGeneral<Multimedia> = Dict.dataToArray(data!)
                 GaleriaVCGaleriaContainerIsHidden = arrayMultimedia.Count == 0
                 GaleriaVCViewContainerIsHidden = arrayMultimedia.Count != 0
-                var arrayFotoVideo = [FotoVideo]()
+                (GaleriaMultimedia, GaleriaDocumentos) = Utils.separateMultimedia(arrayMultimedia.Data)
+                for media in GaleriaMultimedia {
+                    Images.downloadImage("\(media.Correlativo!)", {() in
+                        media.imagen = Images.imagenes["P-\(media.Correlativo!)"]
+                        (Tabs.forAddObs[2] as! UpsertObsPVCTab3).galeriaTVC.tableView.reloadData()
+                    })
+                }
+                
+                /*var arrayFotoVideo = [FotoVideo]()
                 var arrayDocumentos = [DocumentoGeneral]()
                 for multimedia in arrayMultimedia.Data {
                     switch multimedia.TipoArchivo ?? "" {
@@ -182,10 +194,10 @@ class Globals {
                     }
                 }
                 GaleriaMultimedia = arrayFotoVideo
-                GaleriaDocumentos = arrayDocumentos
+                GaleriaDocumentos = arrayDocumentos*/
                 GaleriaDocIdRequests = [Int].init(repeating: -1, count: GaleriaDocumentos.count)
                 GaleriaDocPorcentajes = [Int].init(repeating: 0, count: GaleriaDocumentos.count)
-                (Tabs.forAddObs[2] as! UpsertObsPVCTab3).galeriaVC.galeria.tableView.reloadData()
+                (Tabs.forAddObs[2] as! UpsertObsPVCTab3).galeriaTVC.tableView.reloadData()
                 // (Tabs.forAddObs[2] as! UpsertObsPVCTab3).galeriaVC.loadModo("PUT")
             }, error: nil)
             Rest.getDataGeneral(Routes.forPlanAccion(codigo), true, success: {(resultValue:Any?,data:Data?) in
@@ -666,7 +678,11 @@ class Globals {
             strAtendieron = String.init(data: Dict.unitToData(atendieron)!, encoding: .utf8) ?? "-"
             return ("", strResponsables, strAtendieron)
         case "PUT":
-            if UITab2RealizaronNuevoLider != UITab2RealizaronOriginalLider || UITab2RealizaronNuevo != UITab2RealizaronOriginal {
+            print(UITab2RealizaronNuevoLider)
+            print(UITab2RealizaronOriginalLider)
+            print(UITab2RealizaronNuevo)
+            print(UITab2RealizaronOriginal)
+            if (UITab2RealizaronNuevoLider != "" && UITab2RealizaronNuevoLider != UITab2RealizaronOriginalLider) || UITab2RealizaronNuevo != UITab2RealizaronOriginal {
                 let primeraPersona = Persona()
                 primeraPersona.NroReferencia = UICodigo
                 primeraPersona.Estado = "L"
@@ -978,8 +994,10 @@ class Globals {
         switch modo {
         case "ADD":
             UFViewController.tabla?.reloadData()
+            UFViewController.setTitleAndImage("Nuevo reporte facilito", Images.facilito)
             break
         case "PUT":
+            UFViewController.setTitleAndImage("Editar reporte facilito", Images.facilito)
             Rest.getDataGeneral(Routes.forFacilitoDetalle(codigo), true, success: {(resultValue:Any?,data:Data?) in
                 UFDetalle = Dict.dataToUnit(data!)!
                 UFViewController.tabla?.reloadData()

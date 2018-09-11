@@ -5,6 +5,7 @@ class InspeccionesVC: UIViewController, UISearchBarDelegate {
     @IBOutlet weak var botonTopIzq: UIBarButtonItem!
     @IBOutlet weak var botonTopDer: UIBarButtonItem!
     
+    @IBOutlet weak var quitarFiltroView: UIView!
     @IBOutlet weak var ocurrenciasView: UIView!
     @IBOutlet weak var ocurrenciasText: UILabel!
     @IBOutlet weak var muroContainer: UIView!
@@ -93,6 +94,9 @@ class InspeccionesVC: UIViewController, UISearchBarDelegate {
                 }
             }, error: nil)*/
         }
+        self.muro.forzarActualizacion = {
+            self.muro.alScrollLimiteTop?()
+        }
         self.muro.alScrollLimiteBot = {
             self.pagina = self.pagina + 1
             if self.searchedText {
@@ -121,7 +125,7 @@ class InspeccionesVC: UIViewController, UISearchBarDelegate {
                 Rest.postDataGeneral(Routes.forMuroSearchI(), self.dataUsed, true, success: {(resultValue:Any?,data:Data?) in
                     let arrayMuroElement: ArrayGeneral<MuroElement> = Dict.dataToArray(data!)
                     self.muro.data.append(contentsOf: arrayMuroElement.Data)
-                    self.muroDataTemp = self.muro.data
+                    self.muroDataTemp = self.dataUsed.count > 2 ? self.muroDataTemp : self.muro.data
                     self.muro.tableView.reloadData()
                     var contador = 0
                     for unit in arrayMuroElement.Data {
@@ -220,6 +224,22 @@ class InspeccionesVC: UIViewController, UISearchBarDelegate {
         }, error: nil)
     }
     
+    @IBAction func clickQuitarFiltro(_ sender: Any) {
+        self.quitarFiltroView.isHidden = true
+        data = ["Pagenumber": "\(pagina)", "Elemperpage": "10"]
+        dataUsed = ["Pagenumber": "\(pagina)", "Elemperpage": "10"]
+        
+        self.isSearching = false
+        self.searchedText = false
+        self.setTitleAndImage("Inspecciones", Images.inspeccion)
+        self.botonTopDer.image = UIImage.init(named: "search25x25")
+        self.botonTopIzq.image = UIImage.init(named: "menu30x30")
+        self.ocurrenciasView.isHidden = true
+        self.muroContainer.isHidden = false
+        self.muro.data = self.muroDataTemp
+        self.muro.tableView.reloadData()
+    }
+    
     @IBAction func clickTopIzq(_ sender: Any) {
         if self.isSearching {
             self.isSearching = false
@@ -240,14 +260,15 @@ class InspeccionesVC: UIViewController, UISearchBarDelegate {
         if self.isSearching {
             VCHelper.openFiltroInspeccion(self, {(data) in
                 self.dataUsed = data
+                self.quitarFiltroView.isHidden = false
                 self.searchedText = false
                 Rest.postDataGeneral(Routes.forMuroSearchI(), data, true, success: {(resultValue:Any?,data:Data?) in
                     print(resultValue)
                     let arrayMuroElement: ArrayGeneral<MuroElement> = Dict.dataToArray(data!)
                     self.muro.data = arrayMuroElement.Data
                     self.muro.tableView.reloadData()
-                    // self.stackInf.isHidden = false
-                    // self.viewContainer.isHidden = arrayMuroElement.Count <= 0
+                    self.ocurrenciasView.isHidden = false
+                    self.ocurrenciasText.text = "Total registros encontrados: \(arrayMuroElement.Count)"
                     var contador = 0
                     for unit in arrayMuroElement.Data {
                         Images.downloadAvatar(unit.UrlObs ?? "", {() in

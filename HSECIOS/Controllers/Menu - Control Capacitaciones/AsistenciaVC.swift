@@ -224,6 +224,7 @@ class AsistenciaVC: UIViewController, UITabBarDelegate, UITableViewDelegate, UIT
                 
             }else if usuario.Estado == "N" { // scanner
                 self.activeScan=true;///
+                //self.toggleTorch(on: true)
                 self.ControlCam.startCam() //habilitar la camara
                 
                 self.presentAlert(nil, "\(usuario.CodPersona!) : \(usuario.Nombres!)" , .actionSheet, 2,nil,  [], [], actionHandlers: [])
@@ -234,11 +235,14 @@ class AsistenciaVC: UIViewController, UITabBarDelegate, UITableViewDelegate, UIT
                 self.presentAlert("Asistente no registrado", "Desea agregarlo a la lista de participantes?", .alert, nil, Images.alertaAmarilla, ["Cancelar", "Aceptar"], [.cancel, .default], actionHandlers: [ {(alertaCancelar) in
                     print("Esto ocurre al presionar cancelar")/// activar scan
                     self.activeScan=true;
+                    //self.toggleTorch(on: true)
+                    
                     self.ControlCam.startCam() //habilitar la camara
                     
                     }, {(alertAceptar) in
                         print("Esto ocurre al presionar aceptar")
                         self.activeScan=true;
+                        //self.toggleTorch(on: true)
                         self.ControlCam.startCam() //habilitar la camara
                         
                         Rest.postDataGeneral(Routes.forAddParticipante(), ["CodPersona": codPer, "NroDocumento": codCurso, "Estado": self.indiceF], true, success: {(resultValue:Any?,data:Data?) in
@@ -275,6 +279,7 @@ class AsistenciaVC: UIViewController, UITabBarDelegate, UITableViewDelegate, UIT
                 
             } else if usuario.Estado == "R" /*|| usuario.Estado == "A"*/{
                 self.activeScan=true;
+                //self.toggleTorch(on: true)
                 self.ControlCam.startCam() //habilitar la camara
                 Images.downloadAvatar(usuario.NroDocumento!, {() in
                     let popup = Utils.capacitacionSB.instantiateViewController(withIdentifier: "PopUpAsistente") as! PopUpAsistenteVC
@@ -365,6 +370,7 @@ class AsistenciaVC: UIViewController, UITabBarDelegate, UITableViewDelegate, UIT
             //set icon con una linea
             btnLinterna.setImage(UIImage(named: "flashoff"), for: .normal)
             linEnable = true
+            
             toggleTorch(on: linEnable)
         }else{
             btnLinterna.setImage(UIImage(named: "flashon"), for: .normal)
@@ -377,11 +383,17 @@ class AsistenciaVC: UIViewController, UITabBarDelegate, UITableViewDelegate, UIT
         
     }
     
+    func StatusLinterna() -> Bool{
+        return linEnable
+    }
+    
     func DataToScan(_ dniScan: String){
         
         print("Dni: \(dniScan)")
         if activeScan {
             activeScan = false
+            //self.toggleTorch(on: true)
+            
             self.addParticipante("D\(dniScan)",self.codCurso,self.indiceF)
             
         }
@@ -389,9 +401,9 @@ class AsistenciaVC: UIViewController, UITabBarDelegate, UITableViewDelegate, UIT
         //    func addParticipante(_ codPer: String,_ codCurso: String,_ indice:String ){
         if soundEnable {
             playSound()
+            //self.toggleTorch(on: true)
+            
         }
-        
-        
     }
     
     @IBAction func SoundAD(_ sender: Any) {
@@ -434,8 +446,12 @@ class AsistenciaVC: UIViewController, UITabBarDelegate, UITableViewDelegate, UIT
                     try device.lockForConfiguration()
                     if on == true {
                         device.torchMode = .on
+                        print("luces on")
+                        
                     }else {
                         device.torchMode = .off
+                        print("luces off")
+                        
                     }
                     device.unlockForConfiguration()
                 }else {

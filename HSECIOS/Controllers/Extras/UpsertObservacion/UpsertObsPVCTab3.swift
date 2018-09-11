@@ -5,7 +5,7 @@ class UpsertObsPVCTab3: UIViewController {
     var modo = "ADD"
     var codigo = ""
     
-    var galeriaVC = GaleriaFVDVC()
+    var galeriaTVC = GaleriaFVDTVC()
     
     override func viewDidAppear(_ animated: Bool) {
         if let padre = self.parent?.parent as? UpsertObsVC {
@@ -15,7 +15,7 @@ class UpsertObsPVCTab3: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.galeriaVC = self.childViewControllers[0] as! GaleriaFVDVC
-        self.galeriaVC.galeria.descargaDocumentoBarButton = (self.parent?.parent as! UpsertObsVC).botonTopDer
+        self.galeriaTVC = self.childViewControllers[0] as! GaleriaFVDTVC
+        self.galeriaTVC.descargaDocumentoBarButton = (self.parent?.parent as! UpsertObsVC).botonTopDer
     }
 }

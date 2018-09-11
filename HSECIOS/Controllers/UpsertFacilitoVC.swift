@@ -15,10 +15,14 @@ class UpsertFacilitoVC: UIViewController, UITextFieldDelegate, UITableViewDelega
     
     @IBOutlet weak var tabla: UITableView!
     var idPost = -1
+    var afterSuccess : (() -> Void)?
     
     override func viewWillAppear(_ animated: Bool) {
         if Globals.UFModo == "ADD" {
             self.setTitleAndImage("Nuevo reporte facilito", Images.facilito)
+        }
+        if Globals.UFModo == "PUT" {
+            self.setTitleAndImage("Editar reporte facilito", Images.facilito)
         }
     }
     
@@ -205,7 +209,34 @@ class UpsertFacilitoVC: UIViewController, UITextFieldDelegate, UITableViewDelega
                 }
             }
         })
-        PHImageManager.default().requestAVAsset(forVideo: asset.originalAsset!, options: nil, resultHandler: {(avasset,mix,info) in
+        let options = PHVideoRequestOptions()
+        options.version = .original
+        options.deliveryMode = .automatic
+        options.isNetworkAccessAllowed = true
+        
+        PHCachingImageManager.default().requestAVAsset(forVideo: asset.originalAsset!, options: options, resultHandler:{ (avAsset, audioMix, info) in
+            DispatchQueue.main.async {
+                let theAsset = avAsset as! AVURLAsset
+                let videoURL = theAsset.url
+                print(videoURL)
+                flagVideoData = true
+                do {
+                    multimediaVideo.multimediaData = try Data(contentsOf: theAsset.url)
+                } catch {
+                    multimediaVideo.multimediaData = nil
+                }
+                if flagImage && flagVideoData {
+                    Utils.desbloquearPantalla()
+                    Dict.unitToData(multimediaVideo)
+                    if multimediaVideo.imagen != nil && multimediaVideo.multimediaData != nil && !Globals.GaleriaNombres.contains(multimediaVideo.Descripcion ?? "") {
+                        Globals.GaleriaMultimedia.append(multimediaVideo)
+                        Globals.GaleriaNombres.insert(multimediaVideo.Descripcion ?? "")
+                        self.tabla.reloadData()
+                    }
+                }
+            }
+        })
+        /*PHImageManager.default().requestAVAsset(forVideo: asset.originalAsset!, options: nil, resultHandler: {(avasset,mix,info) in
             flagVideoData = true
             do {
                 let myAsset = avasset as? AVURLAsset
@@ -222,7 +253,7 @@ class UpsertFacilitoVC: UIViewController, UITextFieldDelegate, UITableViewDelega
                     self.tabla.reloadData()
                 }
             }
-        })
+        })*/
     }
     
     func loadAssetImagen(asset: DKAsset) {
@@ -383,6 +414,7 @@ class UpsertFacilitoVC: UIViewController, UITextFieldDelegate, UITableViewDelega
                     self.presentAlert("¿Desea Finalizar?", "Se guardaron los datos correctamente", .alert, nil, Images.alertaVerde, ["Aceptar", "Cancelar"], [UIAlertActionStyle.default, UIAlertActionStyle.destructive], actionHandlers: [{(alertActionAceptar) in
                         print(self.navigationController?.viewControllers.count)
                         print("Al aceptar: aun falta desarrollar")
+                        self.afterSuccess?()
                         self.navigationController?.popViewController(animated: true)
                         self.dismiss(animated: true, completion: nil)
                         }, {(alertActionCancelar) in
