@@ -154,17 +154,24 @@ class NotaEditPopupVC: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func NextUser(_ sender: Any) {
-        if cursoNotas.count - 1 > position {
-            position = position + 1
-            updateValues(cursoNotas[position])
-        }
         
+        
+        if cursoNotas.count - 1 > position{
+            if cursoNotas[position+1].Estado == "A" {
+                
+                position = position + 1
+                updateValues(cursoNotas[position])
+                
+            }
+        }
     }
     
     @IBAction func BackUser(_ sender: Any) {
         if position > 0 {
-            position = position - 1
-            updateValues(cursoNotas[position])
+            if cursoNotas[position+1].Estado == "A" {
+                position = position - 1
+                updateValues(cursoNotas[position])
+            }
         }
     }
     

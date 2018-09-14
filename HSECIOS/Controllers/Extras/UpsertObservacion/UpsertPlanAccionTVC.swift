@@ -2,31 +2,63 @@ import UIKit
 
 class UpsertPlanAccionTVC: UITableViewController, UITextViewDelegate {
     
-    var modo = 1
+    // var modo = 1
     // var codigo = ""
+    var modo = ""
     
+    @IBOutlet weak var botonTopIzq: UIBarButtonItem!
     var obsPlan = PlanAccionDetalle()
-    var modoObs = false
+    // var modoObs = false
     var responsables: [Persona] = []
     var fechaInicial = Date()
     var fechaFinal = Date()
     
-    var alClickTopDer : ((_ plan: PlanAccionDetalle) -> Void)?
-    var actualizarTabla: (() -> Void)?
+    // var alClickTopDer : ((_ plan: PlanAccionDetalle) -> Void)?
+    var actualizarTabla: ((_: PlanAccionDetalle) -> Void)?
+    var editarPlan: ((_: PlanAccionDetalle) -> Void)?
+    // var idReplaceObs = -1
+    // var idReplaceInsObs = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    func loadModo2(_ modo: String, _ plan: PlanAccionDetalle, _ modoObservacion: Bool, _ actualizarTablaExterna: (() -> Void)?) {
+    func loadModo(_ modo: String, _ plan: PlanAccionDetalle, _ editarPlan: ((_: PlanAccionDetalle) -> Void)?, _ actualizarTablaExterna: ((_: PlanAccionDetalle) -> Void)?) {
+        self.modo = modo
+        
+        self.setTitleAndImage((modo == "ADD" ? "Nuevo" : "Editar") + " plan de acción", UIImage.init(named: "planesPendientes"), UIColor.white)
+        self.obsPlan = plan
+        self.editarPlan = editarPlan
+        //self.idReplaceObs = idReplaceObs
+        // se lf.idReplaceInsObs = idReplaceInsObs
+        self.fechaInicial = Utils.str2date(plan.FecComprometidaInicial ?? "") ?? Date()
+        self.fechaFinal = Utils.str2date(plan.FecComprometidaFinal ?? "") ?? Date()
+        self.responsables = []
+        let codSplits = (plan.CodResponsables ?? "").components(separatedBy: ";")
+        if codSplits.count > 0 && codSplits[0] != "" {
+            let nomSplits = (plan.Responsables ?? "").components(separatedBy: ";")
+            for i in 0..<codSplits.count {
+                let persona = Persona()
+                persona.CodPersona = codSplits[i]
+                let nombreCargo = nomSplits[i].components(separatedBy: ":")
+                persona.Cargo = nombreCargo[1]
+                persona.Nombres = nombreCargo[0]
+                self.responsables.append(persona)
+            }
+        }
+        self.actualizarTabla = actualizarTablaExterna
+        self.tableView.reloadData()
+    }
+    
+    /*func loadModo2(_ modo: String, _ plan: PlanAccionDetalle, _ modoObservacion: Bool, _ actualizarTablaExterna: (() -> Void)?) {
         self.modoObs = modoObservacion
         switch modo {
         case "ADD":
             self.setTitleAndImage("Nuevo plan de acción", UIImage.init(named: "planesPendientes"), UIColor.white)
-            self.modo = 1
+            // self.modo = 1
         case "PUT":
             self.setTitleAndImage("Editar plan de acción", UIImage.init(named: "planesPendientes"), UIColor.white)
-            self.modo = 2
+            // self.modo = 2
         default:
             break
         }
@@ -58,7 +90,7 @@ class UpsertPlanAccionTVC: UITableViewController, UITextViewDelegate {
         if modo == 2 {
             self.setTitleAndImage("Editar plan de acción", UIImage.init(named: "planesPendientes"), UIColor.white)
         }
-        self.modo = modo
+        // self.modo = modo
         self.obsPlan = plan
         // self.codigo = muroElement.Codigo ?? ""
         let codSplits = (plan.CodResponsables ?? "").components(separatedBy: ";")
@@ -79,7 +111,7 @@ class UpsertPlanAccionTVC: UITableViewController, UITextViewDelegate {
     }
     
     func loadModo(_ modo: String, _ codigo: String, _ alClickTopDer: ((_ plan: PlanAccionDetalle) -> Void)?) {
-        self.modo = modo == "GET" ? 1: 2
+        // self.modo = modo == "GET" ? 1: 2
         if modo == "PUT" {
             self.setTitleAndImage("Editar plan de acción", UIImage.init(named: "planesPendientes"), UIColor.white)
         }
@@ -105,7 +137,7 @@ class UpsertPlanAccionTVC: UITableViewController, UITextViewDelegate {
             self.tableView.reloadData()
             print(resultValue)
         }, error: nil)
-    }
+    }*/
     
     func textViewDidChange(_ textView: UITextView) {
         self.obsPlan.DesPlanAccion = textView.text
@@ -118,7 +150,7 @@ class UpsertPlanAccionTVC: UITableViewController, UITextViewDelegate {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return self.modo == 1 ? 1 : 5
+            return self.obsPlan.CodAccion == "-1" ? 1 : 5
         case 1:
             return 5
         case 2:
@@ -348,6 +380,13 @@ class UpsertPlanAccionTVC: UITableViewController, UITextViewDelegate {
         self.tableView.reloadSections([4], with: .none)
     }
     
+    @IBAction func clickTopIzq(_ sender: Any) {
+        self.presentarAlertaDatosSinGuardar {
+            self.navigationController?.popViewController(animated: true)
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
     @IBAction func clickTopDer(_ sender: Any) {
         self.view.endEditing(true)
         self.obsPlan.FecComprometidaInicial = Utils.date2str(self.fechaInicial, "YYYY-MM-dd")
@@ -394,7 +433,67 @@ class UpsertPlanAccionTVC: UITableViewController, UITextViewDelegate {
             self.presentAlert("El siguiente campo no puede estar vacío", nombreVariable, .alert, 2, nil, [], [], actionHandlers: [])
             return
         }
-        if self.modoObs {
+        
+        if let funcion = self.editarPlan {
+            self.editarPlan?(self.obsPlan)
+            self.actualizarTabla?(self.obsPlan)
+            self.navigationController?.popViewController(animated: true)
+            self.dismiss(animated: true, completion: nil)
+            return
+        }
+        /*if self.modo == "ADD" && self.idReplaceObs == -1 {
+            
+        }
+        
+        if self.idReplaceObs != -1 {
+            if self.idReplaceObs == -10 && self.idReplaceInsObs > 0 {
+                
+            }
+            if self.idReplaceInsObs != -1 {
+                Globals.UOTab4Planes[idReplaceObs] = self.obsPlan
+            } else {
+                Globals.UITab3LocalPlanes[idReplaceInsObs][idReplaceObs] = self.obsPlan
+            }
+            
+            return
+        }
+        
+        if self.idReplaceObs >= 0 {
+            if self.idReplaceInsObs >= 0 {
+                Globals.UOTab4Planes[idReplaceObs] = self.obsPlan
+            } else {
+                Globals.UITab3LocalPlanes[idReplaceInsObs][idReplaceObs] = self.obsPlan
+            }
+            self.actualizarTabla?()
+            self.navigationController?.popViewController(animated: true)
+            self.dismiss(animated: true, completion: nil)
+            return
+        }*/
+        
+        var showplan = self.obsPlan.copy()
+        // showplan.CodAccion = "-1"
+        showplan.Responsables = nil
+        //showplan.NroDocReferencia = Globals.UOCodigo
+        showplan.CodTipoObs = showplan.CodTipoObs ?? ""
+        showplan.SolicitadoPor = nil
+        let params: [String:String] = Dict.dataToUnit(Dict.unitToData(showplan)!)!
+        Rest.postDataGeneral(Routes.forPostPlanAccion(), params, true, success: {(resultValue:Any?,data:Data?) in
+            print(resultValue)
+            if (resultValue as! String) == "-1" {
+                self.presentAlert("Error", "Ocurrió un error", .alert, 2, nil, [], [], actionHandlers: [])
+            } else {
+                self.presentarAlertaDeseaFinalizar({(actionAceptar) in
+                    self.actualizarTabla?(self.obsPlan)
+                    self.navigationController?.popViewController(animated: true)
+                    self.dismiss(animated: true, completion: nil)
+                }, {(cancelarAction) in
+                    self.obsPlan.CodAccion = resultValue as! String
+                })
+                
+            }
+        }, error: nil)
+        
+        /*if self.modoObs {
             if Globals.UOCodigo == "" {
                 if let click = self.alClickTopDer {
                     click(self.obsPlan)
@@ -439,6 +538,6 @@ class UpsertPlanAccionTVC: UITableViewController, UITextViewDelegate {
             self.alClickTopDer?(self.obsPlan)
             self.navigationController?.popViewController(animated: true)
             self.dismiss(animated: true, completion: nil)
-        }
+        }*/
     }
 }

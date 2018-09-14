@@ -245,7 +245,7 @@ class AsistenciaVC: UIViewController, UITabBarDelegate, UITableViewDelegate, UIT
                         //self.toggleTorch(on: true)
                         self.ControlCam.startCam() //habilitar la camara
                         
-                        Rest.postDataGeneral(Routes.forAddParticipante(), ["CodPersona": codPer, "NroDocumento": codCurso, "Estado": self.indiceF], true, success: {(resultValue:Any?,data:Data?) in
+                        Rest.postDataGeneral(Routes.forAddParticipante(), ["CodPersona": usuario.CodPersona!, "NroDocumento": codCurso, "Estado": self.indiceF], true, success: {(resultValue:Any?,data:Data?) in
                             //let usuario: Persona = Dict.dataToUnit(data!)!
                             print(self.indiceF)
                             let str = resultValue as! String

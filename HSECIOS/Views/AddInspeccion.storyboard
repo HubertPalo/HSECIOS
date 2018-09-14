@@ -523,8 +523,9 @@
                                                                 <action selector="clickBotonContrata:" destination="F9a-1e-4Kw" eventType="touchUpInside" id="d0y-Fd-16M"/>
                                                             </connections>
                                                         </button>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user" translatesAutoresizingMaskIntoConstraints="NO" id="t20-OT-CeM">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Contrata" translatesAutoresizingMaskIntoConstraints="NO" id="t20-OT-CeM">
                                                             <rect key="frame" x="7.5" y="9.5" width="25" height="25"/>
+                                                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="25" id="8Nu-YD-Ju7"/>
                                                                 <constraint firstAttribute="height" constant="25" id="Hdh-ga-hpC"/>
@@ -792,10 +793,10 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Contrata" width="100" height="100"/>
         <image name="add" width="100" height="100"/>
         <image name="back" width="25" height="25"/>
         <image name="tacho" width="100" height="100"/>
-        <image name="user" width="512" height="512"/>
         <image name="whiteDoneCheck" width="36" height="36"/>
         <image name="x" width="512" height="512"/>
     </resources>

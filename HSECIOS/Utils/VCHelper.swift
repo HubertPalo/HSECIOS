@@ -1,7 +1,7 @@
 import UIKit
 
 class VCHelper {
-    static var filtroMuro = UIViewController()
+    // static var filtroMuro = UIViewController()
     static var filtroPersona = UIViewController()
     static var filtroPersonas = UIViewController()
     static var filtroObservacion = UIViewController()
@@ -27,7 +27,7 @@ class VCHelper {
     static var galeria = UIViewController()
     
     static func initVCs() {
-        self.filtroMuro = Utils.mainSB.instantiateViewController(withIdentifier: "muroFiltro")
+        // self.filtroMuro = Utils.mainSB.instantiateViewController(withIdentifier: "muroFiltro")
         self.filtroPersona = Utils.utilsSB.instantiateViewController(withIdentifier: "filtroPersona")
         self.filtroPersonas = Utils.utilsSB.instantiateViewController(withIdentifier: "filtroPersonas")
         self.filtroObservacion = Utils.utilsSB.instantiateViewController(withIdentifier: "filtroObservacion")
@@ -76,8 +76,46 @@ class VCHelper {
         viewcontroller.navigationController?.pushViewController(agregarVC, animated: true)
     }
     
-    static func openUpsertObsPlan(_ viewcontroller: UIViewController, _ modo: Int, _ plan: PlanAccionDetalle, _ element: MuroElement, _ alTerminar: ((_ plan: PlanAccionDetalle) -> Void)?) {
-        let vc = self.upsertObsPlan as! UpsertObsPlanTVC
+    static func openUpsertPlanAccion(_ viewcontroller: UIViewController, _ modo: String, _ plan: PlanAccionDetalle, _ editarPlan: ((_: PlanAccionDetalle) -> Void)?, _ actualizarTabla: ((_: PlanAccionDetalle) -> Void)?) {
+        // id -10 = agregar temp
+        let vc = self.upsertObsPlan as! UpsertPlanAccionTVC
+        /*let plan = PlanAccionDetalle()
+        plan.SolicitadoPor = Globals.UOTab1ObsGD.CodObservadoPor
+        plan.CodSolicitadoPor = Globals.UOTab1ObsGD.ObservadoPor
+        plan.CodNivelRiesgo = Globals.UOTab1ObsGD.CodNivelRiesgo
+        plan.CodAreaHSEC = Globals.UOTab1ObsGD.CodAreaHSEC
+        plan.CodEstadoAccion = "01"
+        plan.CodTabla = "TOBS"
+        plan.CodReferencia = "01"
+        plan.NroDocReferencia = Globals.UOCodigo
+        plan.FechaSolicitud = Utils.date2str(Date(), "YYYY-MM-dd")
+        plan.SolicitadoPor = Utils.userData.Nombres
+        // plan.CodSolicitadoPor = Utils.userData.CodPersona
+        vc.loadModo2(modo, plan, true, actualizarTabla)*/
+        vc.loadModo(modo, plan, editarPlan, actualizarTabla)
+        viewcontroller.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    /*static func openUpsertObsPlan(_ viewcontroller: UIViewController, _ modo: String, _ actualizarTabla: (() -> Void)?) {
+        let vc = self.upsertObsPlan as! UpsertPlanAccionTVC
+        let plan = PlanAccionDetalle()
+        plan.SolicitadoPor = Globals.UOTab1ObsGD.CodObservadoPor
+        plan.CodSolicitadoPor = Globals.UOTab1ObsGD.ObservadoPor
+        plan.CodNivelRiesgo = Globals.UOTab1ObsGD.CodNivelRiesgo
+        plan.CodAreaHSEC = Globals.UOTab1ObsGD.CodAreaHSEC
+        plan.CodEstadoAccion = "01"
+        plan.CodTabla = "TOBS"
+        plan.CodReferencia = "01"
+        plan.NroDocReferencia = Globals.UOCodigo
+        plan.FechaSolicitud = Utils.date2str(Date(), "YYYY-MM-dd")
+        plan.SolicitadoPor = Utils.userData.Nombres
+        // plan.CodSolicitadoPor = Utils.userData.CodPersona
+        vc.loadModo2(modo, plan, true, actualizarTabla)
+        viewcontroller.navigationController?.pushViewController(vc, animated: true)
+    }*/
+    
+    /*static func openUpsertObsPlan(_ viewcontroller: UIViewController, _ modo: Int, _ plan: PlanAccionDetalle, _ element: MuroElement, _ alTerminar: ((_ plan: PlanAccionDetalle) -> Void)?) {
+        let vc = self.upsertObsPlan as! UpsertPlanAccionTVC
         let copia = plan.copy()
         copia.NroDocReferencia = element.Codigo
         copia.FechaSolicitud = Utils.date2str(Date(), "YYYY-MM-dd")
@@ -85,10 +123,10 @@ class VCHelper {
         copia.CodSolicitadoPor = Utils.userData.CodPersona
         vc.loadModo(modo, copia, element, alTerminar)
         viewcontroller.navigationController?.pushViewController(vc, animated: true)
-    }
+    }*/
     
-    static func openUpsertPlanAccion(_ viewcontroller: UIViewController, _ modo: String, _ codigo: String, _ alTerminar: ((_ plan: PlanAccionDetalle) -> Void)?) {
-        let vc = self.upsertObsPlan as! UpsertObsPlanTVC
+    /*static func openUpsertPlanAccion(_ viewcontroller: UIViewController, _ modo: String, _ codigo: String, _ alTerminar: ((_ plan: PlanAccionDetalle) -> Void)?) {
+        let vc = self.upsertObsPlan as! UpsertPlanAccionTVC
         /*let copia = plan.copy()
         copia.NroDocReferencia = element.Codigo
         copia.FechaSolicitud = Utils.date2str(Date(), "YYYY-MM-dd")
@@ -97,7 +135,7 @@ class VCHelper {
         // vc.loadModo(modo, copia, element, alTerminar)
         vc.loadModo(modo, codigo, alTerminar)
         viewcontroller.navigationController?.pushViewController(vc, animated: true)
-    }
+    }*/
     
     static func openUpsertFacilito(_ viewcontroller: UIViewController, _ modo: String, _ codigo: String, _ afterSucces: (() -> Void)?) {
         let vc = self.upsertFacilito as! UpsertFacilitoVC
@@ -148,10 +186,10 @@ class VCHelper {
         viewcontroller.navigationController?.pushViewController(filtroVC, animated: true)
     }
     
-    static func openAddObsPlanAccion(_ viewcontroller: UIViewController)-> Void {
+    /*static func openAddObsPlanAccion(_ viewcontroller: UIViewController)-> Void {
         let agregarVC = self.agregarObsPlanAccion as! AddPutObsPlATVC
         viewcontroller.navigationController?.pushViewController(agregarVC, animated: true)
-    }
+    }*/
     
     static func openFiltroContrata(_ viewcontroller: UIViewController, _ alBuscarContrata: @escaping (_ nombre:String, _ codigo:String)-> Void)-> Void {
         let filtroVC = self.filtroContrata as! FiltroContrataVC
@@ -160,11 +198,11 @@ class VCHelper {
         viewcontroller.navigationController?.pushViewController(filtroVC, animated: true)
     }
     
-    static func openFiltroMuro(_ viewcontroller: UIViewController, _ tipo: String) {
+    /*static func openFiltroMuro(_ viewcontroller: UIViewController, _ tipo: String) {
         let filtroVC = self.filtroMuro as! MuroFiltroVC
         filtroVC.loadTipo(tipo)
         viewcontroller.navigationController?.pushViewController(filtroVC, animated: true)
-    }
+    }*/
     
     static func openObsDetalle(_ viewcontroller: UIViewController, _ codigoObservacion: String, _ tipoObservacion: String, _ abrirEnComentarios: Bool) {
         let vc = self.obsDetalle as! ObsDetalleVC
@@ -176,6 +214,9 @@ class VCHelper {
         Globals.GaleriaDocumentos = []
         Globals.GaleriaDocIdRequests = []
         Globals.GaleriaDocPorcentajes = []
+        Globals.GaleriaModo = "GET"
+        Globals.UIModo = "GET"
+        Globals.UOModo = "GET"
         (Tabs.forObsDetalle[2] as! ObsDetallePVCTab3).galeria.galeria.tableView.reloadData()
         (Tabs.forObsDetalle[4] as! ObsDetallePVCTab5).loadObservacion(codigoObservacion)
         viewcontroller.navigationController?.pushViewController(vc, animated: true)
@@ -190,7 +231,9 @@ class VCHelper {
         (Tabs.forInsDetalle[1] as! InsDetallePVCTab2).inspeccion = inspeccion
         (Tabs.forInsDetalle[2] as! InsDetallePVCTab3).inspeccion = inspeccion
         (Tabs.forInsDetalle[3] as! InsDetallePVCTab4).inspeccion = inspeccion
-        
+        Globals.GaleriaModo = "GET"
+        Globals.UIModo = "GET"
+        Globals.UOModo = "GET"
         viewcontroller.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -201,6 +244,9 @@ class VCHelper {
         (Tabs.forInsObservacion[0] as! InsObservacionPVCTab1).insObservacion = insObs
         (Tabs.forInsObservacion[1] as! InsObservacionPVCTab2).insObs = insObs
         (Tabs.forInsObservacion[2] as! InsObservacionPVCTab3).insObs = insObs
+        Globals.GaleriaModo = "GET"
+        Globals.UIModo = "GET"
+        Globals.UOModo = "GET"
         viewcontroller.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -231,7 +277,7 @@ class VCHelper {
         viewcontroller.navigationController?.pushViewController(vc, animated: true)
     }
     static func openPlanAccionDetalle(_ viewcontroller: UIViewController, _ plan: PlanAccionDetalle) {
-        let vc = self.planAccionDetalle as! PlanAccionDetalleTVC
+        let vc = Utils.planAccionSB.instantiateViewController(withIdentifier: "planAccionDetalle") as! PlanAccionDetalleTVC
         vc.cleanData()
         vc.loadData(plan)
         viewcontroller.navigationController?.pushViewController(vc, animated: true)

@@ -21,16 +21,17 @@ class ObsPlanAccionTVC: UITableViewController {
         let unit = planes[indexPath.row]
         
         celda.tarea.text = unit.DesPlanAccion
-        celda.responsable.text = unit.Responsables
-        celda.area.text = unit.CodAreaHSEC
-        celda.estado.text = unit.CodEstadoAccion
-        
+        celda.responsable.text = (unit.Responsables ?? "").components(separatedBy: ";").joined(separator: "\n")
+        celda.area.text = Utils.searchMaestroDescripcion("AREA", unit.CodAreaHSEC ?? "")
+        celda.estado.text = Utils.searchMaestroDescripcion("ESOB", unit.CodEstadoAccion ?? "")
         return celda
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let unit = planes[indexPath.row]
-        VCHelper.openPlanAccionDetalle(self, unit)
+        print(self.parent?.parent?.parent is ObsDetalleVC)
+        print(self.parent?.parent?.parent is InsObservacionVC)
+        VCHelper.openPlanAccionDetalle(self.parent!, unit)
     }
 }
 

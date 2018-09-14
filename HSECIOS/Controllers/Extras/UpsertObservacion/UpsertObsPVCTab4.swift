@@ -43,9 +43,18 @@ class UpsertObsPVCTab4: UITableViewController {
         
         let unit = Globals.UOTab4Planes[indexPath.row]
         if let codAccion = Int(unit.CodAccion ?? "") {
-            let muroUnit = MuroElement()
-            muroUnit.Codigo = Globals.UOCodigo
-            VCHelper.openUpsertObsPlan(self, 2, unit, muroUnit, {(plan:PlanAccionDetalle) in
+            /*let muroUnit = MuroElement()
+            muroUnit.Codigo = Globals.UOCodigo*/
+            var copia = unit.copy()
+            copia.NroDocReferencia = Globals.UOCodigo
+            copia.FechaSolicitud = Utils.date2str(Date(), "YYYY-MM-dd")
+            copia.SolicitadoPor = Utils.userData.Nombres
+            copia.CodSolicitadoPor = Utils.userData.CodPersona
+            VCHelper.openUpsertPlanAccion(self, "PUT", copia, nil, {(newplan) in
+                Globals.UOTab4Planes[indexPath.row] = newplan
+                self.tableView.reloadData()
+            })
+            /*VCHelper.openUpsertObsPlan(self, 2, unit, muroUnit, {(plan:PlanAccionDetalle) in
                 let planToPost = plan.copy()
                 planToPost.Responsables = nil
                 planToPost.SolicitadoPor = nil
@@ -64,12 +73,17 @@ class UpsertObsPVCTab4: UITableViewController {
                 }, error: {(error) in
                     self.presentAlert("Error", "Ocurrió un error al intentar realizar la operación", .alert, 2, nil, [], [], actionHandlers: [])
                 })
-            })
+            })*/
         } else {
-            VCHelper.openUpsertObsPlan(self, 1, unit, MuroElement(), {(plan:PlanAccionDetalle) in
-                Globals.UOTab4Planes[indexPath.row] = plan
+            VCHelper.openUpsertPlanAccion(self, "PUT", unit, {(newplan) in
+                Globals.UOTab4Planes[indexPath.row] = newplan
+            }, { (newplan) in
                 self.tableView.reloadData()
             })
+            /*VCHelper.openUpsertObsPlan(self, 1, unit, MuroElement(), {(plan:PlanAccionDetalle) in
+                Globals.UOTab4Planes[indexPath.row] = plan
+                self.tableView.reloadData()
+            })*/
         }
         
     }
@@ -80,16 +94,35 @@ class UpsertObsPVCTab4: UITableViewController {
         }
         
         let plan = PlanAccionDetalle()
-        plan.SolicitadoPor = Globals.UOTab1ObsGD.CodObservadoPor
-        plan.CodSolicitadoPor = Globals.UOTab1ObsGD.ObservadoPor
+        plan.SolicitadoPor = Globals.UOTab1ObsGD.ObservadoPor
+        plan.CodSolicitadoPor = Globals.UOTab1ObsGD.CodObservadoPor
         plan.CodNivelRiesgo = Globals.UOTab1ObsGD.CodNivelRiesgo
         plan.CodAreaHSEC = Globals.UOTab1ObsGD.CodAreaHSEC
         plan.CodEstadoAccion = "01"
         plan.CodTabla = "TOBS"
         plan.CodReferencia = "01"
-        let element = MuroElement()
-        element.Codigo = Globals.UOCodigo
-        VCHelper.openUpsertObsPlan(self, 1, plan, element, {(planDetalle:PlanAccionDetalle) in
+        plan.NroDocReferencia = Globals.UOCodigo
+        plan.FechaSolicitud = Utils.date2str(Date(), "YYYY-MM-dd")
+        plan.CodAccion = "-1"
+        if Globals.UOCodigo == "" {
+            VCHelper.openUpsertPlanAccion(self, "ADD", plan, {(newplan) in
+                Globals.UOTab4Planes.append(newplan)
+            }, { (newplan) in
+                self.tableView.reloadData()
+            })
+        } else {
+            VCHelper.openUpsertPlanAccion(self, "ADD", plan, nil, { (newplan) in
+                self.tableView.reloadData()
+            })
+        }
+        
+        //let element = MuroElement()
+        //element.Codigo = Globals.UOCodigo
+        
+        /*VCHelper.openUpsertObsPlan(self, "ADD", {
+            self.tableView.reloadData()
+        })*/
+        /*VCHelper.openUpsertObsPlan(self, 1, plan, element, {(planDetalle:PlanAccionDetalle) in
             if Globals.UOCodigo == "" {
                 Globals.UOTab4Planes.append(planDetalle)
                 self.tableView.reloadData()
@@ -115,7 +148,7 @@ class UpsertObsPVCTab4: UITableViewController {
                     }
                 }, error: nil)
             }
-        })
+        })*/
     }
     
     @IBAction func clickBorrarPlan(_ sender: Any) {

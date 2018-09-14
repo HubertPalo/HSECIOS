@@ -8,6 +8,7 @@ class PlanAccionDetalleTVC: UITableViewController {
     var mejoras: [AccionMejora] = []
     var section2ShouldShow = false
     var section3ShouldShow = false
+    var codTipoObs = ""
     var section3Title = ""
     let leftLabels: [String] = ["Código de acción", "Nro. doc. de referencia", "Área", "Nivel de riesgo", "Descripción", "Fecha de solicitud", "Estado", "Solicitado por", "Actividad relacionada", "Referencia", "Tipo de acción", "Fecha inicial", "Fecha final"]
     var rightLabels: [String] = ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"]
@@ -31,7 +32,8 @@ class PlanAccionDetalleTVC: UITableViewController {
         self.section2ShouldShow = nuevo.Editable == 2 || nuevo.Editable == 3
         self.codPlanAccion = nuevo.CodAccion ?? ""
         Rest.getDataGeneral(Routes.forPlanAccionDetalle(nuevo.CodAccion ?? ""), true, success: {(resultValue:Any?,data:Data?) in
-            let plan: PlanAccionDetalle = Dict.dataToUnit(data!)!
+            let plan: PlanAccionDetalle = Dict.dataToUnit(data!) ?? PlanAccionDetalle()
+            self.codTipoObs = plan.CodTipoObs ?? ""
             self.rightLabels = [plan.CodAccion ?? "", plan.NroDocReferencia ?? "", Utils.searchMaestroDescripcion("AREA", plan.CodAreaHSEC ?? ""), Utils.searchMaestroStatic("NIVELRIESGO", plan.CodNivelRiesgo ?? ""), plan.DesPlanAccion ?? "", Utils.str2date2str(plan.FechaSolicitud ?? ""), Utils.searchMaestroStatic("ESTADOPLAN", plan.CodEstadoAccion ?? ""), plan.SolicitadoPor ?? "", Utils.searchMaestroDescripcion("ACTR", plan.CodActiRelacionada ?? ""), Utils.searchMaestroStatic("REFERENCIAPLAN", plan.CodReferencia ?? ""), Utils.searchMaestroDescripcion("TPAC", plan.CodTipoAccion ?? ""), Utils.str2date2str(plan.FecComprometidaInicial ?? ""), Utils.str2date2str(plan.FecComprometidaFinal ?? "")]
             var splitsNombres = (plan.Responsables ?? "").components(separatedBy: ";")
             var splitsCodigos = (plan.CodResponsables ?? "").components(separatedBy: ";")
@@ -92,13 +94,13 @@ class PlanAccionDetalleTVC: UITableViewController {
         self.rightLabels[3] = Utils.searchMaestroStatic("NIVELRIESGO", nuevo.CodNivelRiesgo ?? "")
         self.rightLabels[4] = nuevo.DesPlanAccion ?? ""
         self.rightLabels[5] = Utils.str2date2str(nuevo.FechaSolicitud ?? "")
-        self.rightLabels[6] = nuevo.CodEstadoAccion ?? ""
-        self.rightLabels[7] = nuevo.CodSolicitadoPor ?? ""
-        self.rightLabels[8] = nuevo.CodActiRelacionada ?? ""
-        self.rightLabels[9] = nuevo.CodReferencia ?? ""
-        self.rightLabels[10] = nuevo.CodTipoAccion ?? ""
-        self.rightLabels[11] = nuevo.FecComprometidaInicial ?? ""
-        self.rightLabels[12] = nuevo.FecComprometidaFinal ?? ""
+        self.rightLabels[6] = Utils.searchMaestroStatic("ESTADOPLAN", nuevo.CodEstadoAccion ?? "")
+        self.rightLabels[7] = nuevo.SolicitadoPor ?? ""
+        self.rightLabels[8] = Utils.searchMaestroDescripcion("ACTR", nuevo.CodActiRelacionada ?? "")
+        self.rightLabels[9] = Utils.searchMaestroStatic("REFERENCIAPLAN", nuevo.CodReferencia ?? "")
+        self.rightLabels[10] = Utils.searchMaestroDescripcion("TPAC", nuevo.CodTipoAccion ?? "")
+        self.rightLabels[11] = Utils.str2date2str(nuevo.FecComprometidaInicial ?? "")
+        self.rightLabels[12] = Utils.str2date2str(nuevo.FecComprometidaFinal ?? "")
         
         var splits = (nuevo.Responsables ?? "").components(separatedBy: ";")
         var nuevosResponsables: [Persona] = []
@@ -276,10 +278,11 @@ class PlanAccionDetalleTVC: UITableViewController {
     @IBAction func clickBotonInf(_ sender: Any) {
         var unit = MuroElement()
         unit.Codigo = self.rightLabels[1]
+        // unit.Tipo = self.rightLabels[0]
         if self.rightLabels[1].starts(with: "INS") {
             VCHelper.openInsDetalle(self, unit, false)
         } else {
-            VCHelper.openObsDetalle(self, unit.Codigo!, unit.Tipo!, false)
+            VCHelper.openObsDetalle(self, unit.Codigo!, self.codTipoObs, false)
         }
     }
     

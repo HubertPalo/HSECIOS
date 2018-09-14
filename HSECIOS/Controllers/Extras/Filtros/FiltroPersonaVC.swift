@@ -10,11 +10,13 @@ class FiltroPersonaVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     @IBOutlet weak var campoGerencia: UIButton!
     @IBOutlet weak var campoSuperintendencia: UIButton!
     
+    
     var nroitems = 10
     var personas: [Persona] = []
     var inputs:[String] = ["","","","",""]
-    
+    var pagina = 1
     var alSeleccionarPersona: ((_ persona: Persona) -> Void)?
+    var searched = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +29,7 @@ class FiltroPersonaVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     func cleanData() {
+        self.pagina = 1
         self.personas = []
         self.inputs = ["","","","",""]
         self.campoApellidos?.text = ""
@@ -67,6 +70,25 @@ class FiltroPersonaVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         self.view.endEditing(true)
     }
     
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let currentOffset = scrollView.contentOffset.y
+        if currentOffset <= -10 {
+            
+        } else {
+            let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+            if maximumOffset - currentOffset <= -10 {
+                if searched {
+                    self.pagina = self.pagina + 1
+                    Rest.getDataGeneral(Routes.forBuscarPersona(inputs[1], inputs[0], inputs[2], inputs[3], inputs[4], pagina, nroitems), true, success: {(resultValue:Any?,data:Data?) in
+                        let personas: ArrayGeneral<Persona> = Dict.dataToArray(data!)
+                        self.personas.append(contentsOf: personas.Data)
+                        self.tabla.reloadData()
+                    }, error: nil)
+                }
+            }
+        }
+    }
+    
     @IBAction func clickEnTitulo(_ sender: Any) {
         viewToHide.isHidden = !viewToHide.isHidden
     }
@@ -105,8 +127,10 @@ class FiltroPersonaVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     @IBAction func clickEnBuscar(_ sender: Any) {
         self.view.endEditing(true)
-        Rest.getDataGeneral(Routes.forBuscarPersona(inputs[1], inputs[0], inputs[2], inputs[3], inputs[4], nroitems), true, success: {(resultValue:Any?,data:Data?) in
+        self.pagina = 1
+        Rest.getDataGeneral(Routes.forBuscarPersona(inputs[1], inputs[0], inputs[2], inputs[3], inputs[4], pagina, nroitems), true, success: {(resultValue:Any?,data:Data?) in
             let personas: ArrayGeneral<Persona> = Dict.dataToArray(data!)
+            self.searched = true
             self.personas = personas.Data
             self.tabla.reloadData()
         }, error: nil)

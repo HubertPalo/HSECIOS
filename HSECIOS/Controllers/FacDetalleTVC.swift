@@ -13,6 +13,20 @@ class FacDetalleTVC: UITableViewController {
     var HACodigo = ""
     var HAUnit = HistorialAtencionElement()
     
+    var actualizarAlRegresar = false
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if self.actualizarAlRegresar {
+            Rest.getDataGeneral(Routes.forFacilitoHistorialAtencion(self.HACodigo), true, success: {(resultValue:Any?,data:Data?) in
+                var arrayHistorialAtencion: ArrayGeneral<HistorialAtencionElement> = Dict.dataToArray(data!)
+                self.historialAtencion = arrayHistorialAtencion.Data// Dict.dataToUnit(data!)!
+                print(resultValue)
+                self.tableView.reloadData()
+                // self.tableView.reloadSections([2], with: .automatic)
+            }, error: nil)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         Utils.setTitleAndImage(self, "Rep. Facilito/Detalle", Images.facilito)
@@ -222,6 +236,7 @@ class FacDetalleTVC: UITableViewController {
         self.HAUnit = HistorialAtencionElement()
         self.HAUnit.CodObsFacilito = self.HACodigo
         self.HAUnit.Correlativo = -1 // antes era -1
+
         self.performSegue(withIdentifier: "toRegistroAtencion", sender: self)
     }
     
@@ -274,6 +289,9 @@ class FacDetalleTVC: UITableViewController {
             destino.modo = self.HAModo
             destino.codigo = self.HACodigo
             destino.atencion = self.HAUnit
+            destino.afterSuccess = {
+                self.actualizarAlRegresar = true
+            }
         }
     }
     

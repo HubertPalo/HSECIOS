@@ -158,7 +158,21 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 Globals.UFLoadModo("ADD", "")
                 Globals.UFModo = "ADD"
                 Globals.UFCodigo = ""
-                Globals.UFDetalle = FacilitoGD()
+                // Globals.UFDetalle = FacilitoGD()
+                let nc = (self.childViewControllers[2] as! UINavigationController)
+                (nc.childViewControllers[0] as! UpsertFacilitoVC).afterSuccess = {
+                    self.tabContainer.isHidden = false
+                    self.upsertFacilitoContainer.isHidden = true
+                    self.agregarObservacionContainer.isHidden = true
+                    self.agregarInspeccionContainer.isHidden = true
+                    self.capacitacionesContainer.isHidden = true
+                    self.noticiasContainer.isHidden = true
+                    self.planesAccionContainer.isHidden = true
+                    
+                    self.feedbackContainer.isHidden = true
+                    self.contactenosContainer.isHidden = true
+                    self.configuracionContainer.isHidden = true
+                }
                 upsertFacilitoContainer.isHidden = false
                 agregarObservacionContainer.isHidden = true
                 agregarInspeccionContainer.isHidden = true
@@ -172,6 +186,22 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 break
             case 1:
                 Globals.UOloadModo("ADD", "")
+                let nc = (self.childViewControllers[3] as! UINavigationController)
+                nc.popToRootViewController(animated: true)
+                (nc.childViewControllers[0] as! UpsertObsVC).selectTab(0)
+                (nc.childViewControllers[0] as! UpsertObsVC).afterSuccess = {
+                    self.tabContainer.isHidden = false
+                    self.upsertFacilitoContainer.isHidden = true
+                    self.agregarObservacionContainer.isHidden = true
+                    self.agregarInspeccionContainer.isHidden = true
+                    self.capacitacionesContainer.isHidden = true
+                    self.noticiasContainer.isHidden = true
+                    self.planesAccionContainer.isHidden = true
+                    
+                    self.feedbackContainer.isHidden = true
+                    self.contactenosContainer.isHidden = true
+                    self.configuracionContainer.isHidden = true
+                }
                 upsertFacilitoContainer.isHidden = true
                 agregarObservacionContainer.isHidden = false
                 agregarInspeccionContainer.isHidden = true
@@ -188,7 +218,20 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 let nc = (self.childViewControllers[4] as! UINavigationController)
                 nc.popToRootViewController(animated: true)
                 (nc.childViewControllers[0] as! UpsertInsVC).cleanData()
-                
+                (nc.childViewControllers[0] as! UpsertInsVC).selectTab(0)
+                (nc.childViewControllers[0] as! UpsertInsVC).afterSuccess = {
+                    self.tabContainer.isHidden = false
+                    self.upsertFacilitoContainer.isHidden = true
+                    self.agregarObservacionContainer.isHidden = true
+                    self.agregarInspeccionContainer.isHidden = true
+                    self.capacitacionesContainer.isHidden = true
+                    self.noticiasContainer.isHidden = true
+                    self.planesAccionContainer.isHidden = true
+                    
+                    self.feedbackContainer.isHidden = true
+                    self.contactenosContainer.isHidden = true
+                    self.configuracionContainer.isHidden = true
+                }
                 upsertFacilitoContainer.isHidden = true
                 agregarObservacionContainer.isHidden = true
                 agregarInspeccionContainer.isHidden = false
@@ -411,9 +454,13 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBAction func clickInferior(_ sender: Any) {
         switch (sender as! UIButton).tag {
         case 1:
-            Config.loginSaveFlag = false
-            self.navigationController?.popViewController(animated: true)
-            self.dismiss(animated: true, completion: nil)
+            self.presentAlert("Cerrar sesión", "¿Seguro que quiere salir?", .alert, nil, nil, ["Aceptar", "Cancelar"], [.default, .cancel], actionHandlers: [{(actionAceptar) in
+                Config.loginSaveFlag = false
+                Config.loginPassword = ""
+                Config.loginUsername = ""
+                self.navigationController?.popViewController(animated: true)
+                self.dismiss(animated: true, completion: nil)
+                }, nil])
         case 2:
             upsertFacilitoContainer.isHidden = true
             agregarObservacionContainer.isHidden = true

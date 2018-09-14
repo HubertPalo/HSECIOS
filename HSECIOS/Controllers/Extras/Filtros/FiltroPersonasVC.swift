@@ -13,10 +13,12 @@ class FiltroPersonasVC: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     var nroitems = 10
     var personas: [Persona] = []
-    var indexSeleccionadas: [Bool] = []
-    var inputs:[String] = ["","","","",""]
-    
+    var newInputs:[String] = ["","","","",""]
+    var oldInputs:[String] = ["","","","",""]
+    var pagina = 1
     var alSeleccionarPersonas: ((_ persona: [Persona]) -> Void)?
+    var searched = false
+    var indexSeleccionadas: [Bool] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,9 +32,11 @@ class FiltroPersonasVC: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
     
     func cleanData() {
+        self.pagina = 1
         self.personas = []
         self.indexSeleccionadas = []
-        self.inputs = ["","","","",""]
+        self.newInputs = ["","","","",""]
+        self.oldInputs = ["","","","",""]
         self.campoApellidos?.text = ""
         self.campoNombres?.text = ""
         self.campoDNI?.text = ""
@@ -82,46 +86,134 @@ class FiltroPersonasVC: UIViewController, UITableViewDelegate, UITableViewDataSo
         self.view.endEditing(true)
     }
     
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let currentOffset = scrollView.contentOffset.y
+        if currentOffset <= -10 {
+            
+        } else {
+            let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+            if maximumOffset - currentOffset <= -10 {
+                if searched {
+                    self.pagina = self.pagina + 1
+                    Rest.getDataGeneral(Routes.forBuscarPersona(oldInputs[1], oldInputs[0], oldInputs[2], oldInputs[3], oldInputs[4], pagina, nroitems), true, success: {(resultValue:Any?,data:Data?) in
+                        let arrayPersonas: ArrayGeneral<Persona> = Dict.dataToArray(data!)
+                        
+                        var setDocPersonas = Set<String>()
+                        for persona in self.personas {
+                            setDocPersonas.insert(persona.NroDocumento ?? "")
+                        }
+                        
+                        var newArrayPersona = [Persona]()
+                        for persona in arrayPersonas.Data {
+                            if (persona.NroDocumento ?? "" != "") && !setDocPersonas.contains(persona.NroDocumento ?? "") {
+                                newArrayPersona.append(persona)
+                            }
+                        }
+                        
+                        // Ordenar personas (enviar seleccionados arriba)
+                        var id = 0
+                        for i in 0..<self.indexSeleccionadas.count {
+                            if self.indexSeleccionadas[i] {
+                                if i != id {
+                                    (self.indexSeleccionadas[i], self.indexSeleccionadas[id]) = (self.indexSeleccionadas[id], self.indexSeleccionadas[i])
+                                    (self.personas[i], self.personas[id]) = (self.personas[id], self.personas[i])
+                                }
+                                id = id + 1
+                            }
+                        }
+                        
+                        
+                        self.personas.append(contentsOf: newArrayPersona)
+                        self.indexSeleccionadas.append(contentsOf: [Bool].init(repeating: false, count: newArrayPersona.count))
+                        /*var nuevasPersonas = arrayPersonas.Data
+                        var viejasPersonas: [Persona] = []
+                        for i in 0..<self.indexSeleccionadas.count {
+                            if self.indexSeleccionadas[i] {
+                                viejasPersonas.append(self.personas[i])
+                                for j in 0..<nuevasPersonas.count {
+                                    if nuevasPersonas[j].NroDocumento == self.personas[i].NroDocumento {
+                                        nuevasPersonas.remove(at: j)
+                                        break
+                                    }
+                                }
+                            }
+                        }
+                        var newIndex = [Bool].init(repeating: true, count: viejasPersonas.count)
+                        newIndex.append(contentsOf: [Bool].init(repeating: false, count: nuevasPersonas.count))
+                        viejasPersonas.append(contentsOf: nuevasPersonas)
+                        self.personas.append(contentsOf: viejasPersonas)
+                        self.indexSeleccionadas.append(contentsOf: newIndex)*/
+                        self.tabla.reloadData()
+                        
+                        /*let personas: ArrayGeneral<Persona> = Dict.dataToArray(data!)
+                        self.personas.append(contentsOf: personas.Data)
+                        self.tabla.reloadData()*/
+                    }, error: nil)
+                }
+            }
+        }
+    }
+    
     @IBAction func clickEnTitulo(_ sender: Any) {
         viewToHide.isHidden = !viewToHide.isHidden
     }
     
     @IBAction func editApellidos(_ sender: Any) {
-        self.inputs[0] = campoApellidos.text!
-        print(inputs)
+        self.newInputs[0] = campoApellidos.text!
     }
     
     @IBAction func editNombres(_ sender: Any) {
-        self.inputs[1] = campoNombres.text!
-        print(inputs)
+        self.newInputs[1] = campoNombres.text!
     }
     
     @IBAction func editDNI(_ sender: Any) {
-        self.inputs[2] = campoDNI.text!
-        print(inputs)
+        self.newInputs[2] = campoDNI.text!
     }
     
     @IBAction func clickEnGerencia(_ sender: Any) {
         Utils.showDropdown((sender as! UIButton), Utils.maestroDescripcion["GERE"] ?? [], {(index, item) in
-            self.inputs[3] = Utils.maestroCodTipo["GERE"]?[index] ?? ""
-            self.inputs[4] = ""
+            self.newInputs[3] = Utils.maestroCodTipo["GERE"]?[index] ?? ""
+            self.newInputs[4] = ""
             self.campoSuperintendencia.setTitle("-", for: .normal)
         })
     }
     
     @IBAction func clickEnSuperintendencia(_ sender: Any) {
-        let gerenciaSeleccionada = self.inputs[3]
+        let gerenciaSeleccionada = self.newInputs[3]
         Utils.showDropdown((sender as! UIButton), Utils.maestroDescripcion["SUPE.\(gerenciaSeleccionada)"] ?? [], {(index, item) in
-            self.inputs[4] = Utils.maestroCodTipo["SUPE.\(gerenciaSeleccionada)"]?[index] ?? ""
+            self.newInputs[4] = Utils.maestroCodTipo["SUPE.\(gerenciaSeleccionada)"]?[index] ?? ""
         })
     }
     
     @IBAction func clickEnBuscar(_ sender: Any) {
         self.view.endEditing(true)
-        Rest.getDataGeneral(Routes.forBuscarPersona(inputs[1], inputs[0], inputs[2], inputs[3], inputs[4], nroitems), true, success: {(resultValue:Any?,data:Data?) in
+        self.pagina = 1
+        self.oldInputs = self.newInputs
+        Rest.getDataGeneral(Routes.forBuscarPersona(oldInputs[1], oldInputs[0], oldInputs[2], oldInputs[3], oldInputs[4], pagina, nroitems), true, success: {(resultValue:Any?,data:Data?) in
             let arrayPersonas: ArrayGeneral<Persona> = Dict.dataToArray(data!)
-            //var nuevasPersonas = Dict.toArrayPersona(dict)
-            var nuevasPersonas = arrayPersonas.Data
+            self.searched = true
+            
+            var docSeleccionadas = Set<String>()
+            var personasSeleccionadas = [Persona]()
+            for i in 0..<self.indexSeleccionadas.count {
+                if self.indexSeleccionadas[i] {
+                    personasSeleccionadas.append(self.personas[i])
+                    docSeleccionadas.insert(self.personas[i].NroDocumento ?? "")
+                }
+            }
+            
+            var newPersonas = [Persona]()
+            for persona in arrayPersonas.Data {
+                if !docSeleccionadas.contains(persona.NroDocumento ?? "") {
+                    newPersonas.append(persona)
+                }
+            }
+            
+            var flags = [Bool].init(repeating: true, count: personasSeleccionadas.count)
+            personasSeleccionadas.append(contentsOf: newPersonas)
+            flags.append(contentsOf: [Bool].init(repeating: false, count: newPersonas.count))
+            
+            /*var nuevasPersonas = arrayPersonas.Data
             var viejasPersonas: [Persona] = []
             for i in 0..<self.indexSeleccionadas.count {
                 if self.indexSeleccionadas[i] {
@@ -138,7 +230,9 @@ class FiltroPersonasVC: UIViewController, UITableViewDelegate, UITableViewDataSo
             newIndex.append(contentsOf: [Bool].init(repeating: false, count: nuevasPersonas.count))
             viejasPersonas.append(contentsOf: nuevasPersonas)
             self.personas = viejasPersonas
-            self.indexSeleccionadas = newIndex
+            self.indexSeleccionadas = newIndex*/
+            self.personas = personasSeleccionadas
+            self.indexSeleccionadas = flags
             self.tabla.reloadData()
         }, error: nil)
         /*Rest.getData(Routes.forBuscarPersona(inputs[1], inputs[0], inputs[2], inputs[3], inputs[4], nroitems), true, vcontroller: self, success: {(dict:NSDictionary) in

@@ -132,7 +132,9 @@ class Globals {
             GaleriaCorrelativosABorrar.removeAll()
             GaleriaVCViewContainerIsHidden = true
             GaleriaVCGaleriaContainerIsHidden = false
-            (Tabs.forAddObs[2] as! UpsertObsPVCTab3).galeriaTVC.tableView.reloadData()// self.galeria.tableView.reloadData()
+            (Tabs.forAddObs[2] as! UpsertObsPVCTab3).galeriaTVC.tableView.reloadData()
+            (Tabs.forAddObs[3] as! UpsertObsPVCTab4).tableView.reloadData()
+        // self.galeria.tableView.reloadData()
         case "PUT":
             Rest.getDataGeneral(Routes.forObservaciones(codigo), true, success: {(resultValue:Any?,data:Data?) in
                 UOTab1ObsGD = Dict.dataToUnit(data!)!

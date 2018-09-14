@@ -2569,10 +2569,10 @@
             </objects>
             <point key="canvasLocation" x="1169" y="-913"/>
         </scene>
-        <!--Muro FiltroVC-->
+        <!--View Controller-->
         <scene sceneID="EdF-4U-WjH">
             <objects>
-                <viewController storyboardIdentifier="muroFiltro" hidesBottomBarWhenPushed="YES" id="d8l-C5-uiq" customClass="MuroFiltroVC" customModule="HSECIOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="muroFiltro" hidesBottomBarWhenPushed="YES" id="d8l-C5-uiq" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qoj-jM-Wpe">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2644,10 +2644,10 @@
             </objects>
             <point key="canvasLocation" x="2134" y="-1674"/>
         </scene>
-        <!--Muro Filtro Pop Up-->
+        <!--View Controller-->
         <scene sceneID="WCv-aq-Noe">
             <objects>
-                <viewController storyboardIdentifier="muroFiltroPopUp" id="GGe-vX-J2e" customClass="MuroFiltroPopUp" customModule="HSECIOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="muroFiltroPopUp" id="GGe-vX-J2e" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bBa-3e-wiu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2829,7 +2829,7 @@
             <objects>
                 <tableViewController id="AYt-bm-s0d" customClass="MuroTVC" customModule="HSECIOS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="200" sectionHeaderHeight="28" sectionFooterHeight="28" id="hu9-W6-zfi">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="484"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="617"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
@@ -3577,7 +3577,7 @@
                                 <rect key="frame" x="0.0" y="553" width="375" height="175"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3KL-oz-gst" id="WGO-hw-zPy">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="174.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="175"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="vW6-iN-DjU">
@@ -6043,6 +6043,6 @@
         <image name="x" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="wGd-Nt-1oD"/>
+        <segue reference="iFx-ou-V5G"/>
     </inferredMetricsTieBreakers>
 </document>

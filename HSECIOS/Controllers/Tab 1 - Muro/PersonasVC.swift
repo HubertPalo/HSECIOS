@@ -33,8 +33,8 @@ class PersonasVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let unit = data[indexPath.row]
         celda.nombreCompleto.text = unit.Nombres
         celda.Area.text = unit.Cargo
-        if paintLeader && unit.Estado == "1" {
-            celda.backgroundColor = UIColor.cyan
+        if paintLeader && unit.Lider == "1" {
+            celda.backgroundColor = Colores.celdaSeleccionada
         } else {
             celda.backgroundColor = UIColor.white
         }

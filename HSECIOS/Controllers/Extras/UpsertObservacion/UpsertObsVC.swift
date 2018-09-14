@@ -16,6 +16,7 @@ class UpsertObsVC: UIViewController {
     var idPost = 0
     var oldSegmentIndex = 0
     var shouldReset = false
+    var afterSuccess: (() -> Void)?
     
     override func viewWillAppear(_ animated: Bool) {
         if self.shouldReset {
@@ -140,6 +141,7 @@ class UpsertObsVC: UIViewController {
                     return
                 }
                 self.presentAlert("¿Desea finalizar?", "Los datos fueron guardados correctamente", .alert, nil, nil, ["Aceptar", "Cancelar"], [.default, .destructive], actionHandlers: [{(alertAceptar) in
+                    self.afterSuccess?()
                     self.navigationController?.popViewController(animated: true)
                     }, {(alertcancelar) in
                         Globals.UOModo = "PUT"
@@ -147,6 +149,7 @@ class UpsertObsVC: UIViewController {
                         Globals.UOCodigo = respuestaSplits[0]
                         Globals.UOTab1ObsGD.CodObservacion = respuestaSplits[0]
                         Globals.UOTab2ObsDetalle.CodObservacion = respuestaSplits[0]
+                        Utils.setTitleAndImage(self, "Editar Observación", Images.observacion)
                         if respuestaSplits[0] == "1" {
                             Globals.UOTab1String = String.init(data: Dict.unitToData(Globals.UOTab1ObsGD)!, encoding: .utf8)!
                         }

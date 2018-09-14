@@ -875,10 +875,10 @@
             </objects>
             <point key="canvasLocation" x="8303.2000000000007" y="4285.9070464767619"/>
         </scene>
-        <!--Upsert Obs PlanTVC-->
+        <!--Upsert Plan AccionTVC-->
         <scene sceneID="XOi-Ik-4Zs">
             <objects>
-                <tableViewController storyboardIdentifier="upsertObsPlan" id="WQZ-mJ-GTG" customClass="UpsertObsPlanTVC" customModule="HSECIOS" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="upsertObsPlan" id="WQZ-mJ-GTG" customClass="UpsertPlanAccionTVC" customModule="HSECIOS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="uVu-9g-my6">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -955,10 +955,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3mV-tR-1ri">
-                                                    <rect key="frame" x="0.0" y="0.0" width="132" height="44"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="131.5" height="44"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Texto Izq" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HvF-Ib-tH5">
-                                                            <rect key="frame" x="5" y="5" width="122" height="34"/>
+                                                            <rect key="frame" x="5" y="5" width="121.5" height="34"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -973,10 +973,10 @@
                                                     </constraints>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rlx-LI-L6N">
-                                                    <rect key="frame" x="132" y="0.0" width="243" height="44"/>
+                                                    <rect key="frame" x="131.5" y="0.0" width="243.5" height="44"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Texto Der" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4vu-i4-xSu">
-                                                            <rect key="frame" x="5.5" y="5" width="233" height="34"/>
+                                                            <rect key="frame" x="5.5" y="5" width="233.5" height="34"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -1019,10 +1019,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3gi-Ng-hYT">
-                                                    <rect key="frame" x="0.0" y="0.0" width="132" height="44"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="131.5" height="44"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Texto Izq" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nkb-op-J1T">
-                                                            <rect key="frame" x="5" y="5" width="122" height="34"/>
+                                                            <rect key="frame" x="5" y="5" width="121.5" height="34"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -1037,10 +1037,10 @@
                                                     </constraints>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2h2-ZP-OIG">
-                                                    <rect key="frame" x="132" y="0.0" width="193" height="44"/>
+                                                    <rect key="frame" x="131.5" y="0.0" width="193.5" height="44"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Texto Der" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eSN-NL-krP">
-                                                            <rect key="frame" x="5.5" y="5" width="183" height="34"/>
+                                                            <rect key="frame" x="5.5" y="5" width="183.5" height="34"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -1111,10 +1111,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A2J-B2-ECW">
-                                                    <rect key="frame" x="0.0" y="0.0" width="132" height="44"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="131.5" height="44"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Texto Izq" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mid-dn-LDi">
-                                                            <rect key="frame" x="5" y="5" width="122" height="34"/>
+                                                            <rect key="frame" x="5" y="5" width="121.5" height="34"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -1129,7 +1129,7 @@
                                                     </constraints>
                                                 </view>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iPs-dR-Vrr">
-                                                    <rect key="frame" x="132" y="0.0" width="243" height="44"/>
+                                                    <rect key="frame" x="131.5" y="0.0" width="243.5" height="44"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
                                                     <state key="normal" title="Boton Der">
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1167,10 +1167,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4lu-Y4-aOr">
-                                                    <rect key="frame" x="0.0" y="0.0" width="132" height="44"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="131.5" height="44"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Texto Izq" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VPi-Oj-8Zb">
-                                                            <rect key="frame" x="5" y="5" width="122" height="34"/>
+                                                            <rect key="frame" x="5" y="5" width="121.5" height="34"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -1185,17 +1185,17 @@
                                                     </constraints>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZG4-hj-E3l">
-                                                    <rect key="frame" x="132" y="0.0" width="243" height="44"/>
+                                                    <rect key="frame" x="131.5" y="0.0" width="243.5" height="44"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="calendario" translatesAutoresizingMaskIntoConstraints="NO" id="ZLo-iq-XNt">
-                                                            <rect key="frame" x="213" y="9.5" width="25" height="25"/>
+                                                            <rect key="frame" x="214.5" y="9.5" width="25" height="25"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="25" id="SmD-2H-9b4"/>
                                                                 <constraint firstAttribute="width" constant="25" id="kKK-bX-WvS"/>
                                                             </constraints>
                                                         </imageView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iFH-vg-iH1">
-                                                            <rect key="frame" x="0.0" y="0.0" width="243" height="44"/>
+                                                            <rect key="frame" x="1" y="0.0" width="243.5" height="44"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
                                                             <state key="normal" title="Boton Der">
                                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1348,6 +1348,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="mel-OQ-42v">
+                        <barButtonItem key="leftBarButtonItem" image="back" id="Aeb-sL-1C2">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="clickTopIzq:" destination="WQZ-mJ-GTG" id="WIr-lB-QDe"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="whiteDoneCheck" id="BHZ-KC-fTd">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
@@ -1355,6 +1361,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="botonTopIzq" destination="Aeb-sL-1C2" id="xNO-ob-tVS"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n1o-ck-Psg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1403,7 +1412,7 @@
         <image name="back" width="25" height="25"/>
         <image name="calendario" width="100" height="100"/>
         <image name="tacho" width="100" height="100"/>
-        <image name="user" width="512" height="512"/>
+        <image name="user" width="100" height="100"/>
         <image name="whiteDoneCheck" width="36" height="36"/>
         <image name="x" width="512" height="512"/>
     </resources>

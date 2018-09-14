@@ -117,6 +117,7 @@ extension UIViewController {
                 }
             })
         } else if multimedia.Url != nil {
+            print("\(Config.urlBase)\(multimedia.Url!)")
             let playerAV = AVPlayer.init(url: URL.init(string: "\(Config.urlBase)\(multimedia.Url!)")!)
             let playerViewController = AVPlayerViewController()
             playerViewController.player = playerAV

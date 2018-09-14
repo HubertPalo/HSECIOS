@@ -11,7 +11,7 @@ class InsObservacionPVCTab1: UIViewController {
         Rest.getDataGeneral(Routes.forInsObservacionGD("\(insObservacion.Correlativo ?? 0)"), false, success: {(resultValue:Any?,data:Data?) in
             let data: InsObservacionGD = Dict.dataToUnit(data!)!
             let hijo = self.childViewControllers[0] as! InfoDetalleTVC
-            hijo.data = [["Codigo", data.CodInspeccion ?? ""], ["Nro. Inspección", (data.NroDetInspeccion ?? -1) == -1 ? "-" : "\(data.NroDetInspeccion!)"], ["Lugar", data.Lugar ?? ""], ["Ubicación", data.CodUbicacion ?? ""], ["Aspecto observado", data.CodAspectoObs ?? ""], ["Actividad relacionada", data.CodActividadRel ?? ""], ["Nivel de riesgo", data.CodNivelRiesgo ?? ""], ["Observación", data.Observacion ?? ""]]
+            hijo.data = [["Codigo", data.CodInspeccion ?? ""], ["Nro. Inspección", (data.NroDetInspeccion ?? -1) == -1 ? "-" : "\(data.NroDetInspeccion!)"], ["Lugar", data.Lugar ?? ""], ["Ubicación", data.CodUbicacion ?? ""], ["Aspecto observado", Utils.searchMaestroDescripcion(data.CodAspectoObs ?? "")], ["Actividad relacionada", Utils.searchMaestroDescripcion("ACTR", data.CodActividadRel ?? "")], ["Nivel de riesgo", Utils.searchMaestroStatic("NIVELRIESGO", data.CodNivelRiesgo ?? "")], ["Observación", data.Observacion ?? ""]]
             /*hijo.dataLeft = [
                 "Codigo",
                 "Nro. Inspección",

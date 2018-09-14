@@ -37,8 +37,22 @@ class UpsertInsObsPVCTab3: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let unit = Globals.UIOTab3Planes[indexPath.row]
-        let muroElement = MuroElement()
-        muroElement.Codigo = Globals.UICodigo
+        /*let muroElement = MuroElement()
+        muroElement.Codigo = Globals.UICodigo*/
+        let copia = unit.copy()
+        copia.NroDocReferencia = Globals.UICodigo
+        copia.NroAccionOrigen = Globals.UIOTab1ObsDetalle.NroDetInspeccion
+        copia.FechaSolicitud = Utils.date2str(Date(), "YYYY-MM-dd")
+        copia.SolicitadoPor = Utils.userData.Nombres
+        copia.CodSolicitadoPor = Utils.userData.CodPersona
+        VCHelper.openUpsertPlanAccion(self, "PUT", copia, nil, {(newplan) in
+            Globals.UIOTab3Planes[indexPath.row] = newplan
+            self.tableView.reloadData()
+        })
+        /*let plan = PlanAccionDetalle()
+        plan.NroDocReferencia = Globals.UICodigo
+        plan.NroAccionOrigen = Globals.UIOTab1ObsDetalle.NroDetInspeccion
+        
         VCHelper.openUpsertObsPlan(self, 2, unit, muroElement, {(nuevoplan) in
             var copia = nuevoplan.copy()
             copia.Responsables = nil
@@ -57,14 +71,39 @@ class UpsertInsObsPVCTab3: UITableViewController {
             }, error: {(error) in
                 print(error)
             })
-        })
+        })*/
     }
     
     @IBAction func clickAddInsObsPlanAccion(_ sender: Any) {
-        var planMuestra = PlanAccionDetalle()
-        planMuestra.CodTabla = "TINS"
-        planMuestra.CodReferencia = "02"
-        VCHelper.openUpsertObsPlan(self, 1, planMuestra, MuroElement(), {(plan) in
+        var plan = PlanAccionDetalle()
+        plan.CodTabla = "TINS"
+        plan.CodReferencia = "02"
+        plan.CodAccion = "-1"
+        plan.FechaSolicitud = Utils.date2str(Date(), "YYYY-MM-dd")
+        plan.SolicitadoPor = Utils.userData.Nombres
+        plan.CodSolicitadoPor = Utils.userData.CodPersona
+        
+        switch Globals.UIModo {
+        case "ADD":
+            VCHelper.openUpsertPlanAccion(self, "ADD", plan, {(newplan) in
+                Globals.UIOTab3Planes.append(newplan)
+            }, {(newplan) in
+                self.tableView.reloadData()
+            })
+        case "PUT":
+            plan.CodEstadoAccion = "01"
+            plan.NroDocReferencia = Globals.UICodigo
+            plan.NroAccionOrigen = Globals.UIOTab1ObsDetalle.NroDetInspeccion
+            VCHelper.openUpsertPlanAccion(self, "ADD", plan, nil, {(newplan) in
+                Globals.UIOTab3Planes.append(newplan)
+                self.tableView.reloadData()
+            })
+        default:
+            break
+        }
+        
+        
+        /*VCHelper.openUpsertObsPlan(self, 1, planMuestra, MuroElement(), {(plan) in
             switch Globals.UIOModo {
             case "ADD":
                 plan.CodAccion = "-1"
@@ -94,7 +133,7 @@ class UpsertInsObsPVCTab3: UITableViewController {
             default:
                 break
             }
-        })
+        })*/
     }
     
     @IBAction func clickEliminarPlanAccion(_ sender: Any) {

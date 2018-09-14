@@ -1,6 +1,6 @@
 import UIKit
 
-class AddPutObsPlATVC: UITableViewController {
+/*class AddPutObsPlATVC: UITableViewController {
     
     var tipo = "ADD"
     
@@ -162,4 +162,4 @@ class ObsPlanATVCell6: UITableViewCell {
 class ObsPlanATVCell7: UITableViewCell {
     @IBOutlet weak var textoTop: UILabel!
     @IBOutlet weak var textoBot: UILabel!
-}
+}*/

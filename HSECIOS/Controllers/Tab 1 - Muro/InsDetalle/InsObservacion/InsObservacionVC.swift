@@ -16,6 +16,7 @@ class InsObservacionVC: UIViewController {
         super.viewDidLoad()
         self.tabs.customize(self.tabsInfBar)
         self.automaticallyAdjustsScrollViewInsets = false
+        self.setTitleAndImage("Insp/Observación", Images.inspeccion)
         //Tabs.updateTabs(tabs, flags: Tabs.flagsInsDetalle)
         selectTab(Tabs.indexInsObservacion)
     }

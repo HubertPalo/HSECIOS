@@ -1,6 +1,6 @@
 import UIKit
 
-class MuroFiltroPopUp: UIViewController {
+/*class MuroFiltroPopUp: UIViewController {
     
     var alClickOpcion: ((_ opcion: Int) -> Void)?
     
@@ -17,4 +17,4 @@ class MuroFiltroPopUp: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-}
+}*/

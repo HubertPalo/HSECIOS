@@ -422,7 +422,8 @@ class PlanAccionMejoraVC: UIViewController, UITableViewDelegate, UITableViewData
         let indice = (sender as! UIButton).tag
         let unit = self.multimedia[indice]
         if unit.TipoArchivo == "TP02" {
-            if unit.asset == nil {
+            self.showVideo(unit)
+            /*if unit.asset == nil {
                 
             } else {
                 unit.asset!.fetchAVAssetWithCompleteBlock({(video, info) in
@@ -433,7 +434,7 @@ class PlanAccionMejoraVC: UIViewController, UITableViewDelegate, UITableViewData
                         playerViewController.player!.play()
                     }
                 })
-            }
+            }*/
         } else {
             var imagenes = [FotoVideo]()
             var indiceGaleria = 0

@@ -1,6 +1,6 @@
 import UIKit
 
-class MuroFiltroVC: UIViewController, UISearchBarDelegate {
+/*class MuroFiltroVC: UIViewController, UISearchBarDelegate {
     
     @IBOutlet weak var boton: UIButton!
     @IBOutlet weak var stackInf: UIStackView!
@@ -244,4 +244,4 @@ class MuroFiltroVC: UIViewController, UISearchBarDelegate {
             break
         }
     }
-}
+}*/

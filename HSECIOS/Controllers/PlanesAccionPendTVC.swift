@@ -87,7 +87,7 @@ class PlanesAccionPendTVC: UITableViewController {
         let indice = (sender as! UIButton).tag
         let unit = self.planes[indice]
         self.presentAlert("OPCIONES", nil, .actionSheet, nil, nil, ["Editar", "Eliminar", "Cancelar"], [.default, .destructive, .cancel], actionHandlers: [{(editarAlert) in
-            VCHelper.openUpsertPlanAccion(self.parent!, "PUT", unit.CodAccion!, {(planAccion) in
+            /*VCHelper.openUpsertPlanAccion(self.parent!, "PUT", unit.CodAccion!, {(planAccion) in
                 var copia = planAccion.copy()
                 copia.Responsables = nil
                 copia.SolicitadoPor = nil
@@ -102,7 +102,7 @@ class PlanesAccionPendTVC: UITableViewController {
                 }, error: {(error) in
                     print(error)
                 })
-            })
+            })*/
             }, {(eliminarAlert) in
                 self.presentAlert("¿Desea eliminar item?", "Plan Acción \(unit.CodAccion!)", .alert, nil, nil, ["Aceptar", "Cancelar"], [.default, .cancel], actionHandlers: [{(actionAceptar) in
                     Rest.getDataGeneral(Routes.forPlanAccionDelete(unit.CodAccion!), true, success: {(resultValue:Any?,data:Data?) in

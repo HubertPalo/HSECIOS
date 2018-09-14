@@ -36,6 +36,7 @@ class ObsDetallePVCTab4: UIViewController, UITableViewDelegate, UITableViewDataS
         return celda
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         VCHelper.openPlanAccionDetalle(self, Globals.UOTab4Planes[indexPath.row])
     }
 }

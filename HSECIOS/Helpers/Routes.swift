@@ -117,8 +117,8 @@ class Routes {
     static func forPostComentario() -> String{
         return "\(Config.urlBase)/Comentario/insert"
     }
-    static func forBuscarPersona(_ apellidos: String, _ nombres: String, _ dni: String, _ gerencia: String, _ superintendencia: String, _ nroitems: Int) -> String{
-        return "\(Config.urlBase)/Usuario/FiltroPersona?Filtros=\(apellidos)@\(nombres)@\(dni)@\(gerencia)@\(superintendencia)&Pagenumber=1&Elemperpage=\(nroitems)"
+    static func forBuscarPersona(_ apellidos: String, _ nombres: String, _ dni: String, _ gerencia: String, _ superintendencia: String, _ pagina: Int, _ nroitems: Int) -> String{
+        return "\(Config.urlBase)/Usuario/FiltroPersona?Filtros=\(apellidos)@\(nombres)@\(dni)@\(gerencia)@\(superintendencia)&Pagenumber=\(pagina)&Elemperpage=\(nroitems)"
     }
     
     

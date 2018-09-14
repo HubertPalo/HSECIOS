@@ -27,19 +27,20 @@
                                 </connections>
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pRi-ea-Ook">
-                                <rect key="frame" x="275" y="0.0" width="100" height="100"/>
+                                <rect key="frame" x="305" y="0.0" width="70" height="70"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4l3-5w-jq6">
-                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
                                         <connections>
                                             <action selector="clickEnX:" destination="AeF-oD-H9N" eventType="touchUpInside" id="Y3n-M0-0Xa"/>
                                         </connections>
                                     </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="x" translatesAutoresizingMaskIntoConstraints="NO" id="iGA-hH-ihH">
-                                        <rect key="frame" x="25" y="25" width="50" height="50"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="x-1" translatesAutoresizingMaskIntoConstraints="NO" id="iGA-hH-ihH">
+                                        <rect key="frame" x="22.5" y="22.5" width="25" height="25"/>
+                                        <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="OL9-yL-UH0"/>
-                                            <constraint firstAttribute="height" constant="50" id="a8v-qW-3pM"/>
+                                            <constraint firstAttribute="width" constant="25" id="OL9-yL-UH0"/>
+                                            <constraint firstAttribute="height" constant="25" id="a8v-qW-3pM"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
@@ -50,9 +51,9 @@
                                     <constraint firstAttribute="trailing" secondItem="4l3-5w-jq6" secondAttribute="trailing" id="Tvz-Yi-JA2"/>
                                     <constraint firstItem="4l3-5w-jq6" firstAttribute="top" secondItem="pRi-ea-Ook" secondAttribute="top" id="Ym3-yX-sTC"/>
                                     <constraint firstAttribute="bottom" secondItem="4l3-5w-jq6" secondAttribute="bottom" id="ajS-5r-2r8"/>
-                                    <constraint firstAttribute="width" constant="100" id="l3I-Ob-wGF"/>
+                                    <constraint firstAttribute="width" constant="70" id="l3I-Ob-wGF"/>
                                     <constraint firstItem="iGA-hH-ihH" firstAttribute="centerY" secondItem="pRi-ea-Ook" secondAttribute="centerY" id="mxX-Ee-2im"/>
-                                    <constraint firstAttribute="height" constant="100" id="zs6-Tv-cnw"/>
+                                    <constraint firstAttribute="height" constant="70" id="zs6-Tv-cnw"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -3630,9 +3631,10 @@
         <image name="enviarComentario" width="176" height="176"/>
         <image name="play" width="96" height="96"/>
         <image name="tacho" width="100" height="100"/>
-        <image name="user" width="512" height="512"/>
+        <image name="user" width="100" height="100"/>
         <image name="whiteDoneCheck" width="36" height="36"/>
         <image name="x" width="512" height="512"/>
+        <image name="x-1" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="64A-BY-aQl"/>

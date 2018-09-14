@@ -94,6 +94,7 @@
                         <outlet property="tabsInfBar" destination="Z6a-LS-z9S" id="Wsd-Zn-Ko6"/>
                         <outlet property="tabsScroll" destination="5IG-74-HMv" id="PF9-Aq-8fY"/>
                         <segue destination="928-9w-iXt" kind="show" identifier="toPlanDetalle" id="x1B-uZ-fcf"/>
+                        <segue destination="DzV-Jz-I9n" kind="show" id="PPe-uU-BeI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yfI-ZW-Ijb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -275,16 +276,16 @@
                                                             </constraints>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7zJ-cO-9cj">
-                                                            <rect key="frame" x="0.0" y="39.5" width="361" height="21"/>
+                                                            <rect key="frame" x="0.0" y="39.5" width="361" height="16.5"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Area:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L6O-Qj-zcn">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="108.5" height="21"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="108.5" height="16.5"/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P4g-jL-Rwm">
-                                                                    <rect key="frame" x="108.5" y="0.0" width="252.5" height="21"/>
+                                                                    <rect key="frame" x="108.5" y="0.0" width="252.5" height="16.5"/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -296,16 +297,16 @@
                                                             </constraints>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="93s-nF-MWR">
-                                                            <rect key="frame" x="0.0" y="61.5" width="361" height="16.5"/>
+                                                            <rect key="frame" x="0.0" y="57" width="361" height="21"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Estado:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dEa-ws-n1W">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="108.5" height="16.5"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="108.5" height="21"/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w4A-Fw-dlK">
-                                                                    <rect key="frame" x="108.5" y="0.0" width="252.5" height="16.5"/>
+                                                                    <rect key="frame" x="108.5" y="0.0" width="252.5" height="21"/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -503,6 +504,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2X1-RT-wWE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="7321" y="3933"/>
+        </scene>
+        <!--planAccionDetalle-->
+        <scene sceneID="T4z-Kl-GlV">
+            <objects>
+                <viewControllerPlaceholder storyboardName="PlanAccion" referencedIdentifier="planAccionDetalle" id="DzV-Jz-I9n" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jVn-7u-zwZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3120" y="4220"/>
         </scene>
     </scenes>
 </document>

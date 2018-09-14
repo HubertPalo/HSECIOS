@@ -24,6 +24,8 @@ class FacDetalleAtencionVC: UIViewController, UITableViewDelegate, UITableViewDa
     var multimediaNombres = Set<String>()
     var multimedia: [FotoVideo] = []
     var correlativosABorrar = Set<Int>()
+    var afterSuccess: (() -> Void)?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -525,6 +527,7 @@ class FacDetalleAtencionVC: UIViewController, UITableViewDelegate, UITableViewDa
                 }, error: {(error) in
                     print(error)
                 })*/
+                self.afterSuccess?()
                 self.navigationController?.popViewController(animated: true)
                 self.dismiss(animated: true, completion: nil)
                 }, {(alertCancelar) in

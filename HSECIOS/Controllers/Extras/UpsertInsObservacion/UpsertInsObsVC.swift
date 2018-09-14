@@ -23,12 +23,24 @@ class UpsertInsObsVC: UIViewController {
             self.shouldReset = false
             self.progressBarView.isHidden = true
         }
+        if Globals.UIOModo == "ADD" {
+            self.setTitleAndImage("Nueva Insp/Observación", Images.inspeccion)
+        }
+        if Globals.UIOModo == "PUT" {
+            self.setTitleAndImage("Editar Insp/Observación", Images.inspeccion)
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabs.customize(self.tabsInfBar)
         self.automaticallyAdjustsScrollViewInsets = false
+        if Globals.UIOModo == "ADD" {
+            self.setTitleAndImage("Nueva Insp/Observación", Images.inspeccion)
+        }
+        if Globals.UIOModo == "PUT" {
+            self.setTitleAndImage("Editar Insp/Observación", Images.inspeccion)
+        }
     }
     
     func selectTab(_ index: Int) {
